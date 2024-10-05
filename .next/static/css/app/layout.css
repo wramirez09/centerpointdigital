@@ -1535,6 +1535,12 @@ html {
   visibility: hidden;
 }
 
+.hubspot {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
 .hover\:border-primary:hover{
   --tw-border-opacity: 1;
   border-color: rgb(74 108 247 / var(--tw-border-opacity));

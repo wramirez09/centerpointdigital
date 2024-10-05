@@ -1,0 +1,15 @@
+.hubspot .ui-app .hubspot-disable-focus-styles a {
+  display: none !important;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hubspot a {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+label span {
+  color: #fff !important;
+}

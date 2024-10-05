@@ -41,3 +41,9 @@ html {
   opacity: 0;
   visibility: hidden;
 }
+
+.hubspot {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
