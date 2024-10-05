@@ -1022,6 +1022,12 @@ input#checkboxLabel:checked ~ .box span{
 .grid-cols-1{
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
+.grid-cols-4{
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.grid-cols-2{
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 .flex-col{
   flex-direction: column;
 }
@@ -1039,6 +1045,9 @@ input#checkboxLabel:checked ~ .box span{
 }
 .justify-between{
   justify-content: space-between;
+}
+.gap-4{
+  gap: 1rem;
 }
 .gap-x-8{
   -moz-column-gap: 2rem;
@@ -2101,6 +2110,10 @@ html {
   .md\:text-xl{
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .md\:text-\[35px\]{
+    font-size: 35px;
   }
 
   .md\:leading-tight{

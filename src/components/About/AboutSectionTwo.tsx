@@ -1,5 +1,5 @@
 "use client";
-import { group } from "console";
+
 import Image from "next/image";
 import {
   LightgalleryProvider,
@@ -9,39 +9,20 @@ import {
 } from "react-lightgallery";
 
 const GROUP2 = [
-  "https://images.unsplash.com/photo-1594818898109-44704fb548f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-  "https://images.unsplash.com/photo-1594818896795-35ad7bcf3c6a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-  "https://images.unsplash.com/photo-1594818896744-57eca4d47b07?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-  "https://images.unsplash.com/photo-1594818897077-aec41f55241f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80",
+  "/images/about/gallery/ss0.png",
+  "/images/about/gallery/ss1.png",
+  "/images/about/gallery/ss2.png",
+  "/images/about/gallery/ss3.png",
 ];
 
 const PhotoItem = ({ image, thumb, group }) => (
-  <div style={{ maxWidth: "250px", width: "200px", padding: "5px" }}>
-    <LightgalleryItem group={group} src={image} thumb={thumb}>
-      <Image
-        src="/images/about/project-group.png"
-        alt="about image"
-        fill
-        className="hidden drop-shadow-three dark:block dark:drop-shadow-none"
-      />
-    </LightgalleryItem>
-  </div>
+  <LightgalleryItem group={group} src={image} thumb={thumb}>
+    <img
+      src={image}
+      className="hidden drop-shadow-three dark:block dark:drop-shadow-none"
+    />
+  </LightgalleryItem>
 );
-
-const OpenButtonWithHook = (props) => {
-  const { openGallery } = useLightgallery();
-  return (
-    <>
-      <Image
-        src="/images/about/project-group.png"
-        alt="about image"
-        fill
-        className="hidden drop-shadow-three dark:block dark:drop-shadow-none"
-        onClick={() => openGallery("group2")}
-      />
-    </>
-  );
-};
 
 const AboutSectionTwo = () => {
   return (
@@ -50,36 +31,27 @@ const AboutSectionTwo = () => {
         <div className="container">
           <h2 className="mb-4 text-3xl font-bold !leading-tight text-black dark:text-white sm:text-4xl md:text-[45px]">
             Latest Project{" "}
-            <p className="text-primary">1 Stop Maintanence LLC</p>
           </h2>
+
+          <p className="text-primary">1 Stop Maintanence LLC</p>
+
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 lg:w-1/2">
               <div
-                className="relative mx-auto mb-12 aspect-[25/24] max-w-[500px] text-center lg:m-0"
+                className="relative mx-auto mb-12  text-center lg:m-0"
                 data-wow-delay=".15s"
               >
                 <LightgalleryProvider>
-                  {/* <OpenButtonWithHook /> */}
-                  {/* <Image
-                    src="/images/about/project-group.png"
-                    alt="about image"
-                    fill
-                    className="drop-shadow-three dark:hidden dark:drop-shadow-none"
-                    onClick={() => openGallery("group2")}
-                  />
-                  <Image
-                    src="/images/about/project-group.png"
-                    alt="about image"
-                    fill
-                    className="hidden drop-shadow-three dark:block dark:drop-shadow-none"
-                    onClick={() => openGallery("group2")}
-                  /> */}
-
-                  <PhotoItem
-                    image={"/images/about/project-group.png"}
-                    group="group2"
-                    thumb={""}
-                  />
+                  <div className="grid grid-cols-2 gap-4">
+                    {GROUP2.map((p, idx) => (
+                      <PhotoItem
+                        key={idx}
+                        image={p}
+                        group="group2"
+                        thumb={""}
+                      />
+                    ))}
+                  </div>
                 </LightgalleryProvider>
               </div>
             </div>
