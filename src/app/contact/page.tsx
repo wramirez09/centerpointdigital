@@ -6,7 +6,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title:
     "Center Point Digital | Custom Software Development, Design & Digital Marketing Solutions",
-  description: "This is Contact Page for Startup Nextjs Template",
+  description: "Software | Marketing",
   // other metadata
 };
 
