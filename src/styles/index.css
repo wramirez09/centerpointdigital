@@ -38,4 +38,6 @@ html {
 
 .hubspot .ui-app .hubspot-disable-focus-styles {
   display: none !important;
+  opacity: 0;
+  visibility: hidden;
 }
