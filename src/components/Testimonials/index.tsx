@@ -8,7 +8,7 @@ const testimonialData: Testimonial[] = [
     name: "Musharof Chy",
     designation: "Founder @TailGrids",
     content:
-      "Our members are so impressed. It's intuitive. It's clean. It's distraction free. If you're building a community.",
+      "Working with [Agency Name] was a game-changer for our business! They took the time to understand our needs and delivered a custom software solution that streamlined our operations. The team's expertise and dedication made the entire process smooth and enjoyable.",
     image: "/images/testimonials/auth-01.png",
     star: 5,
   },
@@ -17,7 +17,7 @@ const testimonialData: Testimonial[] = [
     name: "Devid Weilium",
     designation: "Founder @UIdeck",
     content:
-      "Our members are so impressed. It's intuitive. It's clean. It's distraction free. If you're building a community.",
+      "The branding and digital marketing services provided by [Agency Name] exceeded our expectations. They transformed our online presence, and we've seen a significant increase in engagement and sales since implementing their strategies. Highly recommend!",
     image: "/images/testimonials/auth-02.png",
     star: 5,
   },
@@ -26,7 +26,7 @@ const testimonialData: Testimonial[] = [
     name: "Lethium Frenci",
     designation: "Founder @Lineicons",
     content:
-      "Our members are so impressed. It's intuitive. It's clean. It's distraction free. If you're building a community.",
+      "I was impressed by the level of professionalism and creativity at [Agency Name]. Their UI/UX design for our app not only looks fantastic but also provides a seamless user experience. Our users love it, and so do we!",
     image: "/images/testimonials/auth-03.png",
     star: 5,
   },
@@ -37,8 +37,8 @@ const Testimonials = () => {
     <section className="dark:bg-bg-color-dark bg-gray-light relative z-10 py-16 md:py-20 lg:py-28">
       <div className="container">
         <SectionTitle
-          title="What Our Users Says"
-          paragraph="There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form."
+          title="What Our Clients Are Saying"
+          paragraph="Don’t just take our word for it—read what our satisfied clients have to say about their experiences working with us"
           center
         />
 

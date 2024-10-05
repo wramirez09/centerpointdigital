@@ -8,8 +8,8 @@ const Features = () => {
       <section id="features" className="py-16 md:py-20 lg:py-28">
         <div className="container">
           <SectionTitle
-            title="Services"
-            paragraph="There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form."
+            title="Comprehensive Digital Solutions"
+            paragraph="At Center Point Digital, we deliver end-to-end services, from custom software development to UI/UX design and digital marketing. Our tailored solutions help businesses grow and thrive online, ensuring exceptional results at every stage."
             center
           />
 

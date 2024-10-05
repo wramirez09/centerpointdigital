@@ -12,10 +12,15 @@ const Contact = () => {
               "
             >
               <h2 className="mb-3 text-2xl font-bold text-black dark:text-white sm:text-3xl lg:text-2xl xl:text-3xl">
-                Need Help? Open a Ticket
+                Let’s Start a Conversation!
               </h2>
               <p className="mb-12 text-base font-medium text-body-color">
-                Our support team will get back to you ASAP via email.
+                We’d love to hear from you! Whether you have questions about our
+                services, need assistance with a project, or want to discuss how
+                we can help your business grow, our team is here to assist you.
+                Reach out to us through the form below, or feel free to contact
+                us directly via phone or email. Let’s start a conversation and
+                explore how we can bring your vision to life!
               </p>
               <form>
                 <div className="-mx-4 flex flex-wrap">
