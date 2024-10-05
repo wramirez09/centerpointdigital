@@ -35,3 +35,7 @@
 html {
   scroll-behavior: smooth;
 }
+
+.hubspot .ui-app .hubspot-disable-focus-styles {
+  display: none !important;
+}

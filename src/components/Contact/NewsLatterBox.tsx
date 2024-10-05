@@ -1,6 +1,18 @@
 "use client";
 
+import { HubspotProvider, useHubspotForm } from "next-hubspot";
 import { useTheme } from "next-themes";
+
+const HubspotForm = () => {
+  const { loaded, error, formCreated } = useHubspotForm({
+    portalId: "47613749",
+    formId: "0f48760c-7509-4026-bba7-861ec2c74316",
+    target: "#hubspot-form-wrapper-register",
+    region: "na1",
+  });
+
+  return <div id="hubspot-form-wrapper-register" />;
+};
 
 const NewsLatterBox = () => {
   const { theme } = useTheme();
@@ -16,28 +28,9 @@ const NewsLatterBox = () => {
         you get the best value as you embark on your digital journey with us.
         Sign up today and start saving!
       </p>
-      <div>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter your name"
-          className="border-stroke mb-4 w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          className="border-stroke mb-4 w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
-        />
-        <input
-          type="submit"
-          value="Subscribe"
-          className="mb-5 flex w-full cursor-pointer items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white shadow-submit duration-300 hover:bg-primary/90 dark:shadow-submit-dark"
-        />
-        <p className="text-center text-base leading-relaxed text-body-color dark:text-body-color-dark">
-          No spam guaranteed, So please don’t send any spam mail.
-        </p>
-      </div>
+      <HubspotProvider>
+        <HubspotForm />
+      </HubspotProvider>
 
       <div>
         <span className="absolute left-2 top-7">

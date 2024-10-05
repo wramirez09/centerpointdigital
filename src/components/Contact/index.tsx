@@ -1,5 +1,17 @@
+"use client";
 import NewsLatterBox from "./NewsLatterBox";
+import { HubspotProvider, useHubspotForm } from "next-hubspot";
 
+const HubspotForm = () => {
+  const { loaded, error, formCreated } = useHubspotForm({
+    portalId: "47613749",
+    formId: "ca08b446-433c-4c33-bf8a-36f9e8e2ea55",
+    target: "#hubspot-form-wrapper",
+    region: "na1",
+  });
+
+  return <div id="hubspot-form-wrapper" />;
+};
 const Contact = () => {
   return (
     <section id="contact" className="overflow-hidden py-16 md:py-20 lg:py-28">
@@ -22,7 +34,7 @@ const Contact = () => {
                 us directly via phone or email. Let’s start a conversation and
                 explore how we can bring your vision to life!
               </p>
-              <form>
+              {/* <form>
                 <div className="-mx-4 flex flex-wrap">
                   <div className="w-full px-4 md:w-1/2">
                     <div className="mb-8">
@@ -76,7 +88,10 @@ const Contact = () => {
                     </button>
                   </div>
                 </div>
-              </form>
+              </form> */}
+              <HubspotProvider>
+                <HubspotForm />
+              </HubspotProvider>
             </div>
           </div>
           <div className="w-full px-4 lg:w-5/12 xl:w-4/12">
