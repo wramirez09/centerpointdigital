@@ -49,10 +49,10 @@ const Header = () => {
       >
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">
-            <div className="w-80 max-w-full px-4 xl:mr-12">
+            <div className="w-80 max-w-full px-4 xl:mr-12 ">
               <Link
                 href="/"
-                className={`header-logo block w-full flex gap-3 w-60 ${
+                className={`flex items-center justify-center header-logo block w-full flex gap-3 w-60 ${
                   sticky ? "py-5 lg:py-2" : "py-8"
                 } `}
               >
@@ -70,7 +70,7 @@ const Header = () => {
                   height={25}
                   className="hidden dark:block"
                 />{" "}
-                <b>Center Point Digital</b>
+                <span className="max-sm:text-xs">Center Point Digital</span>
               </Link>
             </div>
             <div className="flex w-full items-center justify-between px-4">
