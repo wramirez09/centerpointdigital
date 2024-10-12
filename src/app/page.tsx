@@ -11,6 +11,7 @@ import Testimonials from "@/components/Testimonials";
 import Video from "@/components/Video";
 import { Metadata } from "next";
 import "lightgallery.js/dist/css/lightgallery.css";
+import Team from "@/components/Team";
 export const metadata: Metadata = {
   title:
     "Center Point Digital | Custom Software Development, Design & Digital Marketing Solutions",
@@ -28,6 +29,7 @@ export default function Home() {
       {/* <Video /> */}
       {/* <Brands /> */}
       <AboutSectionOne />
+      <Team />
       {/* <AboutSectionTwo /> */}
       {/* <Testimonials /> */}
       {/*<Pricing /> */}

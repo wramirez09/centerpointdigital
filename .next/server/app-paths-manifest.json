@@ -1,3 +1,15 @@
 {
-  "/page": "app/page.js"
+  "/_not-found": "app/_not-found.js",
+  "/about/page": "app/about/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/blog/page": "app/blog/page.js",
+  "/blog-details/page": "app/blog-details/page.js",
+  "/project-details/page": "app/project-details/page.js",
+  "/page": "app/page.js",
+  "/blog-sidebar/page": "app/blog-sidebar/page.js",
+  "/projects/page": "app/projects/page.js",
+  "/error/page": "app/error/page.js",
+  "/projects/one-stop/page": "app/projects/one-stop/page.js",
+  "/signin/page": "app/signin/page.js",
+  "/signup/page": "app/signup/page.js"
 }
