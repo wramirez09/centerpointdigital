@@ -24,8 +24,8 @@ const AboutSectionOne = () => {
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 lg:w-1/2">
               <SectionTitle
-                title="Tailored Software Solutions for Web and Mobile"
-                paragraph="Unlock the full potential of your business with our custom software solutions designed for both web and mobile platforms. Our expert team collaborates with you to create intuitive applications that streamline processes, enhance user experiences, and drive growth, ensuring your unique needs are met every step of the way."
+                title="Comprehensive Digital Solutions for Agencies & Their Clients"
+                paragraph="At Center Point Digital, we provide a full range of digital solutions tailored for ad agencies and their clients. Our services include custom web and mobile app development, API integration, and seamless HubSpot CRM and analytics integration to streamline operations and enhance performance. We also transform design assets into high-performing websites, automate workflows, and create impactful marketing tools like animated banner ads and emails. Partner with us to elevate your clients’ digital presence and drive meaningful results."
                 mb="44px"
               />
 
@@ -37,13 +37,13 @@ const AboutSectionOne = () => {
                   <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
                     <List text="Bespoke Development" />
                     <List text="Scalable Architecture" />
-                    <List text="User-Centric Design" />
+                    <List text="CMS development" />
                   </div>
 
                   <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                    <List text="Robust Security Measures" />
+                    <List text="Analytics integration" />
                     <List text="Rich documentation" />
-                    <List text="Ongoing Support and Maintenance" />
+                    <List text="Pixel perfect, responsive development" />
                   </div>
                 </div>
               </div>

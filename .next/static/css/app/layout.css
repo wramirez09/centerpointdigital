@@ -586,6 +586,9 @@ input#checkboxLabel:checked ~ .box span{
 .invisible{
   visibility: hidden;
 }
+.static{
+  position: static;
+}
 .fixed{
   position: fixed;
 }
@@ -1861,11 +1864,6 @@ html {
   .max-sm\:text-xs{
     font-size: 0.75rem;
     line-height: 1rem;
-  }
-
-  .max-sm\:text-sm{
-    font-size: 0.875rem;
-    line-height: 1.25rem;
   }
 }
 

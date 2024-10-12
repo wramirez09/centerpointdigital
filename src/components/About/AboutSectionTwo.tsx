@@ -14,7 +14,7 @@ const PhotoItem = ({ image, thumb, group }) => (
   <LightgalleryItem group={group} src={image} thumb={thumb}>
     <img
       src={image}
-      className="hidden drop-shadow-three dark:block dark:drop-shadow-none"
+      className="drop-shadow-three dark:block dark:drop-shadow-none"
     />
   </LightgalleryItem>
 );
