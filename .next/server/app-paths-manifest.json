@@ -1,15 +1,15 @@
 {
   "/_not-found": "app/_not-found.js",
+  "/blog/page": "app/blog/page.js",
+  "/blog-sidebar/page": "app/blog-sidebar/page.js",
   "/blog-details/page": "app/blog-details/page.js",
   "/project-details/page": "app/project-details/page.js",
-  "/blog-sidebar/page": "app/blog-sidebar/page.js",
-  "/projects/page": "app/projects/page.js",
-  "/blog/page": "app/blog/page.js",
-  "/about/page": "app/about/page.js",
   "/contact/page": "app/contact/page.js",
   "/page": "app/page.js",
-  "/projects/one-stop/page": "app/projects/one-stop/page.js",
+  "/projects/page": "app/projects/page.js",
   "/signin/page": "app/signin/page.js",
+  "/projects/one-stop/page": "app/projects/one-stop/page.js",
+  "/signup/page": "app/signup/page.js",
   "/error/page": "app/error/page.js",
-  "/signup/page": "app/signup/page.js"
+  "/about/page": "app/about/page.js"
 }
