@@ -59,10 +59,10 @@ const Team = () => {
       <div className="container">
         <div className="mb-[60px]">
           <SectionTitle2
-            subtitle="Our Team"
+            subtitle=""
             title="Meet the Founder: Will Ramirez"
-            paragraph="Will, the founder of Center Point Digital, is a seasoned Fullstack Software Developer with a passion for building innovative digital products. With over 10 years of experience in front-end, back-end, and cloud-based solutions, William has helped ad agencies and their clients bring their visions to life through custom web, mobile, and software development. His hands-on approach, dedication to excellence, and deep understanding of both technology and business needs have made [Agency Name] a trusted partner for delivering scalable, high-quality digital solutions."
-            width="640px"
+            paragraph="Will, the founder of Center Point Digital, is a seasoned Fullstack Software Developer with a passion for building innovative digital products. With over 10 years of experience in front-end, back-end, and cloud-based solutions, Will has helped ad agencies and their clients bring their visions to life through custom web, mobile, and software development. His hands-on approach, dedication to excellence, and deep understanding of both technology and business needs have made Center Point Digital a trusted partner for delivering scalable, high-quality digital solutions."
+            width="740px"
             center
           />
         </div>
