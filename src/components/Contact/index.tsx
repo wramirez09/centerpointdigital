@@ -18,9 +18,7 @@ const Contact = () => {
                 We’d love to hear from you! Whether you have questions about our
                 services, need assistance with a project, or want to discuss how
                 we can help your business grow, our team is here to assist you.
-                Reach out to us through the form below, or feel free to contact
-                us directly via phone or email. Let’s start a conversation and
-                explore how we can bring your vision to life!
+                Reach out to us through the form below.
               </p>
               <form>
                 <div className="-mx-4 flex flex-wrap">
