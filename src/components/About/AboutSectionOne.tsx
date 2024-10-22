@@ -35,7 +35,7 @@ const AboutSectionOne = () => {
               >
                 <div className="mx-[-12px] flex flex-wrap">
                   <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                    <List text="Bespoke web and hybrid mobile Development" />
+                    <List text="Bespoke web and hybrid mobile development" />
                     <List text="E-Commerce (Shopify)" />
                     <List text="CMS development (Wordpress)" />
                   </div>
@@ -43,7 +43,8 @@ const AboutSectionOne = () => {
                   <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
                     <List text="Analytics integration" />
                     <List text="CRM integrtion (Hubspot)" />
-                    <List text="Animated Banner Ads" />
+                    <List text="Animated banner Ads" />
+                    <List text="Custom Email development" />
                   </div>
                 </div>
               </div>

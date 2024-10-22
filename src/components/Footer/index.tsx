@@ -29,7 +29,7 @@ const Footer = () => {
                 </Link>
                 <p className="mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark">
                   We believe that great software, stunning design, and smart
-                  marketing drive success. With a team of skilled developers,
+                  marketing drive success. We are a team of skilled developers,
                   designers, and marketers.
                 </p>
                 <div className="flex items-center">

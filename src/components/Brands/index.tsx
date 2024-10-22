@@ -8,8 +8,8 @@ const Brands = () => {
       <div className="container">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">
-            <p className="text-lg font-semibold text-primary mb-1">
-              Some of the technologies we ❤️ to work with
+            <p className="text-sm font-semibold text-primary mb-1">
+              Some of the Agencies we ❤️'d to working with
             </p>
             <div className="flex flex-wrap items-center justify-center rounded-sm bg-gray-light px-8 py-8 dark:bg-gray-dark sm:px-10 md:px-[50px] md:py-[40px] xl:p-[50px] 2xl:px-[70px] 2xl:py-[60px]">
               {brandsData.map((brand) => (
@@ -29,7 +29,7 @@ const SingleBrand = ({ brand }: { brand: Brand }) => {
   const { href, image, imageLight, name } = brand;
 
   return (
-    <div className="flex w-1/2 items-center justify-center px-3 py-[15px] sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+    <div className="flex w-1/2 items-center justify-center px-3 py-[15px] sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4">
       <a
         href={href}
         target="_blank"
