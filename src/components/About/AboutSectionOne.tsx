@@ -24,8 +24,8 @@ const AboutSectionOne = () => {
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 lg:w-1/2">
               <SectionTitle
-                title="Comprehensive Digital Solutions for Agencies & Their Clients"
-                paragraph="At Center Point Digital, we provide a full range of digital solutions tailored for ad agencies and their clients. Our services include custom web and mobile app development, API integration, and seamless HubSpot CRM and analytics integration to streamline operations and enhance performance. We also transform design assets into high-performing websites, automate workflows, and create impactful marketing tools like animated banner ads and emails. Partner with us to elevate your clients’ digital presence and drive meaningful results."
+                title="Comprehensive Digital Solutions for Agencies and Businesses of any Size and type"
+                paragraph=""
                 mb="44px"
               />
 
@@ -35,16 +35,17 @@ const AboutSectionOne = () => {
               >
                 <div className="mx-[-12px] flex flex-wrap">
                   <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                    <List text="Bespoke web and hybrid mobile development" />
-                    <List text="E-Commerce (Shopify)" />
+                    <List text="Building scalable websites, web apps, and mobile solutions" />
+                    <List text="Angular, Next.js, Node, Java, and more for a robust tech stack." />
                     <List text="CMS development (Wordpress)" />
+                    <List text="API development and intagration" />
                   </div>
 
                   <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                    <List text="Analytics integration" />
-                    <List text="CRM integrtion (Hubspot)" />
-                    <List text="Animated banner Ads" />
-                    <List text="Custom Email development" />
+                    <List text="Tailored SEO and engaging, targeted content." />
+                    <List text="Develop brand presence and engagement across social platforms." />
+                    <List text="Targeted traffic through Google Ads, social media ads, and retargeting" />
+                    <List text="Email Marketing & CRM Integration" />
                   </div>
                 </div>
               </div>

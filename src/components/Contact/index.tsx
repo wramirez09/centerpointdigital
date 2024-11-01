@@ -1,4 +1,4 @@
-import NewsLatterBox from "./NewsLatterBox";
+import NewsLatterBox from "./NewsLetterBox";
 
 const Contact = () => {
   return (
