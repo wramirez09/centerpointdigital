@@ -1,5 +1,6 @@
 "use client";
 import { Feature } from "@/types/feature";
+import Link from "next/link";
 import * as React from "react";
 
 const SingleFeature = ({ feature }: { feature: Feature }) => {
@@ -15,8 +16,11 @@ const SingleFeature = ({ feature }: { feature: Feature }) => {
           {title}
         </h3>
 
-        <p className="pr-[10px] text-base font-medium leading-relaxed text-body-color">
-          {paragraph}
+        <p className="pr-[10px] text-base font-medium leading-relaxed text-body-color ellipsis-js">
+          <span className="text">{paragraph}</span>{" "}
+          <Link className="more" href="/services" style={{ display: "block" }}>
+            <span className="text-link">more</span>
+          </Link>
         </p>
       </div>
     </div>

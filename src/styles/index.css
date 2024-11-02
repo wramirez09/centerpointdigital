@@ -47,3 +47,12 @@ html {
   opacity: 0 !important;
   visibility: hidden !important;
 }
+
+.text-link {
+  color: rgb(74 108 247);
+  text-decoration: underline;
+}
+
+.text-link:hover {
+  color: #fff;
+}

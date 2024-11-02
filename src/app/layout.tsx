@@ -20,7 +20,9 @@ export default function RootLayout({
         <head /> will contain the components returned by the nearest parent
         head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
-      <head />
+      <head>
+        <ColorSchemeScript defaultColorScheme="auto" />
+      </head>
 
       <body className={`bg-[#FCFCFC] dark:bg-black ${inter.className}`}>
         <Providers>
@@ -35,3 +37,4 @@ export default function RootLayout({
 }
 
 import { Providers } from "./providers";
+import { ColorSchemeScript } from "@mantine/core";

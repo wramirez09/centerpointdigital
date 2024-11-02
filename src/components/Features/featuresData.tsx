@@ -12,9 +12,9 @@ const featuresData: Feature[] = [
         <path d="M23.2222 0C22.6699 0 22.2222 0.447715 22.2222 1V12.3333C22.2222 12.8856 22.6699 13.3333 23.2222 13.3333H39C39.5523 13.3333 40 12.8856 40 12.3333V0.999999C40 0.447714 39.5523 0 39 0H23.2222ZM0 39C0 39.5523 0.447715 40 1 40H16.7778C17.3301 40 17.7778 39.5523 17.7778 39V27.6667C17.7778 27.1144 17.3301 26.6667 16.7778 26.6667H1C0.447716 26.6667 0 27.1144 0 27.6667V39ZM0 21.2222C0 21.7745 0.447715 22.2222 1 22.2222H16.7778C17.3301 22.2222 17.7778 21.7745 17.7778 21.2222V0.999999C17.7778 0.447714 17.3301 0 16.7778 0H1C0.447716 0 0 0.447715 0 1V21.2222Z" />
       </svg>
     ),
-    title: "Full-Stack Development for Custom Solutions",
+    title: "Full-Stack Development",
     paragraph:
-      "Our team offers comprehensive full-stack development, creating scalable websites, web applications, and mobile solutions that drive engagement. Using a robust tech stack, including React, Angular, Next.js, Node, and Java, you develop high-performing, tailored solutions that address each client’s unique needs.",
+      "Our team offers comprehensive full-stack development, creating scalable websites, web applications, and mobile solutions that drive engagement. ",
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ const featuresData: Feature[] = [
     ),
     title: "Design-to-Code Services",
     paragraph:
-      "Our company’s Design-to-Code services transform creative concepts into fully functional websites, web applications, and other digital products. Leveraging expertise in HTML, CSS, JavaScript, and frameworks like React or Angular, your team converts design assets—such as Figma, Sketch, or Adobe XD files—into pixel-perfect, responsive code. These services ensure that every detail from the original design translates smoothly across devices, preserving UX/UI integrity and delivering high-quality digital experiences that align with your clients’ vision and brand standards.",
+      "Our company’s Design-to-Code services transform creative concepts into fully functional websites, web applications, and other digital products. ",
   },
   {
     id: 3,
@@ -44,10 +44,10 @@ const featuresData: Feature[] = [
     ),
     title: "Digital Marketing for Brand Growth",
     paragraph:
-      "Our digital marketing services enhance brand visibility and engagement through SEO, content marketing, and social media strategies. Organic and paid campaigns increase presence across platforms, while PPC and display ads bring targeted traffic with optimized ROI. With email marketing and CRM integration, you personalize the customer journey, nurturing leads through segmented, automated campaigns.",
+      "Our digital marketing services enhance brand visibility and engagement through SEO, content marketing, and social media strategies.",
   },
   {
-    id: 1,
+    id: 4,
     icon: (
       <svg width="40" height="42" viewBox="0 0 40 42" className="fill-current">
         <path
@@ -59,10 +59,10 @@ const featuresData: Feature[] = [
     ),
     title: "API Integration & Cloud Solutions",
     paragraph:
-      "API integration and cloud solutions streamline operations and support secure scaling. Your team develops APIs and integrates third-party tools, creating seamless workflows that improve productivity. Cloud deployment on AWS and Azure provides resilience and scalability, enabling clients to meet growth demands effectively.",
+      "API integration and cloud solutions streamline operations and support secure scaling. Our team develops APIs and integrates third-party tools.",
   },
   {
-    id: 1,
+    id: 5,
     icon: (
       <svg width="40" height="40" viewBox="0 0 40 40" className="fill-current">
         <path
@@ -72,12 +72,12 @@ const featuresData: Feature[] = [
         <rect width="28" height="28" rx="1" />
       </svg>
     ),
-    title: "UX/UI Design & Analytics Integration",
+    title: "UX/UI Design",
     paragraph:
-      "Focusing on user-centered design, your team creates UX/UI solutions that support smooth customer journeys. Integrated analytics track essential metrics and KPIs, enabling clients to make data-driven decisions. This setup helps clients continuously refine their digital strategies for greater impact.",
+      "Focusing on user-centered design, Our team creates UX/UI solutions that support smooth customer journeys.",
   },
   {
-    id: 1,
+    id: 6,
     icon: (
       <svg width="40" height="45" viewBox="0 0 40 45" className="fill-current">
         <path
@@ -87,9 +87,9 @@ const featuresData: Feature[] = [
         <path d="M18.9474 32.6316C18.9474 35.4705 19.8099 38.0969 21.2941 40.2796C21.7904 41.0094 21.3054 42.1053 20.4229 42.1053H4.21053C1.87368 42.1053 0 40.2316 0 37.8947V4.21053C0 1.89474 1.87368 0 4.21053 0H6.31579H16.8421H29.4737C31.7895 0 33.6842 1.87368 33.6842 4.21053V17.9544C33.6842 18.5032 33.1804 18.9474 32.6316 18.9474C25.0737 18.9474 18.9474 25.0737 18.9474 32.6316Z" />
       </svg>
     ),
-    title: "Conversion Optimization & Customer Retention",
+    title: "Analytics Integration",
     paragraph:
-      "Conversion Optimization & Customer Retention To boost conversions, you use A/B testing and data analysis that optimize the digital experience. Your team also develops retention strategies that strengthen customer loyalty and support long-term growth. Analytics insights allow for ongoing improvements that align with business goals and customer needs.",
+      "Integrated analytics track essential metrics and KPIs, enabling clients to make data-driven decisions",
   },
 ];
 export default featuresData;

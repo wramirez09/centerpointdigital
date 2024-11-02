@@ -12,6 +12,7 @@ import Video from "@/components/Video";
 import { Metadata } from "next";
 import "lightgallery.js/dist/css/lightgallery.css";
 import Team from "@/components/Team";
+
 export const metadata: Metadata = {
   title:
     "Center Point Digital | Custom Software Development, Design & Digital Marketing Solutions",

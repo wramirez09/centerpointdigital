@@ -12,6 +12,9 @@
     "deploy": "npm run pages:build && wrangler pages deploy"
   },
   "dependencies": {
+    "@mantine/core": "^7.13.4",
+    "@mantine/hooks": "^7.13.4",
+    "@mantinex/dev-icons": "^1.0.2",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.1.0",
     "eslint-plugin-next-on-pages": "^1.13.5",
@@ -28,7 +31,10 @@
     "@types/node": "^20.8.9",
     "@types/react": "^18.2.33",
     "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.35",
+    "postcss": "^8.4.47",
+    "postcss-import": "^16.1.0",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.1",
