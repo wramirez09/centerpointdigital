@@ -1,10 +1,11 @@
 import RelatedPost from "@/components/Blog/RelatedPost";
 import SharePost from "@/components/Blog/SharePost";
 import TagButton from "@/components/Blog/TagButton";
-import NewsLatterBox from "@/components/Contact/NewsLatterBox";
+
 import Image from "next/image";
 
 import { Metadata } from "next";
+import NewsLatterBox from "@/components/Contact/NewsLetterBox";
 
 export const metadata: Metadata = {
   title:
