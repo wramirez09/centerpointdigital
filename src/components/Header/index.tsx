@@ -70,7 +70,7 @@ const Header = () => {
                   height={25}
                   className="hidden dark:block"
                 />{" "}
-                <span className="max-sm:text-xs">Center Point Digital</span>
+                <span className="max-sm:text-xs text-white">Center Point Digital</span>
               </Link>
             </div>
             <div className="flex w-full items-center justify-between px-4">

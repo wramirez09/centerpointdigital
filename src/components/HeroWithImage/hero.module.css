@@ -1,0 +1,72 @@
+
+.hero {
+    position: absolute;
+    background-image: url("./images/services.jpg");
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    top: 0;
+    width: 100%;
+    filter: blur(4px);
+
+  }
+  
+  .container {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-bottom: 2rem;
+    z-index: 1;
+    position: relative;
+  
+    @media (max-width: $mantine-breakpoint-sm) {
+      height: rem(500px);
+      padding-bottom: calc(var(--mantine-spacing-xl) * 3);
+    }
+  }
+  
+  .title {
+    color: #4a6cf6;
+    font-size: rem(60px);
+    font-weight: 900;
+    line-height: 1.1;
+    width: 90%;
+    margin-top: 3rem;
+    padding: 2rem;
+    background-color: #1e232e;
+  
+    @media (max-width: $mantine-breakpoint-sm) {
+      font-size: rem(40px);
+      line-height: 1.2;
+    }
+  
+    @media (max-width: $mantine-breakpoint-xs) {
+      font-size: rem(28px);
+      line-height: 1.3;
+    }
+  }
+  
+  .description {
+    color: var(--mantine-color-white);
+    max-width: rem(600px);
+
+    width: auto;
+    background-color: #1e232e;
+    width: 90%;
+    margin-top: 3rem;
+    padding: 2rem;
+    @media (max-width: $mantine-breakpoint-sm) {
+      max-width: 100%;
+      font-size: var(--mantine-font-size-sm);
+    }
+  }
+  
+  .control {
+    margin-top: calc(var(--mantine-spacing-xl) * 1.5);
+  
+    @media (max-width: $mantine-breakpoint-sm) {
+      width: 100%;
+    }
+  }

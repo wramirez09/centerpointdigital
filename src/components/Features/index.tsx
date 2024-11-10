@@ -1,22 +1,29 @@
-"use client";
+'use client';
 
-import SectionTitle from "../Common/SectionTitle";
-import SingleFeature from "./SingleFeature";
-import featuresData from "./featuresData";
+import { motion } from 'framer-motion';
+import SectionTitle from '../Common/SectionTitle';
+import SingleFeature from './SingleFeature';
+import featuresData from './featuresData';
 
 const Features = () => {
   return (
     <>
       <section id="features" className="py-16 md:py-20 lg:py-28">
         <div className="container">
-          <SectionTitle
-            title="Comprehensive Digital Solutions for Agencies & Their Clients"
-            paragraph="we specialize in providing full-scale digital solutions designed to help ad agencies meet their clients' needs"
-            center
-          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 2 }}
+          >
+            <SectionTitle
+              title="Comprehensive Digital Solutions for Agencies & Their Clients"
+              paragraph="we specialize in providing full-scale digital solutions designed to help ad agencies meet their clients' needs"
+              center
+            />
+          </motion.div>
 
           <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
-            {featuresData.map((feature) => (
+            {featuresData.map(feature => (
               <SingleFeature key={feature.id} feature={feature} />
             ))}
           </div>
