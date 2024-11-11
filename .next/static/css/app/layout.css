@@ -807,20 +807,11 @@ input#checkboxLabel:checked ~ .box span{
 .mt-12{
   margin-top: 3rem;
 }
-.mt-\[6px\]{
-  margin-top: 6px;
-}
 .mt-6{
   margin-top: 1.5rem;
 }
-.mt-3{
-  margin-top: 0.75rem;
-}
-.mt-11{
-  margin-top: 2.75rem;
-}
-.mt-\[160px\]{
-  margin-top: 160px;
+.mt-\[6px\]{
+  margin-top: 6px;
 }
 .block{
   display: block;
@@ -1067,9 +1058,6 @@ input#checkboxLabel:checked ~ .box span{
 }
 .gap-5{
   gap: 1.25rem;
-}
-.gap-1{
-  gap: 0.25rem;
 }
 .gap-x-8{
   -moz-column-gap: 2rem;
@@ -1507,6 +1495,11 @@ input#checkboxLabel:checked ~ .box span{
 .opacity-70{
   opacity: 0.7;
 }
+.shadow{
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
 .shadow-btn{
   --tw-shadow: 0px 1px 2px rgba(4, 10, 34, 0.15);
   --tw-shadow-colored: 0px 1px 2px var(--tw-shadow-color);
@@ -1550,11 +1543,6 @@ input#checkboxLabel:checked ~ .box span{
 .shadow-two{
   --tw-shadow: 0px 5px 10px rgba(6, 8, 15, 0.1);
   --tw-shadow-colored: 0px 5px 10px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-.shadow{
-  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 .outline-none{
@@ -2238,10 +2226,6 @@ html {
     margin-top: 0px;
   }
 
-  .lg\:mt-3{
-    margin-top: 0.75rem;
-  }
-
   .lg\:block{
     display: block;
   }
@@ -2491,10 +2475,6 @@ html {
 
   .xl\:w-4\/12{
     width: 33.333333%;
-  }
-
-  .xl\:w-5\/12{
-    width: 41.666667%;
   }
 
   .xl\:w-8\/12{
