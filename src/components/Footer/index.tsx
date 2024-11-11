@@ -1,6 +1,6 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
+'use client';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -8,22 +8,22 @@ const Footer = () => {
       <footer className="relative z-10 bg-white pt-16 dark:bg-gray-dark md:pt-20 lg:pt-24">
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
-            <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
+            <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-1/4">
               <div className="mb-12 max-w-[360px] lg:mb-16">
-                <Link href="/" className="mb-8 inline-block">
+                <Link href="/" className="mb-8 inline-block text-white">
                   Center Point Digital
                   {/* <Image
-                    src="/images/logo/logo-2.svg"
+                    src="/images/logo/main-logo.svg"
                     alt="logo"
                     className="w-full dark:hidden"
-                    width={140}
+                    width={30}
                     height={30}
                   />
                   <Image
-                    src="/images/logo/logo.svg"
+                    src="/images/logo/main-logo.svg"
                     alt="logo"
                     className="hidden w-full dark:block"
-                    width={140}
+                    width={30}
                     height={30}
                   /> */}
                 </Link>
@@ -232,7 +232,7 @@ const Footer = () => {
             <circle opacity="0.8" cx="49.5" cy="49.5" r="49.5" fill="#959CB1" />
             <mask
               id="mask0_94:899"
-              style={{ maskType: "alpha" }}
+              style={{ maskType: 'alpha' }}
               maskUnits="userSpaceOnUse"
               x="0"
               y="0"

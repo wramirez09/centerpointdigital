@@ -5,7 +5,7 @@ import Link from 'next/link';
 import * as React from 'react';
 
 const SingleFeature = ({ feature }: { feature: Feature }) => {
-  const { icon, title, paragraph } = feature;
+  const { icon, title, paragraph, moreLink } = feature;
 
   return (
     <motion.div
@@ -24,11 +24,7 @@ const SingleFeature = ({ feature }: { feature: Feature }) => {
 
           <p className="pr-[10px] text-base font-medium leading-relaxed text-body-color ellipsis-js">
             <span className="text">{paragraph}</span>{' '}
-            <Link
-              className="more"
-              href="/services"
-              style={{ display: 'block' }}
-            >
+            <Link className="more" href={moreLink} style={{ display: 'block' }}>
               <span className="text-link">more</span>
             </Link>
           </p>
