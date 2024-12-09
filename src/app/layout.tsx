@@ -23,7 +23,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
-      <body className={`bg-[#FCFCFC] dark:bg-black ${inter.className}`}>
+      <body className={`bg-[#FCFCFC] dark:bg-black ${inter.className} w-full h-full overflow-y-scroll`}>
         <Providers>
           <Header />
           {children}

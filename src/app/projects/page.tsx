@@ -1,9 +1,8 @@
-import projectsData from "@/components/Projects/projectsData";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 
 import { Metadata } from "next";
-import SingleProject from "@/components/Projects/SingleProject";
 import ProjectCard from "@/components/Projects/ProjectCard";
+import ProjectHero from "@/components/Projects/ProjectHero";
 
 export const metadata: Metadata = {
   title:
@@ -19,13 +18,13 @@ const Projects = () => {
         pageName="Our Work"
         description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius eros eget sapien consectetur ultrices. Ut quis dapibus libero."
       />
-      <div className="p-40">
-
-      <ProjectCard />
+      <div className="container my-10 lg:my-20">
+        <ProjectHero />
+        <ProjectCard />
       </div>
 
 
-      <section className="pb-[120px] pt-[120px]">
+      {/* <section className="pb-[120px] pt-[120px]">
         <div className="container">
           <div className="flex flex-wrap justify-center -mx-4">
             {projectsData.map((project) => (
@@ -33,11 +32,10 @@ const Projects = () => {
                 key={project.id}
                 className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
               >
-                {/* <SingleProject blog={project} /> */}
-                <ProjectCard />
+                <SingleProject blog={project} />
               </div>
             ))}
-          </div>
+          </div> */}
 
           {/* <div className="flex flex-wrap -mx-4" data-wow-delay=".15s">
             <div className="w-full px-4">
@@ -98,8 +96,8 @@ const Projects = () => {
               </ul>
             </div>
           </div> */}
-        </div>
-      </section>
+        {/* </div> */}
+      {/* </section> */}
     </>
   );
 };
