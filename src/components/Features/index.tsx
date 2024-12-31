@@ -4,10 +4,11 @@ import { motion } from 'framer-motion';
 import SectionTitle from '../Common/SectionTitle';
 import SingleFeature from './SingleFeature';
 import featuresData from './featuresData';
+import { Container } from '@mantine/core';
 
 const Features = () => {
   return (
-    <>
+    <Container size={'xl'}>
       <section id="features" className="py-16 md:py-20 lg:py-28">
         <div className="container">
           <motion.div
@@ -29,7 +30,7 @@ const Features = () => {
           </div>
         </div>
       </section>
-    </>
+    </Container>
   );
 };
 

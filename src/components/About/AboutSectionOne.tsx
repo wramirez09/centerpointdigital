@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import SectionTitle from '../Common/SectionTitle';
 import { motion } from 'framer-motion';
+import { Container } from '@mantine/core';
 
 const checkIcon = (
   <svg width="16" height="13" viewBox="0 0 16 13" className="fill-current">
@@ -25,59 +26,62 @@ const AboutSectionOne = () => {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 2 }}
     >
-      <section id="about" className="pt-16 md:pt-20 lg:pt-28">
-        <div className="container">
-          <div className="border-b border-body-color/[.15] pb-16 dark:border-white/[.15] md:pb-20 lg:pb-28">
-            <div className="-mx-4 flex flex-wrap items-center">
-              <div className="w-full px-4 lg:w-1/2">
-                <SectionTitle
-                  title="Comprehensive Digital Solutions for Agencies and Businesses of any Size and type"
-                  paragraph=""
-                  mb="44px"
-                />
+      <Container size={'xl'}>
+        <section id="about" className="pt-16 md:pt-20 lg:pt-25">
+          <div className="container">
+            <div className="border-b border-body-color/[.15] pb-16 dark:border-white/[.15] md:pb-20 lg:pb-28">
+              <div className="-mx-4 flex flex-wrap items-center">
+                <div className="w-full px-4 lg:w-1/2">
+                  <SectionTitle
+                    title="Comprehensive Digital Solutions for Agencies and Businesses of any Size and type"
+                    paragraph=""
+                    mb="35px"
+                    size="35"
+                  />
 
-                <div
-                  className="mb-12 max-w-[570px] lg:mb-0"
-                  data-wow-delay=".15s"
-                >
-                  <div className="mx-[-12px] flex flex-wrap">
-                    <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                      <List text="Building scalable websites, web apps, and mobile solutions" />
-                      <List text="Angular, Next.js, Node, Java, and more for a robust tech stack." />
-                      <List text="CMS development (Wordpress)" />
-                      <List text="API development and intagration" />
-                    </div>
+                  <div
+                    className="mb-12 max-w-[570px] lg:mb-0"
+                    data-wow-delay=".15s"
+                  >
+                    <div className="mx-[-12px] flex flex-wrap">
+                      <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
+                        <List text="Building scalable websites, web apps, and mobile solutions" />
+                        <List text="Angular, Next.js, Node, Java, and more for a robust tech stack." />
+                        <List text="CMS development (Wordpress)" />
+                        <List text="API development and intagration" />
+                      </div>
 
-                    <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                      <List text="Tailored SEO and engaging, targeted content." />
-                      <List text="Develop brand presence and engagement across social platforms." />
-                      <List text="Targeted traffic through Google Ads, social media ads, and retargeting" />
-                      <List text="Email Marketing & CRM Integration" />
+                      <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
+                        <List text="Tailored SEO and engaging, targeted content." />
+                        <List text="Develop brand presence and engagement across social platforms." />
+                        <List text="Targeted traffic through Google Ads, social media ads, and retargeting" />
+                        <List text="Email Marketing & CRM Integration" />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="w-full px-4 lg:w-1/2">
-                <div className="relative mx-auto aspect-[25/24] max-w-[500px] lg:mr-0">
-                  <Image
-                    src="/images/about/about-image.svg"
-                    alt="about-image"
-                    fill
-                    className="mx-auto max-w-full drop-shadow-three dark:hidden dark:drop-shadow-none lg:mr-0"
-                  />
-                  <Image
-                    src="/images/about/about-image-dark.svg"
-                    alt="about-image"
-                    fill
-                    className="mx-auto hidden max-w-full drop-shadow-three dark:block dark:drop-shadow-none lg:mr-0"
-                  />
+                <div className="w-full px-4 lg:w-1/2">
+                  <div className="relative mx-auto aspect-[25/24] max-w-[500px] lg:mr-0">
+                    <Image
+                      src="/images/about/about-image.svg"
+                      alt="about-image"
+                      fill
+                      className="mx-auto max-w-full drop-shadow-three dark:hidden dark:drop-shadow-none lg:mr-0"
+                    />
+                    <Image
+                      src="/images/about/device.svg"
+                      alt="about-image"
+                      fill
+                      className="mx-auto hidden max-w-full drop-shadow-three dark:block dark:drop-shadow-none lg:mr-0"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </Container>
     </motion.div>
   );
 };
