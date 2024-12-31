@@ -45,7 +45,7 @@ const ServicesPage = () => {
               className="mb-9"
             />
           </Grid.Col>
-          <Grid.Col span={{ base: 12, xs: 5 }} offset={1}>
+          <Grid.Col span={{ base: 12, xs: 5 }}>
             <Text c={'white'} mb="1rem">
               Managing separate front-end, back-end, and database teams is a
               recipe for communication breakdowns, delays, and cost overruns.
@@ -130,7 +130,7 @@ const ServicesPage = () => {
             </List>
           </Grid.Col>
 
-          <Grid.Col span={{ base: 12, xs: 5 }} offset={1}>
+          <Grid.Col span={{ base: 12, xs: 5 }}>
             <Image
               src="./images/services/ui.svg"
               width="600"
@@ -152,7 +152,7 @@ const ServicesPage = () => {
               paragraph="Our digital marketing services provide the solutions you need to achieve sustainable brand growth."
             />
           </Grid.Col>
-          <Grid.Col span={{ base: 12, xs: 5 }} offset={1}>
+          <Grid.Col span={{ base: 12, xs: 5 }}>
             <Image
               src="./images/services/branding.svg"
               width="525"
