@@ -36,12 +36,12 @@ const Hero = () => {
                 </Link>
               </div>
             </Grid.Col>
-            <Grid.Col span={{ base: 12, xs: 5 }} offset={1}>
+            <Grid.Col span={{ base: 12, xs: 6 }}>
               <Image
-                src="./images/hero/hero.svg"
+                src="./images/hero/draw.svg"
                 alt={''}
-                width={'500'}
-                height={'500'}
+                width={'600'}
+                height={'600'}
               />
             </Grid.Col>
           </Grid>
