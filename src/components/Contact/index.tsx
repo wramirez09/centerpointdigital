@@ -49,7 +49,7 @@ function ContactIcon({
 
 const MOCKDATA = [
   { title: 'Email', description: 'sales@centerpointdigital.cc', icon: IconAt },
-  { title: 'Phone', description: '(773) 824-6098', icon: IconPhone },
+  { title: 'Phone', description: '(708) 568-1456', icon: IconPhone },
   { title: 'Address', description: 'Chicago, IL', icon: IconMapPin },
   {
     title: 'Working hours',
