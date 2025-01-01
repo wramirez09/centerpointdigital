@@ -173,9 +173,9 @@ const Header = () => {
               >
                 Contact
               </Link>
-              <div>
+              {/* <div>
                 <ThemeToggler />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

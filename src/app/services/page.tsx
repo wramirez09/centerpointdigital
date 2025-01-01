@@ -1,13 +1,13 @@
 'use client';
-import { Button, Container, Grid, List, Text, ThemeIcon } from '@mantine/core';
+import { Container, Grid, List, Space, Text, ThemeIcon } from '@mantine/core';
 
 import { Metadata } from 'next';
 import Image from 'next/image';
-import classes from './HeroTitle.module.css';
-import { HeroWithImage } from '@/components/HeroWithImage';
+
 import SectionTitle from '@/components/Common/SectionTitle';
 import { IconCircleCheck } from '@tabler/icons-react';
-import oneStop from '../projects/one-stop/page';
+
+import Contact from '@/components/Contact';
 
 const metadata: Metadata = {
   title:
@@ -22,8 +22,9 @@ const ServicesPage = () => {
       {/* <div className={classes.wrapper}>
         <HeroWithImage />
       </div> */}
+      <Space h="xl" />
       <Container my="lg" size={'xl'}>
-        <Grid className="mt-20">
+        <Grid className="mt-20" align="center">
           <Grid.Col span={{ base: 12 }} className="mt-20">
             <SectionTitle
               size="25px"
@@ -39,14 +40,14 @@ const ServicesPage = () => {
           <Grid.Col span={{ base: 12, xs: 5 }}>
             <Image
               src="./images/services/collabo.svg"
-              width="600"
-              height="600"
+              width="500"
+              height="500"
               alt="collaboration image"
               className="mb-9"
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, xs: 5 }}>
-            <Text c={'white'} mb="1rem">
+            <Text c={'white'} mb="1rem" size="lg">
               Managing separate front-end, back-end, and database teams is a
               recipe for communication breakdowns, delays, and cost overruns.
               Our full-stack development team offers a better way:
@@ -54,6 +55,7 @@ const ServicesPage = () => {
             <List
               spacing="md"
               c="white"
+              size="md"
               icon={
                 <ThemeIcon color="#6b63ff" size={24} radius="xl">
                   <IconCircleCheck style={{ width: '3rem', height: '3rem' }} />
@@ -84,6 +86,7 @@ const ServicesPage = () => {
           </Grid.Col>
         </Grid>
       </Container>
+      <Space h="xl" />
       <Container my="lg" size={'xl'}>
         <Grid align="center">
           <Grid.Col span={{ base: 12 }} className="mt-20">
@@ -97,7 +100,7 @@ const ServicesPage = () => {
           </Grid.Col>
 
           <Grid.Col span={{ base: 12, xs: 5 }}>
-            <Text variant="p" c="white" mb={'1rem'}>
+            <Text variant="p" c="white" mb={'1rem'} size="lg">
               Great UX/UI design is the key to creating successful digital
               products. We focus on understanding your users' needs and
               behaviors to create seamless and enjoyable experiences that
@@ -105,6 +108,7 @@ const ServicesPage = () => {
             </Text>
             <List
               spacing="md"
+              size="md"
               c="white"
               icon={
                 <ThemeIcon color="#6b63ff" size={24} radius="xl">
@@ -141,6 +145,7 @@ const ServicesPage = () => {
           </Grid.Col>
         </Grid>
       </Container>
+      <Space h="xl" />
       <Container my="lg" size={'xl'}>
         <Grid align="center">
           <Grid.Col span={{ base: 12 }} className="mt-20">
@@ -162,12 +167,13 @@ const ServicesPage = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, xs: 5 }}>
-            <Text variant="p" c="white" mb={'1rem'}>
+            <Text variant="p" c="white" mb={'1rem'} size="lg">
               In today's competitive digital landscape, it's crucial to have a
               strong online presence. We help you overcome common challenges,
               such as:
             </Text>
             <List
+              size="md"
               spacing="md"
               c="white"
               icon={
@@ -192,6 +198,14 @@ const ServicesPage = () => {
             </List>
           </Grid.Col>
         </Grid>
+      </Container>
+      <Space h="xl" />
+      <Container size="xl">
+        <Contact
+          showNewsLetter={false}
+          header=" Unlock Your Digital Potential"
+          copy="Discover how our services can help you reach new heights. Contact us for a free consultation."
+        />
       </Container>
     </>
   );

@@ -1,9 +1,86 @@
 'use client';
 import { motion } from 'framer-motion';
 import NewsLatterBox from './NewsLetterBox';
-import { Container } from '@mantine/core';
+import { Container, Box, Text, Stack } from '@mantine/core';
+import { IconAt, IconMapPin, IconPhone, IconSun } from '@tabler/icons-react';
 
-const Contact = () => {
+function printHref(title: string, description: string): string {
+  const prefixMap: Record<string, string> = {
+    Phone: 'tel:',
+    Email: 'mailto:',
+  };
+
+  return (prefixMap[title] || '') + description;
+}
+
+interface ContactIconProps
+  extends Omit<React.ComponentPropsWithoutRef<'div'>, 'title'> {
+  icon: typeof IconSun;
+  title: string;
+  description: string;
+}
+
+function ContactIcon({
+  icon: Icon,
+  title,
+  description,
+  ...others
+}: ContactIconProps) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        color: '#FFF',
+        marginBottom: '1rem',
+      }}
+    >
+      <Box mr="md">
+        <Icon size={24} />
+      </Box>
+
+      <div>
+        <Text size="xs">{title}</Text>
+        <a href={printHref(title, description)}>{description}</a>
+      </div>
+    </div>
+  );
+}
+
+const MOCKDATA = [
+  { title: 'Email', description: 'sales@centerpointdigital.cc', icon: IconAt },
+  { title: 'Phone', description: '(773) 824-6098', icon: IconPhone },
+  { title: 'Address', description: 'Chicago, IL', icon: IconMapPin },
+  {
+    title: 'Working hours',
+    description: '10 a.m. – 11 p.m CST',
+    icon: IconSun,
+  },
+];
+
+export function ContactIconsList() {
+  const items = MOCKDATA.map((item, index) => (
+    <ContactIcon key={index} {...item} />
+  ));
+  return <Stack>{items}</Stack>;
+}
+
+const defaultContent = {
+  header: 'Let’s Start a Conversation!',
+  copy: ' We’d love to hear from you! Whether you have questions about our services, need assistance with a project, or wantt discuss how we can help your business grow, our team is her to assist you. Reach out to us through the form below.',
+};
+
+type ContactProps = {
+  showNewsLetter?: boolean;
+  header?: string;
+  copy?: string;
+};
+
+const Contact: React.FC<ContactProps> = ({
+  showNewsLetter = true,
+  header = defaultContent.header,
+  copy = defaultContent.copy,
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -13,10 +90,10 @@ const Contact = () => {
       <Container size={'xl'}>
         <section
           id="contact"
-          className="overflow-hidden py-16 md:py-20 lg:py-28"
+          className="overflow-hidden py-16 md:py-20 lg:py-28 w-full"
         >
-          <div className="container">
-            <div className="-mx-4 flex flex-wrap">
+          <div className="container w-full">
+            <div className={`-mx-4 flex flex-wrap`}>
               <div className="w-full px-4 lg:w-7/12 xl:w-8/12">
                 <div
                   className="mb-12 rounded-sm bg-white px-8 py-11 shadow-three dark:bg-gray-dark sm:p-[55px] lg:mb-5 lg:px-8 xl:p-[55px]"
@@ -24,7 +101,7 @@ const Contact = () => {
               "
                 >
                   <h2 className="mb-3 text-2xl font-bold text-black dark:text-white sm:text-3xl lg:text-2xl xl:text-3xl">
-                    Let’s Start a Conversation!
+                    {header}
                   </h2>
                   <p className="mb-12 text-base font-medium text-body-color">
                     We’d love to hear from you! Whether you have questions about
@@ -82,16 +159,22 @@ const Contact = () => {
                       </div>
                       <div className="w-full px-4">
                         <button className="rounded-sm bg-primary px-9 py-4 text-base font-medium text-white shadow-submit duration-300 hover:bg-primary/90 dark:shadow-submit-dark">
-                          Submit Ticket
+                          Submit
                         </button>
                       </div>
                     </div>
                   </form>
                 </div>
               </div>
-              <div className="w-full px-4 lg:w-5/12 xl:w-4/12">
-                <NewsLatterBox />
-              </div>
+              {showNewsLetter ? (
+                <div className="w-full px-4 lg:w-5/12 xl:w-4/12">
+                  <NewsLatterBox />
+                </div>
+              ) : (
+                <div className="relative z-10 rounded-sm bg-white p-8 shadow-three dark:bg-gray-dark sm:p-11 lg:p-8 xl:p-11">
+                  <ContactIconsList />
+                </div>
+              )}
             </div>
           </div>
         </section>
