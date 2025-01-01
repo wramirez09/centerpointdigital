@@ -2,6 +2,7 @@
 import { Container, Grid } from '@mantine/core';
 import Image from 'next/image';
 import Link from 'next/link';
+import SectionTitle from '../Common/SectionTitle';
 
 const Hero = () => {
   return (
@@ -13,24 +14,33 @@ const Hero = () => {
         <Container size="xl">
           <Grid>
             <Grid.Col span={{ base: 12, xs: 6 }}>
-              <h1 className="mb-5 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
+              {/* <h1 className="mb-5 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
                 Transforming Vision into Digital Reality
               </h1>
               <p className="mb-12 text-base !leading-relaxed text-body-color dark:text-body-color-dark sm:text-lg md:text-xl">
                 From design to deployment, we build seamless digital experiences
                 that elevate brands and drive results. Let’s bring your ideas to
                 life with precision, performance, and impact.
-              </p>
-              <div className="flex flex-col items-center justify-start space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+              </p> */}
+              <SectionTitle
+                size="5rem"
+                width="100%"
+                mb="2rem"
+                title={'Transforming Vision into Digital Reality'}
+                paragraph={
+                  ' From design to deployment, we build seamless digital experiences that elevate brands and drive results. Let’s bring your ideas to life with precision, performance, and impact.'
+                }
+              />
+              <div className="flex flex-col items-center justify-start space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 mb-12">
                 <Link
                   href="#contact"
-                  className="rounded-sm bg-primary px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-primary/80"
+                  className="rounded-sm bg-primary px-6 py-2 md:px-8 md:py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-primary/80"
                 >
                   Contact Us
                 </Link>
                 <Link
                   href="#features"
-                  className="inline-block rounded-sm bg-black px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-black/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/5"
+                  className="inline-block rounded-sm bg-black px-6 py-2 md:px-8 md:py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-black/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/5"
                 >
                   Learn More
                 </Link>
