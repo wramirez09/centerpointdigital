@@ -48,7 +48,7 @@ const Header = () => {
     >
       <div className="container">
         <div className="relative md:px-5 flex items-center justify-between">
-          <div className="w-80 max-w-full px-4 xl:mr-12 ">
+          <div className="w-full md:w-80 max-w-full px-4 xl:mr-12 ">
             <Link
               href="/"
               className={`flex items-center justify-center header-logo block w-full flex gap-3 w-60 ${
