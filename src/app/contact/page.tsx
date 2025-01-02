@@ -1,12 +1,12 @@
-import Breadcrumb from "@/components/Common/Breadcrumb";
-import Contact from "@/components/Contact";
+import Breadcrumb from '@/components/Common/Breadcrumb';
+import Contact from '@/components/Contact';
 
-import { Metadata } from "next";
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title:
-    "Center Point Digital | Custom Software Development, Design & Digital Marketing Solutions",
-  description: "Software | Marketing",
+    'Center Point Digital | Custom Software Development, Design & Digital Marketing Solutions',
+  description: 'Software | Marketing',
   // other metadata
 };
 

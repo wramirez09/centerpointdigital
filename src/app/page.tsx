@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     'Center Point Digital | Custom Software Development, Design & Digital Marketing Solutions',
   description:
     'Center Point Digital | Custom Software Development, Design & Digital Marketing Solutions',
+  openGraph: {
+    images: ['./images/hero/draw.svg'],
+  },
   // other metadata
 };
 
@@ -28,23 +31,22 @@ export default function Home() {
     <>
       <ScrollUp />
       <Hero />
-      <div className="container">
-        <Features />
-        <Space h="xl" />
-        <Container size={'xl'}>
-          <NewsLatterBox />
-        </Container>
-        <Space h="xl" />
-        {/* <Video /> */}
-        {/* <Brands /> */}
-        <AboutSectionOne />
-        {/* <Team /> */}
-        {/* <AboutSectionTwo /> */}
-        {/* <Testimonials /> */}
-        {/*<Pricing /> */}
-        {/* <Blog /> */}
-        <Contact showNewsLetter={false} />
-      </div>
+
+      <Features />
+      <Space h="xl" />
+      <Container size={'xl'}>
+        <NewsLatterBox />
+      </Container>
+      <Space h="xl" />
+      {/* <Video /> */}
+      {/* <Brands /> */}
+      <AboutSectionOne />
+      {/* <Team /> */}
+      {/* <AboutSectionTwo /> */}
+      {/* <Testimonials /> */}
+      {/*<Pricing /> */}
+      {/* <Blog /> */}
+      <Contact showNewsLetter={false} />
     </>
   );
 }

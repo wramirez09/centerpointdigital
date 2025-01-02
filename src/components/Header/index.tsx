@@ -47,7 +47,7 @@ const Header = () => {
       }`}
     >
       <div className="container">
-        <div className="relative px-5 flex items-center justify-between">
+        <div className="relative md:px-5 flex items-center justify-between">
           <div className="w-80 max-w-full px-4 xl:mr-12 ">
             <Link
               href="/"
