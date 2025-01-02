@@ -28,21 +28,23 @@ export default function Home() {
     <>
       <ScrollUp />
       <Hero />
-      <Features />
-      <Space h="xl" />
-      <Container size={'xl'}>
-        <NewsLatterBox />
-      </Container>
-      <Space h="xl" />
-      {/* <Video /> */}
-      {/* <Brands /> */}
-      <AboutSectionOne />
-      {/* <Team /> */}
-      {/* <AboutSectionTwo /> */}
-      {/* <Testimonials /> */}
-      {/*<Pricing /> */}
-      {/* <Blog /> */}
-      <Contact showNewsLetter={false} />
+      <div className="container">
+        <Features />
+        <Space h="xl" />
+        <Container size={'xl'}>
+          <NewsLatterBox />
+        </Container>
+        <Space h="xl" />
+        {/* <Video /> */}
+        {/* <Brands /> */}
+        <AboutSectionOne />
+        {/* <Team /> */}
+        {/* <AboutSectionTwo /> */}
+        {/* <Testimonials /> */}
+        {/*<Pricing /> */}
+        {/* <Blog /> */}
+        <Contact showNewsLetter={false} />
+      </div>
     </>
   );
 }
