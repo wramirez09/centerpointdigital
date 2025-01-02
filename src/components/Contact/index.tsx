@@ -151,7 +151,7 @@ const Contact: React.FC<ContactProps> = ({
           id="contact"
           className="overflow-hidden py-16 md:py-20 lg:py-28 w-full"
         >
-          <div className="container w-full">
+          <div className="container w-full px-7 md:px-5">
             <div className={`-mx-4 md:flex flex-wrap`}>
               <div className="w-full md:px-4 lg:w-7/12 xl:w-8/12">
                 <div

@@ -7,7 +7,7 @@ const NewsLatterBox = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="relative z-10 rounded-sm bg-white p-8 shadow-three dark:bg-gray-dark sm:p-11 lg:p-8 xl:p-11 md:mx-4">
+    <div className="relative z-10 rounded-sm bg-white p-10 shadow-three dark:bg-gray-dark sm:p-11 lg:p-8 xl:p-11 mx-4">
       <Container size={'sm'}>
         <h3 className="mb-4 text-2xl font-bold leading-tight text-black dark:text-white">
           Exclusive Offer: Special Discount for First-Time Clients!
