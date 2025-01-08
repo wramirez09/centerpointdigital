@@ -3,6 +3,7 @@ import Breadcrumb from "@/components/Common/Breadcrumb";
 import { Metadata } from "next";
 import ProjectCard from "@/components/Projects/ProjectCard";
 import ProjectHero from "@/components/Projects/ProjectHero";
+import projectsData from "@/components/Projects/projectsData";
 
 export const metadata: Metadata = {
   title:
@@ -20,7 +21,11 @@ const Projects = () => {
       />
       <div className="container my-10 lg:my-20">
         <ProjectHero />
-        <ProjectCard />
+        <div className="flex flex-col items-center gap-5">
+          {projectsData.map((project, index) => (
+            <ProjectCard key={index} project={project} />
+          ))}
+        </div>
       </div>
 
 
