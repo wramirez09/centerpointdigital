@@ -53,7 +53,7 @@ const projectsData: Project[] = [
     description: "Discover NoteDoctorAI, the premier provider of AI-driven solutions for healthcare. Revolutionizing medical coding with advanced technology to improve accuracy, efficiency, and profitability for healthcare organizations worldwide.",
     image: "/images/projects/notedoctor.png",
     link: "https://notedoctor.ai/",
-    tags: ["AI", "Healthcare"],
+    tags: ["Full Stack", "Web Design & Development", "AI", "Healthcare"],
     stacks: [
       <IconBrandHtml5 color="white"/>,
       <IconBrandFigma color="white"/>,
@@ -64,14 +64,14 @@ const projectsData: Project[] = [
       <IconSitemap color="white"/>,
       <IconAi color="white"/>
     ],
-    methods: ['Agile Development', 'Unit Testing', 'A/B Testing', 'SEO']
+    methods: ['Agile Development', 'Unit Testing', 'Stakeholder Collaboration', 'SEO']
   },
   {
     title: "Reaps Ink",
     description: "Mobile Tattoo Studio: Professional Tattooing Wherever You Are – Bold, Safe, and Personalized Art Delivered to You.",
     image: "/images/projects/reaps.png",
     link: "https://reaps-tattoo.pages.dev/",
-    tags: ["E-commerce", "Art", "Gallery"],
+    tags: ["E-commerce", "Web Design & Development", "Art", "Gallery"],
     stacks: [
       <IconBrandHtml5 color="white"/>,
       <IconBrandCss3 color="white"/>,
@@ -83,14 +83,14 @@ const projectsData: Project[] = [
       <IconBrandFramerMotion color="white"/>,
       <IconBrandCloudflare color="white"/>,
     ],
-    methods: ['Agile Development', 'Unit Testing', 'A/B Testing', 'Edge Development']
+    methods: ['Agile Development', 'Responsive Design', 'A/B Testing', 'Edge Development']
   },
   {
     title: "RG Maintanence",
     description: "RG Maintanence is your trusted partner for all construction needs. From residential homes to commercial spaces, we specialize in delivering high-quality, eco-friendly projects that combine innovation and functionality. With a team of skilled professionals and over a decade of industry experience, we ensure every project is completed on time and within budget. Explore our portfolio or contact us today to start your next project!",
     image: "/images/projects/rb.png",
     link: "https://rb-construction.pages.dev/",
-    tags: ["Construction", "AI-Powered Platform"],
+    tags: ["Construction", "Web Design & Development", "AI-Powered Platform"],
     stacks: [
       <IconBrandHtml5 color="white"/>,
       <IconBrandCss3 color="white"/>,

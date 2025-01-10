@@ -43,11 +43,11 @@ const ProjectCard = ({project}: {project: Project}) => {
       </div>
       {isShow && (
         <>
-          <div className="flex flex-col items-center w-full gap-3 md:flex-row">
+          <div className="flex flex-col items-start w-full gap-3 md:items-center md:flex-row md:flex-wrap">
             {project.tags.map((tag, index) => (
               <div key={index} className="flex items-center gap-2 rounded-[100px] border border-[#2b2b2b] py-4 px-[18px]">
                 <img src="/images/icon/chart.svg" alt="chart_icon" />
-                <div className="text-lg text-[#A6A6A6]">{tag}</div>
+                <div className="text-sm sm:text-lg text-[#A6A6A6]">{tag}</div>
               </div>
             ))}
           </div>
