@@ -3,11 +3,12 @@ import Breadcrumb from "@/components/Common/Breadcrumb";
 import { Metadata } from "next";
 import ProjectCard from "@/components/Projects/ProjectCard";
 import ProjectHero from "@/components/Projects/ProjectHero";
+import projectsData from "@/components/Projects/projectsData";
 
 export const metadata: Metadata = {
   title:
-    "Blog Page | Custom Software Development, Design & Digital Marketing Solutions",
-  description: "Software | Marketing",
+    "Projects Page | Custom Software Development, Design & Digital Marketing Solutions",
+  description: "Explore the portfolio of Center Point Digital, specializing in AI-powered applications. View e-commerce and SaaS projects.",
   // other metadata
 };
 
@@ -20,7 +21,11 @@ const Projects = () => {
       />
       <div className="container my-10 lg:my-20">
         <ProjectHero />
-        <ProjectCard />
+        <div className="flex flex-col items-center gap-5">
+          {projectsData.map((project, index) => (
+            <ProjectCard key={index} project={project} />
+          ))}
+        </div>
       </div>
 
 
