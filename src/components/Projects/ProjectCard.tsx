@@ -1,7 +1,8 @@
 'use client';
 
 import { Project } from '@/types/project';
-import { IconBrandFigma, IconBrandHtml5 } from '@tabler/icons-react';
+import { IconBrandFigma, IconBrandHtml5, IconLink } from '@tabler/icons-react';
+import Link from 'next/link';
 import React from 'react';
 
 
@@ -23,9 +24,14 @@ const ProjectCard = ({project}: {project: Project}) => {
         <div className="absolute w-full h-full top-0 left-0 bg-gradient-to-b from-transparent to-[#0f0f0f] rounded-[20px]"></div>
       </div>
       <div className="flex flex-row items-center justify-between w-full">
-        <div className="text-lg font-semibold text-white capitalize sm:text-3xl">
-          {project.title}
-        </div>
+        <Link href={project.link}>
+          <div className="flex font-semibold text-white capitalize ftext-lg sm:text-3xl">
+            {project.title}
+            <div className=''>
+              <IconLink className='h-4 sm:h-6'/>
+            </div>
+          </div>
+        </Link>
         <div className="flex items-center gap-3">
           <div className="hidden text-lg text-gray-600 sm:block">Show<span> {isShow ? 'Less' : 'More'}</span></div>
           <div className="p-[1px] rounded-full bg-gradient-to-t from-transparent to-[#29334a] cursor-pointer" onClick={showContent}>
@@ -51,7 +57,7 @@ const ProjectCard = ({project}: {project: Project}) => {
               <div className="flex justify-center text-xl font-medium text-white lg:justify-start">
                 Project Description
               </div>
-              <div className="flex justify-center text-sm sm:text-lg text-[#A6A6A6]">
+              <div className="flex justify-center sm:justify-start text-sm sm:text-lg text-[#A6A6A6]">
                 {project.description}
               </div>
             </div>

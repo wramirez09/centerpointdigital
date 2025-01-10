@@ -7,8 +7,8 @@ import projectsData from "@/components/Projects/projectsData";
 
 export const metadata: Metadata = {
   title:
-    "Blog Page | Custom Software Development, Design & Digital Marketing Solutions",
-  description: "Software | Marketing",
+    "Projects Page | Custom Software Development, Design & Digital Marketing Solutions",
+  description: "Explore the portfolio of Center Point Digital, specializing in AI-powered applications. View e-commerce and SaaS projects.",
   // other metadata
 };
 
