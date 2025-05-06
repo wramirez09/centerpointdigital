@@ -19,7 +19,7 @@ const Features = () => {
             <SectionTitle
               width="100%"
               title="Comprehensive Digital Solutions for Businesses"
-              paragraph="we specialize in providing full-scale digital solutions designed to help Businesses needs"
+              paragraph="we specialize in providing full-scale digital solutions designed to help Businesses Grow"
               center
             />
           </motion.div>

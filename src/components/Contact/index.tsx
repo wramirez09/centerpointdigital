@@ -120,7 +120,6 @@ const Contact: React.FC<ContactProps> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   async function sendEmail() {
-    console.log(formValues);
     if (formValues.name !== '') {
       setIsLoading(true);
       emailjs
@@ -262,7 +261,7 @@ const Contact: React.FC<ContactProps> = ({
                   <NewsLatterBox />
                 </div>
               ) : (
-                <div className="relative z-10 rounded-sm bg-white p-8 shadow-three dark:bg-gray-dark sm:p-11 lg:p-8 xl:p-11">
+                <div className="relative z-10 rounded-sm bg-white p-1 shadow-three dark:bg-gray-dark sm:p-11 lg:p-8 xl:p-11 xl:pb-5">
                   <ContactIconsList />
                 </div>
               )}
