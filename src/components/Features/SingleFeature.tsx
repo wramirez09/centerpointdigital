@@ -13,7 +13,7 @@ const SingleFeature = ({ feature }: { feature: Feature }) => {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
     >
-      <div className="w-full">
+      <div className="w-full mb-12">
         <div className="wow fadeInUp" data-wow-delay=".15s">
           <div className="mb-10 flex h-[70px] w-[70px] items-center justify-center rounded-md bg-primary bg-opacity-10 text-primary">
             {icon}

@@ -30,7 +30,8 @@
     "react-lightgallery": "^0.9.0",
     "react-loader-spinner": "^6.1.6",
     "react-modal-video": "^2.0.1",
-    "react-multi-carousel": "^2.8.5"
+    "react-multi-carousel": "^2.8.5",
+    "react-tooltip": "^5.28.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.9",

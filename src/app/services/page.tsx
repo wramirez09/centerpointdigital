@@ -47,7 +47,7 @@ const ServicesPage = () => {
                 className="mb-9"
               />
             </Grid.Col>
-            <Grid.Col span={{ base: 12, xs: 5 }}>
+            <Grid.Col span={{ base: 12, xs: 6 }} offset={1}>
               {/* <Text c={'white'} mb="1rem" size="lg">
               Managing separate front-end, back-end, and database teams is a
               recipe for communication breakdowns, delays, and cost overruns.
@@ -57,7 +57,7 @@ const ServicesPage = () => {
                 center
                 spacing="md"
                 c="white"
-                size="md"
+                size="lg"
                 icon={
                   <ThemeIcon color="#6b63ff" size={24} radius="xl">
                     <IconCircleCheck
@@ -111,7 +111,7 @@ const ServicesPage = () => {
               />
             </Grid.Col>
 
-            <Grid.Col span={{ base: 12, xs: 5 }}>
+            <Grid.Col span={{ base: 12, xs: 6 }}>
               {/* <Text variant="p" c="white" mb={'1rem'} size="lg">
               Great UX/UI design is the key to creating successful digital
               products. We focus on understanding your users' needs and
@@ -121,7 +121,7 @@ const ServicesPage = () => {
               <List
                 center
                 spacing="md"
-                size="md"
+                size="lg"
                 c="white"
                 icon={
                   <ThemeIcon color="#6b63ff" size={24} radius="xl">
@@ -161,7 +161,7 @@ const ServicesPage = () => {
               </List>
             </Grid.Col>
 
-            <Grid.Col span={{ base: 12, xs: 5 }}>
+            <Grid.Col span={{ base: 12, xs: 5 }} offset={1}>
               <Image
                 src="./images/services/ui.svg"
                 width="600"
@@ -193,7 +193,7 @@ const ServicesPage = () => {
                 className="mb-9"
               />
             </Grid.Col>
-            <Grid.Col span={{ base: 12, xs: 5 }}>
+            <Grid.Col span={{ base: 12, xs: 6 }} offset={1}>
               {/* <Text variant="p" c="white" mb={'1rem'} size="lg">
               In today's competitive digital landscape, it's crucial to have a
               strong online presence. We help you overcome common challenges,
@@ -201,7 +201,7 @@ const ServicesPage = () => {
             </Text> */}
               <List
                 center
-                size="md"
+                size="lg"
                 spacing="md"
                 c="white"
                 icon={

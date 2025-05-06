@@ -27,14 +27,25 @@ const AboutSectionOne = () => {
       transition={{ duration: 2 }}
     >
       <Container size={'xl'}>
+        <div className="border-b border-body-color/[.15] dark:border-white/[.15] md:pt-20 lg:pt-28">
+          <SectionTitle
+            width="100%"
+            title={'Digital Solutions for Businesses of Any Size and Type'}
+            paragraph={
+              "Whether you're a startup or an established enterprise, Center Point Digital provides comprehensive digital solutions to help you achieve your business objectives. From building scalable websites and web apps to implementing targeted digital marketing campaigns, we are here to help your business grow."
+            }
+          ></SectionTitle>
+        </div>
+      </Container>
+      <Container size={'xl'}>
         <section id="about" className="pt-16 md:pt-20 lg:pt-25">
           <div className="container">
             <div className="border-b border-body-color/[.15] dark:border-white/[.15] md:pb-20 lg:pb-28">
               <div className="-mx-4 flex flex-wrap items-center">
                 <div className="w-full px-4 lg:w-1/2">
                   <SectionTitle
-                    title="Comprehensive Digital Solutions for Agencies and Businesses of any Size and type"
-                    paragraph=""
+                    title="Our Robust Tech Stack & Expertise"
+                    paragraph="Our full-stack development team utilizes a robust tech stack including Angular, Next.js, Node, and more to build scalable websites, web apps, and mobile solutions. Specific Services Include:"
                     mb="35px"
                     size="35"
                   />
@@ -45,16 +56,15 @@ const AboutSectionOne = () => {
                   >
                     <div className="mx-[-12px] flex flex-wrap">
                       <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                        <List text="Building scalable websites, web apps, and mobile solutions" />
-                        <List text="Angular, Next.js, Node, Java, and more for a robust tech stack." />
                         <List text="CMS development (Wordpress)" />
-                        <List text="API development and intagration" />
+                        <List text="API development and integration" />
+                        <List text="Tailored SEO and engaging, targeted content" />
+                        <List text="Develop brand presence and engagement across social platforms" />
                       </div>
 
                       <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                        <List text="Tailored SEO and engaging, targeted content." />
-                        <List text="Develop brand presence and engagement across social platforms." />
                         <List text="Targeted traffic through Google Ads, social media ads, and retargeting" />
+                        <List text="Develop brand presence and engagement across social platforms." />
                         <List text="Email Marketing & CRM Integration" />
                       </div>
                     </div>
