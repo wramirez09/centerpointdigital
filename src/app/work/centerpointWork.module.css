@@ -122,7 +122,7 @@
 .featuredCard {
   border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
   display: grid; grid-template-columns: 1fr 1fr; cursor: pointer;
-  transition: border-color .3s;
+  transition: border-color .3s; text-decoration: none; color: inherit;
 }
 .featuredCard:hover { border-color: rgba(237,230,214,0.18); }
 .featuredImg {
@@ -180,6 +180,7 @@
 .projectCard {
   background: var(--bg3); position: relative; overflow: hidden;
   cursor: pointer; display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
 }
 .cardImg { height: 260px; position: relative; overflow: hidden; flex-shrink: 0; }
 .cardImgTall { height: 340px; }
