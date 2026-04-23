@@ -242,9 +242,9 @@ export default function CenterpointPage() {
               <div className={styles.tag}>Selected work</div>
               <h2 className={styles.h2}>Projects we're<br />proud of.</h2>
             </div>
-            <a href="#" className={styles.btnOutline}>
+            <Link href="/work" className={styles.btnOutline}>
               View all work <ArrowRight />
-            </a>
+            </Link>
           </div>
           <div className={styles.workGrid}>
             {/* Featured card */}
