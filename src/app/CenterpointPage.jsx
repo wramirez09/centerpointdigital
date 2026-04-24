@@ -99,8 +99,8 @@ export default function CenterpointPage() {
         <ul className={styles.navLinks}>
           <li><Link href="/">Home</Link></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="#work">Work</a></li>
-          <li><a href="#about">About</a></li>
+          <li><Link href="/work">Work</Link></li>
+          <li><Link href="/about">About</Link></li>
         </ul>
         <a href="#consult" className={styles.navCta}>Free Consultation</a>
       </nav>
