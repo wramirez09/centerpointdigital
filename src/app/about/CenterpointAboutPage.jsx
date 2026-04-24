@@ -127,6 +127,7 @@ export default function CenterpointAboutPage() {
               <p className={styles.storyP}>CenterPoint started in 2018 when our founders got tired of watching great products fail because of bad digital execution. Too many startups were being sold overpriced, underdelivered agency work — or settling for templates that made them look like everyone else.</p>
               <p className={styles.storyP}>We set out to do the opposite: a small, focused team that works directly with founders, moves fast, and takes quality personally. No account managers, no hand-offs, no wasted weeks. Just sharp people doing the work.</p>
               <p className={styles.storyP}>Six years and 120+ projects later, that's still what we are.</p>
+              <p className={styles.storyP}>More recently, that same approach has shaped how we build AI — designing and shipping production RAG applications and LLM-powered features for clients who want real results, not demos.</p>
             </div>
             <div>
               <p className={styles.storyPull}>

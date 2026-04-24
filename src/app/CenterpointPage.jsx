@@ -8,15 +8,16 @@ import styles from './centerpoint.module.css';
 const SERVICES = [
   { num: '01', name: 'Web Design & Development', sub: 'Fast, beautiful sites that convert visitors into customers' },
   { num: '02', name: 'Mobile Apps',              sub: 'Native-quality iOS & Android from MVP to full product' },
-  { num: '03', name: 'Branding & Identity',      sub: 'Logos, visual systems, and guidelines built to last' },
-  { num: '04', name: 'SEO & Digital Marketing',  sub: 'Organic growth strategies that compound over time' },
-  { num: '05', name: 'UI/UX Design',             sub: 'Research-led design that reduces friction and lifts retention' },
-  { num: '06', name: 'Social Media Management',  sub: 'On-brand content that builds community and drives leads' },
+  { num: '03', name: 'AI & RAG Applications',   sub: 'Custom LLM-powered apps and retrieval pipelines built for production' },
+  { num: '04', name: 'Branding & Identity',      sub: 'Logos, visual systems, and guidelines built to last' },
+  { num: '05', name: 'SEO & Digital Marketing',  sub: 'Organic growth strategies that compound over time' },
+  { num: '06', name: 'UI/UX Design',             sub: 'Research-led design that reduces friction and lifts retention' },
+  { num: '07', name: 'Social Media Management',  sub: 'On-brand content that builds community and drives leads' },
 ];
 
 const TICKER_ITEMS = [
-  'Web Design', 'Mobile Apps', 'Branding', 'SEO & Marketing', 'UI/UX Design', 'Social Media',
-  'Web Design', 'Mobile Apps', 'Branding', 'SEO & Marketing', 'UI/UX Design', 'Social Media',
+  'Web Design', 'Mobile Apps', 'AI Applications', 'Branding', 'SEO & Marketing', 'UI/UX Design', 'RAG Pipelines', 'Social Media',
+  'Web Design', 'Mobile Apps', 'AI Applications', 'Branding', 'SEO & Marketing', 'UI/UX Design', 'RAG Pipelines', 'Social Media',
 ];
 
 const VALUES = [
@@ -116,8 +117,8 @@ export default function CenterpointPage() {
         </h1>
         <div className={styles.heroFooter}>
           <p className={styles.heroSub}>
-            We help small businesses and startups ship beautiful, high-performing
-            digital products — from brand identity to launch and beyond.
+            We help startups and growing businesses ship websites, mobile apps, and
+            AI-powered products — from brand identity to production RAG pipelines.
           </p>
           <div className={styles.heroCtaGroup}>
             <a href="#consult" className={styles.btnAmber}>Book a free call</a>
@@ -342,6 +343,7 @@ export default function CenterpointPage() {
                         <option value="">Select a service</option>
                         <option>Web Design &amp; Development</option>
                         <option>Mobile App</option>
+                        <option>AI &amp; RAG Application</option>
                         <option>Branding &amp; Identity</option>
                         <option>SEO &amp; Digital Marketing</option>
                         <option>UI/UX Design</option>
@@ -406,6 +408,7 @@ export default function CenterpointPage() {
             <ul>
               <li><a href="#services">Web Development</a></li>
               <li><a href="#services">Mobile Apps</a></li>
+              <li><a href="#services">AI &amp; RAG Apps</a></li>
               <li><a href="#services">Branding</a></li>
               <li><a href="#services">SEO &amp; Marketing</a></li>
               <li><a href="#services">UI/UX Design</a></li>

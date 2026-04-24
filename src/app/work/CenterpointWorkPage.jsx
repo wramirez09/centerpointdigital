@@ -10,6 +10,7 @@ const FILTERS = [
   { id: 'all',      label: 'All Work' },
   { id: 'web',      label: 'Web Design' },
   { id: 'mobile',   label: 'Mobile Apps' },
+  { id: 'ai',       label: 'AI & RAG' },
   { id: 'branding', label: 'Branding' },
   { id: 'seo',      label: 'SEO & Marketing' },
   { id: 'uiux',     label: 'UI/UX' },
