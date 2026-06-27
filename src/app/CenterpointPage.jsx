@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './centerpoint.module.css';
+import PROJECTS from './work/projects';
 
 /* ─── DATA ─────────────────────────────────────────────── */
 const SERVICES = [
@@ -26,11 +28,7 @@ const VALUES = [
   { title: 'Long-term partnership',   body: "We grow with our clients. The relationship doesn't end at launch — it starts there." },
 ];
 
-const WORK = [
-  { label: 'Website redesign', tag: 'Web Design',  title: 'Flowbase Rebrand',  desc: 'Full website redesign and brand refresh for a SaaS startup', bg: '#111009', size: 'tall' },
-  { label: 'Mobile app',       tag: 'Mobile App',  title: 'Pulse Tracker',     desc: 'iOS health app from MVP to App Store',                         bg: '#0d0e12', size: 'short' },
-  { label: 'Brand identity',   tag: 'Branding',    title: 'Nordvik Identity',   desc: 'End-to-end brand system for a Scandinavian brand',             bg: '#120d09', size: 'short' },
-];
+const WORK = PROJECTS.slice(0, 3);
 
 const STATS = [
   { num: '120+', lbl: 'projects shipped' },
@@ -249,31 +247,35 @@ export default function CenterpointPage() {
           </div>
           <div className={styles.workGrid}>
             {/* Featured card */}
-            <div
+            <Link href={`/work/${WORK[0].slug}`}
               className={`${styles.workCard} ${styles.workCardTall}`}
-              style={{ background: WORK[0].bg }}>
-              <div className={styles.workStripe} />
-              <div className={styles.workPlaceholder}>{WORK[0].label}</div>
+              style={{ background: WORK[0].imgBg }}>
+              {WORK[0].imgSrc
+                ? <Image src={WORK[0].imgSrc} alt={WORK[0].name} fill style={{ objectFit: WORK[0].imgObjectFit ?? 'cover' }} />
+                : <><div className={styles.workStripe} /><div className={styles.workPlaceholder}>{WORK[0].imgLabel}</div></>
+              }
               <div className={styles.workOverlay}>
                 <div className={styles.workTag}>{WORK[0].tag}</div>
-                <div className={styles.workTitle}>{WORK[0].title}</div>
+                <div className={styles.workTitle}>{WORK[0].name}</div>
                 <div className={styles.workDesc}>{WORK[0].desc}</div>
               </div>
-            </div>
+            </Link>
             {/* Stacked cards */}
             <div className={styles.workGridRight}>
               {WORK.slice(1).map((w) => (
-                <div key={w.title}
+                <Link key={w.slug} href={`/work/${w.slug}`}
                   className={`${styles.workCard} ${styles.workCardShort}`}
-                  style={{ background: w.bg }}>
-                  <div className={styles.workStripe} />
-                  <div className={styles.workPlaceholder}>{w.label}</div>
+                  style={{ background: w.imgBg }}>
+                  {w.imgSrc
+                    ? <Image src={w.imgSrc} alt={w.name} fill style={{ objectFit: w.imgObjectFit ?? 'cover' }} />
+                    : <><div className={styles.workStripe} /><div className={styles.workPlaceholder}>{w.imgLabel}</div></>
+                  }
                   <div className={styles.workOverlay}>
                     <div className={styles.workTag}>{w.tag}</div>
-                    <div className={styles.workTitle}>{w.title}</div>
+                    <div className={styles.workTitle}>{w.name}</div>
                     <div className={styles.workDesc}>{w.desc}</div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

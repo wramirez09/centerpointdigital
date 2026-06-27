@@ -606,6 +606,8 @@
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
   background: var(--bg3);
 }
 
@@ -631,7 +633,7 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: 32px;
-  background: linear-gradient(to top, rgba(10, 9, 6, 0.9) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(10, 9, 6, 0.97) 0%, rgba(10, 9, 6, 0.7) 45%, rgba(10, 9, 6, 0.25) 100%);
   opacity: 0;
   transition: opacity .3s;
 }
@@ -675,7 +677,7 @@
 
 .workDesc {
   font-size: 13px;
-  color: var(--muted);
+  color: rgba(237, 230, 214, 0.75);
   font-weight: 300;
   margin-top: 4px;
 }

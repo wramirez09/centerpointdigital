@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './centerpointWork.module.css';
 import { FEATURED_PROJECT, GRID_PROJECTS } from './projects';
 
@@ -112,8 +113,10 @@ export default function CenterpointWorkPage() {
           <div className={styles.featuredLabel}>Featured project</div>
           <Link href={`/work/${F.slug}`} className={styles.featuredCard}>
             <div className={styles.featuredImg} style={{ background: F.imgBg }}>
-              <div className={styles.featuredStripe} />
-              <div className={styles.featuredImgPlaceholder}>Full-site screenshot</div>
+              {F.imgSrc
+                ? <Image src={F.imgSrc} alt={F.hoverName} fill style={{ objectFit: 'cover' }} />
+                : <><div className={styles.featuredStripe} /><div className={styles.featuredImgPlaceholder}>Full-site screenshot</div></>
+              }
             </div>
             <div className={styles.featuredInfo}>
               <div>
@@ -169,8 +172,10 @@ export default function CenterpointWorkPage() {
                   className={`${styles.cardImg} ${p.tall ? styles.cardImgTall : ''}`}
                   style={{ background: p.imgBg }}
                 >
-                  <div className={styles.cardStripe} />
-                  <div className={styles.cardPlaceholder}>{p.imgLabel}</div>
+                  {p.imgSrc
+                    ? <Image src={p.imgSrc} alt={p.hoverName} fill style={{ objectFit: p.imgObjectFit ?? 'cover' }} />
+                    : <><div className={styles.cardStripe} /><div className={styles.cardPlaceholder}>{p.imgLabel}</div></>
+                  }
                   <div className={styles.cardHoverOverlay}>
                     <div className={styles.hoverTag}>{p.tag}</div>
                     <div className={styles.hoverName}>{p.hoverName}</div>

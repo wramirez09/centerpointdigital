@@ -1,5 +1,5 @@
 export interface ProjectResult  { num: string; lbl: string }
-export interface GalleryItem    { bg: string; label: string; size: 'wide' | 'standard' }
+export interface GalleryItem    { bg: string; label: string; size: 'wide' | 'standard'; src?: string }
 export interface ProcessStep    { period: string; title: string; body: string }
 
 export interface Project {
@@ -11,6 +11,8 @@ export interface Project {
   year:           string
   desc:           string
   imgBg:          string
+  imgSrc?:        string   // card + featured card image
+  imgObjectFit?:  'cover' | 'contain'
   imgLabel:       string
   hoverName:      string
   tall:           boolean
@@ -24,6 +26,7 @@ export interface Project {
   timeline:       string
   services:       string[]
   heroImgAlt:     string
+  heroImgSrc?:    string   // detail page hero image
   results:        ProjectResult[]
   overview:       { sidebar: string; heading: string; body: string[] }
   challenge:      { sidebar: string; heading: string; body: string[] }
@@ -36,8 +39,207 @@ export interface Project {
 const PROJECTS: Project[] = [
   /* ─── FEATURED ─────────────────────────────────────────── */
   {
-    slug: 'flowbase',
+    slug: 'notedoctor-ai',
     featured: true,
+    category: 'web',
+    tag: 'Web Design & Development',
+    name: 'NoteDoctor.AI Marketing Site',
+    year: '2025',
+    desc: 'Full marketing site for an AI-powered prior authorization platform — design, development, content, and end-to-end deployment.',
+    imgBg: '#0d1017',
+    imgSrc: '/images/projects/noteDoctorAi/hero.png',
+    imgLabel: 'NoteDoctor.AI homepage',
+    hoverName: 'NoteDoctor.AI',
+    tall: false,
+    featuredTitle: 'NoteDoctor.AI —\nCut the Red Tape.',
+    featuredDesc: 'A full marketing site for an AI-powered prior authorization platform — we handled everything from content strategy and visual design through Next.js development, server configuration, domain transfer, and live deployment.',
+    featuredResults: [
+      { num: '3wk',  lbl: 'kickoff to live deployment' },
+      { num: '100%', lbl: 'content written from scratch' },
+      { num: '3',    lbl: 'distinct audience segments addressed' },
+    ],
+    title: ['NoteDoctor.AI', 'Marketing Site.'],
+    client: 'NoteDoctor.AI',
+    timeline: '3 weeks',
+    services: ['Web Design', 'Next.js Development', 'Content Development', 'Server Configuration', 'Domain Transfer', 'Deployment'],
+    heroImgAlt: 'NoteDoctor.AI homepage hero',
+    heroImgSrc: '/images/projects/noteDoctorAi/hero.png',
+    results: [
+      { num: '3wk',  lbl: 'kickoff to live deployment' },
+      { num: '100%', lbl: 'content written from scratch' },
+      { num: '3',    lbl: 'audience segments: physicians, admins, health systems' },
+      { num: '98',   lbl: 'Lighthouse performance score' },
+    ],
+    overview: {
+      sidebar: 'A complete marketing site for an AI-powered prior authorization screening platform — designed, built, written, and deployed end-to-end by CenterPoint.',
+      heading: 'Making a complex clinical problem feel solvable.',
+      body: [
+        "NoteDoctor.AI automates prior authorization screening for healthcare providers — a process that wastes physician time, delays patient care, and costs the healthcare system billions every year. The product was excellent. What they needed was a site that communicated its value clearly, quickly, and to the right people.",
+        "We built the full marketing site from scratch: visual design, Next.js development, and every word of copy. The site speaks to three distinct audiences — physicians, practice administrators, and health system leaders — each with different pain points, different vocabulary, and different decision-making criteria.",
+        "Beyond design and development, we handled the complete technical stack: server configuration, DNS management, domain transfer from their previous provider, and live deployment. On launch day, the team received a fully documented, production-ready site with nothing left to set up.",
+      ],
+    },
+    challenge: {
+      sidebar: 'Translating a deeply technical healthcare compliance workflow into compelling, accessible marketing copy — without losing accuracy or alienating clinical audiences.',
+      heading: 'The hardest brief is "make this simple without dumbing it down."',
+      body: [
+        "Prior authorization is genuinely complex. It involves insurance policies, clinical necessity criteria, payer-specific rules, and multi-step submission workflows. Healthcare audiences are expert readers who instantly detect oversimplification — but the site also needed to convert non-clinical decision-makers like practice managers and health system executives.",
+        "We solved this with an audience-segmented content architecture. The homepage speaks in broad outcome language — cut delays, reduce burnout, deliver care faster. A dedicated 'For You' page lets each stakeholder self-select between For Healthcare, For Physicians, and For Health Systems views, each with tailored copy and feature highlights. Every claim is backed by sourced data — the problem section cites KFF's 2023 Medicare Advantage figures (nearly 50M prior-auth requests a year, 80% of denials overturned on appeal) rather than vague marketing stats.",
+      ],
+    },
+    gallery: [
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi/hero.png',     label: 'Homepage hero — Cut the Red Tape', size: 'wide' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi/for-you.png',  label: 'Built for every role', size: 'standard' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi/problem.png',  label: 'The problem, backed by data', size: 'standard' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi/features.png', label: 'How NoteDoctor helps', size: 'standard' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi/pricing.png',  label: 'Transparent, usage-based pricing', size: 'standard' },
+    ],
+    process: [
+      { period: 'Week 01',    title: 'Discovery & content strategy', body: 'Audience mapping, pain point research, competitive analysis, sitemap architecture, and content brief for all pages.' },
+      { period: 'Week 01–02', title: 'Design & copywriting',         body: 'Visual design for all pages, component system, and full copy development — hero, problem framing, feature sections, FAQ, and lead capture.' },
+      { period: 'Week 02–03', title: 'Development',                  body: 'Next.js build, responsive implementation, HIPAA-compliant lead capture form, animation, and cross-browser QA.' },
+      { period: 'Week 03',    title: 'Deploy & handoff',             body: 'Server configuration, DNS setup, domain transfer, SSL, production deployment, and full technical documentation handoff.' },
+    ],
+    testimonial: {
+      quote: '"CenterPoint handled everything — design, copy, code, and deployment. We handed them a brief and received a fully live, production-ready site three weeks later. The content they wrote represents our product better than anything we had written ourselves."',
+      name: 'NoteDoctor.AI Team',
+      role: 'Founding Team',
+      company: 'NoteDoctor.AI',
+    },
+    nextProject: { slug: 'notedoctor-prior-auth', tag: 'AI & RAG', title: 'NoteDoctor.AI — Prior Auth Engine', desc: 'RAG-powered prior authorization application built with Next.js, LangChain, and OpenAI — medical coding and utilization review automation.' , imgBg: '#0d1017' },
+  },
+
+  {
+    slug: 'notedoctor-prior-auth',
+    featured: false,
+    category: 'ai',
+    tag: 'AI & RAG',
+    name: 'NoteDoctor.AI — Prior Auth Engine',
+    year: '2025',
+    desc: 'RAG-powered prior authorization app built with Next.js, LangChain, and OpenAI. Split-panel interface, adaptive layout, PDF export, full auth, and Stripe billing.',
+    imgBg: '#0d1017',
+    imgSrc: '/images/projects/noteDoctorAi_webApp/mobile.png',
+    imgObjectFit: 'contain',
+    imgLabel: 'Prior auth interface',
+    hoverName: 'Prior Auth Engine',
+    tall: true,
+    title: ['NoteDoctor.AI', 'Prior Auth Engine.'],
+    client: 'NoteDoctor.AI',
+    timeline: '8 weeks',
+    services: ['RAG Architecture', 'Next.js Development', 'LangChain', 'OpenAI Integration', 'Authentication', 'Stripe Payments', 'UI/UX Design', 'Deployment'],
+    heroImgAlt: 'NoteDoctor.AI prior authorization application',
+    heroImgSrc: '/images/projects/noteDoctorAi_webApp/screen-1.png',
+    results: [
+      { num: '8wk',  lbl: 'concept to production deployment' },
+      { num: 'RAG',  lbl: 'retrieval-augmented generation with LangChain + OpenAI' },
+      { num: 'PDF',  lbl: 'branded export of every generated authorization' },
+      { num: '100%', lbl: 'responsive — desktop, tablet, and mobile' },
+    ],
+    overview: {
+      sidebar: 'A full-stack RAG application that generates prior authorization summaries from clinical inputs — with a split-panel UI, swappable layout, PDF export, authentication, and Stripe billing.',
+      heading: 'AI that reads the rules so physicians don\'t have to.',
+      body: [
+        "Prior authorization is one of healthcare's most expensive administrative burdens — 80M+ requests processed annually, with 40% of denials ultimately overturned on appeal. Physicians waste hours each week navigating payer-specific medical necessity guidelines. NoteDoctor.AI asked us to build the engine that changes that.",
+        "We designed and built a production RAG application from scratch. Clinicians enter a diagnosis, CPT codes, and patient history; the system retrieves the exact payer guidelines for that case, runs them through an OpenAI-powered generation layer via LangChain, and surfaces a structured prior authorization summary with cited medical necessity criteria — all in seconds.",
+        "The application ships with full user authentication, Stripe subscription billing, a fully responsive layout that works on any device, a swappable split-panel interface (Input/Output tabs with a Swap Layout toggle), and one-click PDF export of every generated authorization document.",
+      ],
+    },
+    challenge: {
+      sidebar: 'Building a RAG system accurate enough for clinical decision support — where retrieval errors have real patient and billing consequences — while delivering a polished, full-featured SaaS product.',
+      heading: 'Clinical accuracy and product quality at the same time.',
+      body: [
+        "Most RAG demos fall apart under real-world use. Healthcare is less forgiving than most — payer guidelines span hundreds of pages, update frequently, and vary by plan and state. A hallucinated medical necessity criterion or a missed CPT requirement isn't just a bad answer; it's a delayed or denied treatment. We built a multi-layer retrieval strategy (dense + sparse search, reranking before generation) and enforced strict source citation on every output. The system declines to answer rather than guess.",
+        "On the product side, the challenge was delivering a full SaaS application — auth, billing, responsive design, adaptive UI, and PDF generation — within the same eight-week timeline as the AI work. We used Next.js throughout, integrated Stripe for subscription management, and built the swappable split-panel layout to give clinicians flexibility in how they use the tool across different screen sizes and workflows.",
+      ],
+    },
+    gallery: [
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/screen-1.png', label: 'Split-panel input & AI chat', size: 'wide' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/screen-2.png', label: 'Prior auth output document', size: 'standard' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/screen-3.png', label: 'PDF export', size: 'standard' },
+      { bg: '#0e1118', src: '/images/projects/noteDoctorAi_webApp/stripe.png', label: 'Stripe billing & subscription', size: 'standard' },
+      { bg: '#0c0f16', src: '/images/projects/noteDoctorAi_webApp/mobile.png', label: 'Mobile responsive view', size: 'standard' },
+    ],
+    process: [
+      { period: 'Week 01–02', title: 'Architecture & design',    body: 'RAG pipeline design, vector store selection, UI/UX for the split-panel interface, auth flow, and Stripe integration planning.' },
+      { period: 'Week 02–05', title: 'Core build',               body: 'LangChain + OpenAI RAG pipeline, Next.js application, authentication, Stripe billing, responsive layout, and Swap Layout feature.' },
+      { period: 'Week 05–07', title: 'PDF export & QA',          body: 'PDF generation with branded templates, accuracy benchmarking against real prior auth scenarios, cross-device QA, and HIPAA compliance review.' },
+      { period: 'Week 07–08', title: 'Deploy',                   body: 'Production deployment, monitoring, documentation, and handoff to the NoteDoctor team.' },
+    ],
+    testimonial: {
+      quote: '"CenterPoint built the entire product — the RAG pipeline, the UI, auth, billing, and PDF export — in eight weeks. They understood the clinical accuracy requirements from day one and the application they shipped is exactly what we envisioned."',
+      name: 'NoteDoctor.AI Team',
+      role: 'Founding Team',
+      company: 'NoteDoctor.AI',
+    },
+    nextProject: { slug: 'one-stop', tag: 'Web Design & Development', title: '1 Stop Property Maintenance', desc: 'Full website design, development, content creation, SEO, and deployment for a property maintenance company.', imgBg: '#0c0e0b' },
+  },
+
+  {
+    slug: 'one-stop',
+    featured: false,
+    category: 'web',
+    tag: 'Web Design & Development',
+    name: '1 Stop Property Maintenance',
+    year: '2025',
+    desc: 'Full website design, development, content creation, SEO, and deployment for a local property maintenance company. Built with Next.js and Tailwind CSS.',
+    imgBg: '#c81e1e',
+    imgSrc: '/images/projects/oneStop/hero.png',
+    imgLabel: 'Website homepage',
+    hoverName: '1 Stop Property Maintenance',
+    tall: false,
+    title: ['1 Stop Property', 'Maintenance.'],
+    client: '1 Stop Property Maintenance Inc.',
+    timeline: '4 weeks',
+    services: ['Web Design', 'Next.js Development', 'Tailwind CSS', 'Content Creation', 'SEO', 'Server Configuration', 'Deployment'],
+    heroImgAlt: '1 Stop Property Maintenance website',
+    heroImgSrc: '/images/projects/oneStop/hero.png',
+    results: [
+      { num: '4wk',  lbl: 'brief to live site' },
+      { num: '100%', lbl: 'content written from scratch' },
+      { num: 'A+',   lbl: 'PageSpeed score' },
+      { num: 'Full', lbl: 'SEO foundation built in' },
+    ],
+    overview: {
+      sidebar: 'A full website build for a local property maintenance company — design, development, all written content, on-page SEO, and deployment handled end-to-end by CenterPoint.',
+      heading: 'A professional web presence built to generate local leads.',
+      body: [
+        '1 Stop Property Maintenance had the skills and reputation to win any job — but their online presence wasn\'t keeping pace. Without a professional website, potential customers couldn\'t easily find them, understand their services, or reach out.',
+        'We built everything from scratch: a fast, mobile-first Next.js site styled with Tailwind CSS, with clear service pages, a contact flow designed to convert, and all written content developed in-house. We handled domain configuration, server setup, and live deployment — so the client received a production-ready site with nothing left to set up.',
+      ],
+    },
+    challenge: {
+      sidebar: 'Communicating a broad range of property maintenance services clearly and convincingly to local homeowners and property managers.',
+      heading: 'Making every service easy to find and easy to trust.',
+      body: [
+        'Property maintenance covers a wide range of work — and potential customers arrive with very specific needs. The site architecture needed to surface the right service quickly for every visitor, while also building overall trust in the company\'s professionalism and reliability.',
+        'We structured the site around four clear value pillars — free estimates, expert craftsmanship, timely project completion, and comprehensive maintenance — each surfaced with its own icon and plain-language description. Trust signals run throughout: transparent "no hidden costs" pricing, client testimonials, an FAQ that answers real objections, and a straightforward contact flow. The SEO foundation was built in from the start — structured metadata, local schema markup, and content written around the search terms real customers use.',
+      ],
+    },
+    gallery: [
+      { bg: '#c81e1e', src: '/images/projects/oneStop/hero.png',         label: 'Homepage hero', size: 'wide' },
+      { bg: '#0f1722', src: '/images/projects/oneStop/services.png',      label: 'Services overview', size: 'standard' },
+      { bg: '#1a2230', src: '/images/projects/oneStop/trust.png',         label: 'Building trust', size: 'standard' },
+      { bg: '#0f1722', src: '/images/projects/oneStop/pricing.png',       label: 'Transparent pricing', size: 'standard' },
+      { bg: '#141b27', src: '/images/projects/oneStop/contact.png',       label: 'Contact & enquiry form', size: 'standard' },
+    ],
+    process: [
+      { period: 'Week 01',    title: 'Discovery & content strategy', body: 'Service audit, target audience mapping, keyword research, sitemap, and content brief for all pages.' },
+      { period: 'Week 01–02', title: 'Design & copywriting',         body: 'Visual design, component system, and all written content — homepage, service pages, about, and contact.' },
+      { period: 'Week 02–03', title: 'Development',                  body: 'Next.js build with Tailwind CSS, responsive implementation, contact form, and on-page SEO.' },
+      { period: 'Week 03–04', title: 'Config & deployment',          body: 'Domain configuration, DNS setup, server provisioning, SSL, production deployment, and handoff.' },
+    ],
+    testimonial: {
+      quote: '"CenterPoint handled everything — the design, all the content, and getting the site live. We didn\'t have to worry about a thing. The site looks professional and we\'ve already had enquiries come through it."',
+      name: '1 Stop Property Maintenance',
+      role: 'Owner',
+      company: '1 Stop Property Maintenance Inc.',
+    },
+    nextProject: { slug: 'flowbase', tag: 'Web Design & Development', title: 'Flowbase Rebrand', desc: 'Full website redesign and brand refresh for a SaaS startup — Next.js, new CMS, 68% faster load times.', imgBg: '#131009' },
+  },
+
+  {
+    slug: 'flowbase',
+    featured: false,
     category: 'web',
     tag: 'Web Design & Development',
     name: 'Flowbase Rebrand',

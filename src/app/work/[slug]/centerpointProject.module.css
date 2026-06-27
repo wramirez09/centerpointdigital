@@ -156,7 +156,9 @@
 .galleryLabel::before { content: ''; width: 16px; height: 1px; background: var(--faint); }
 .galleryRow1 { display: grid; grid-template-columns: 2fr 1fr; gap: 2px; background: var(--border); margin-bottom: 2px; }
 .galleryRow2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; background: var(--border); }
-.galleryImg { position: relative; overflow: hidden; background: var(--bg3); }
+.galleryImg { position: relative; overflow: hidden; background: var(--bg3); cursor: zoom-in; }
+.galleryImg img { transform: scale(1); }
+.galleryImg:hover img { transform: scale(1.06); }
 .galleryImg400 { height: 400px; }
 .galleryImg320 { height: 320px; }
 .gStripe {
