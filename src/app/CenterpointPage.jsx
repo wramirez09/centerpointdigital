@@ -2,6 +2,7 @@
 
 import { Fragment, useState } from 'react';
 import Link from 'next/link';
+import MobileMenu from '@/components/MobileMenu/MobileMenu';
 import Image from 'next/image';
 import styles from './centerpoint.module.css';
 import PROJECTS from './work/projects';
@@ -105,6 +106,7 @@ export default function CenterpointPage() {
           <li><Link href="/about">About</Link></li>
         </ul>
         <a href="#consult" className={styles.navCta}>Free Consultation</a>
+        <MobileMenu current="home" />
       </nav>
 
       {/* ── HERO ── */}

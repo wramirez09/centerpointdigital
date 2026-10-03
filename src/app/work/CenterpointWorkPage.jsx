@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import MobileMenu from '@/components/MobileMenu/MobileMenu';
 import Image from 'next/image';
 import styles from './centerpointWork.module.css';
 import { FEATURED_PROJECT, GRID_PROJECTS } from './projects';
@@ -46,6 +47,7 @@ export default function CenterpointWorkPage() {
           <li><a href="/#about">About</a></li>
         </ul>
         <a href="/#consult" className={styles.navCta}>Free Consultation</a>
+        <MobileMenu current="work" />
       </nav>
 
       {/* ── PAGE HEADER ── */}
@@ -128,15 +130,22 @@ export default function CenterpointWorkPage() {
             className={styles.projectGrid}
           >
             {GRID_PROJECTS.map(p => (
-              <Link key={p.slug} href={`/work/${p.slug}`} className={styles.projectCard}>
+              <Link key={p.slug} href={`/work/${p.slug}`} className={`${styles.projectCard} ${p.comingSoon ? styles.projectCardWide : ''}`}>
                 <div
                   className={`${styles.cardImg} ${p.tall ? styles.cardImgTall : ''}`}
                   style={{ background: p.imgBg }}
                 >
-                  {p.imgSrc
+                  {p.comingSoon && p.wideImgSrc
+                    ? <>
+                        {/* Full-row card: a wide banner, swapped for the regular image once the grid stacks. */}
+                        <Image src={p.wideImgSrc} alt={p.hoverName} fill sizes="100vw" className={styles.wideOnly} style={{ objectFit: 'cover' }} />
+                        <Image src={p.imgSrc} alt={p.hoverName} fill sizes="100vw" className={styles.narrowOnly} style={{ objectFit: 'cover' }} />
+                      </>
+                    : p.imgSrc
                     ? <Image src={p.imgSrc} alt={p.hoverName} fill style={{ objectFit: p.imgObjectFit ?? 'cover' }} />
                     : <><div className={styles.cardStripe} /><div className={styles.cardPlaceholder}>{p.imgLabel}</div></>
                   }
+                  {p.comingSoon && <span className={styles.comingSoonBadge}>Coming soon</span>}
                   <div className={styles.cardHoverOverlay}>
                     <div className={styles.hoverTag}>{p.tag}</div>
                     <div className={styles.hoverName}>{p.hoverName}</div>

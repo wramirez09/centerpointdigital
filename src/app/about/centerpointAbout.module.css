@@ -12,7 +12,8 @@
 
   font-family: var(--font-outfit, 'Outfit', sans-serif);
   background: var(--bg); color: var(--text);
-  overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  overflow-x: clip; /* not hidden: that makes .root a scroll container and breaks the sticky nav */ -webkit-font-smoothing: antialiased;
 }
 
 /* ─── NAV ─────────────────────────────────────────────── */

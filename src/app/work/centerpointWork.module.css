@@ -14,6 +14,7 @@
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
+  overflow-x: clip; /* not hidden: that makes .root a scroll container and breaks the sticky nav */
   -webkit-font-smoothing: antialiased;
 }
 
@@ -159,6 +160,13 @@
   cursor: pointer; display: flex; flex-direction: column;
   text-decoration: none; color: inherit;
 }
+.projectCardWide { grid-column: 1 / -1; }
+.narrowOnly { display: none; }
+.comingSoonBadge {
+  position: absolute; top: 16px; left: 16px; z-index: 2;
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 7px 12px; border-radius: 2px; background: var(--amber); color: var(--bg);
+}
 .cardImg { height: 340px; position: relative; overflow: hidden; flex-shrink: 0; }
 .cardImgTall { height: 340px; }
 .cardStripe {
@@ -236,6 +244,7 @@
 @media (max-width: 960px) {
   .nav { padding: 0 24px; }
   .navLinks { display: none; }
+  .navCta { display: none; }
   .pageHeader { padding: 64px 24px 56px; }
   .pageHeaderInner { grid-template-columns: 1fr; }
   .pageHeaderBg { display: none; }
@@ -246,6 +255,8 @@
   .fResults { flex-wrap: wrap; }
   .gridSection { padding: 48px 24px 80px; }
   .projectGrid { grid-template-columns: 1fr; }
+  .wideOnly { display: none; }
+  .narrowOnly { display: block; }
   .ctaInner { grid-template-columns: 1fr; padding: 64px 24px; }
   .footer { padding: 28px 24px; flex-direction: column; gap: 16px; text-align: center; }
 }

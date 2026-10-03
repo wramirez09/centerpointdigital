@@ -7,6 +7,7 @@
 
 import styles from './centerpointAbout.module.css';
 import Link from 'next/link';
+import MobileMenu from '@/components/MobileMenu/MobileMenu';
 
 export const metadata = {
   title: 'About — CenterPoint Digital',
@@ -87,6 +88,7 @@ export default function CenterpointAboutPage() {
           <li><Link href="/about" className={styles.navLinkActive}>About</Link></li>
         </ul>
         <Link href="/#consult" className={styles.navCta}>Free Consultation</Link>
+        <MobileMenu current="about" />
       </nav>
 
       {/* ── HERO ── */}

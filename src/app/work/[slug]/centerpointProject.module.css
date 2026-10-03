@@ -14,6 +14,7 @@
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
+  overflow-x: clip; /* not hidden: that makes .root a scroll container and breaks the sticky nav */
   -webkit-font-smoothing: antialiased;
 }
 
@@ -292,6 +293,7 @@
 @media (max-width: 960px) {
   .nav { padding: 0 24px; }
   .navLinks { display: none; }
+  .navCta { display: none; }
   .breadcrumb, .projectHero, .contentBody, .processSection,
   .gallerySection, .nextProject { padding-left: 24px; padding-right: 24px; }
   .divider { margin: 0 24px; }
@@ -302,6 +304,44 @@
   .galleryImg { height: auto; aspect-ratio: 16 / 10; }
   .footer { padding: 28px 24px; flex-direction: column; gap: 16px; text-align: center; }
   .ctaInner { padding: 64px 24px; }
+}
+
+/* ─── HIGHLIGHTS ──────────────────────────────────────── */
+.highlightList { display: flex; flex-direction: column; gap: 72px; }
+.highlight {
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 56px; align-items: center;
+  padding: 40px; border: 1px solid var(--border); border-radius: 6px;
+  background: linear-gradient(135deg, var(--amber-d), transparent 55%), var(--bg2);
+}
+.highlightFlip .highlightCopy { order: 2; }
+.highlightEyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--amber);
+}
+.highlightHeading {
+  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-size: clamp(26px, 2.6vw, 36px); font-weight: 800; letter-spacing: -.02em; line-height: 1.1;
+  margin: 12px 0 14px;
+}
+.highlightBody { font-size: 16px; line-height: 1.65; color: rgba(237,230,214,0.78); margin: 0 0 18px; }
+.highlightPoints { list-style: none; margin: 0 0 22px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.highlightPoints li {
+  position: relative; padding-left: 22px;
+  font-size: 15px; line-height: 1.55; color: rgba(237,230,214,0.72);
+}
+.highlightPoints li::before {
+  content: ''; position: absolute; left: 0; top: .6em; width: 10px; height: 2px; background: var(--amber);
+}
+.highlightImg {
+  position: relative; display: block; width: 100%; aspect-ratio: 16 / 10; padding: 0;
+  border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+  background: #0d1017; cursor: zoom-in;
+}
+.highlightImg img { transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+.highlightImg:hover img { transform: scale(1.03); }
+.highlightImg:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+@media (max-width: 960px) {
+  .highlight { grid-template-columns: 1fr; gap: 28px; padding: 24px; }
+  .highlightFlip .highlightCopy { order: 0; }
 }
 
 /* ─── BEFORE / AFTER ──────────────────────────────────── */

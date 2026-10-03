@@ -31,7 +31,7 @@ function Thumb({ img, className, onOpen }: { img: GalleryItem; className: string
     <button type="button" className={`${className} ${styles.galleryButton}`} style={{ background: img.bg }}
       onClick={onOpen} aria-label={`View larger: ${img.label}`}>
       <Image src={img.src} alt={img.label} fill sizes="(max-width: 960px) 100vw, 50vw"
-        style={{ objectFit: 'cover', objectPosition: 'top center', transition: 'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)' }} />
+        style={{ objectFit: img.fit ?? 'cover', objectPosition: img.fit === 'contain' ? 'center' : 'top center', transition: 'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)' }} />
     </button>
   );
 }

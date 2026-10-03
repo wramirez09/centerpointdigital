@@ -4,14 +4,22 @@ export interface FullImage      { src: string; width: number; height: number }
 export interface PageCapture    extends FullImage { label: string }
 export interface GalleryItem {
   bg: string; label: string; size: 'wide' | 'standard'; src?: string
+  /** 'contain' for cut-outs (e.g. phone screens) that must not be cropped. */
+  fit?: 'cover' | 'contain'
   /** Opens this full-page capture in the lightbox instead of the cropped thumbnail. */
   fullPage?: FullImage
+}
+export interface Highlight {
+  eyebrow: string; heading: string; body: string; points: string[]; tags?: string[]
+  /** width/height set the frame's proportions so the screen isn't cropped. */
+  image: { src: string; label: string; width?: number; height?: number; fullPage?: FullImage }
 }
 export interface Comparison     { label: string; before: FullImage; after: FullImage; beforeNote?: string; afterNote?: string }
 
 export interface Project {
   slug:           string
   featured:       boolean
+  comingSoon?:    boolean  // badge on cards; hides sections that need a shipped product
   category:       string
   tag:            string
   name:           string
@@ -20,6 +28,7 @@ export interface Project {
   imgBg:          string
   imgSrc?:        string   // card + featured card image
   imgObjectFit?:  'cover' | 'contain'
+  wideImgSrc?:    string   // banner for a full-row card (coming-soon cards span the grid)
   imgLabel:       string
   hoverName:      string
   tall:           boolean
@@ -37,9 +46,10 @@ export interface Project {
   heroPages?:     PageCapture[]  // full-page captures of every page, opened from the hero
   status?:        string     // shown in the hero meta, e.g. for spec work
   comparisons?:   Comparison[]  // before/after full-page captures
-  results:        ProjectResult[]
+  highlights?:    { label: string; heading: string; items: Highlight[] }  // callout section after the overview
+  results?:       ProjectResult[]
   overview:       { sidebar: string; heading: string; body: string[] }
-  challenge:      { sidebar: string; heading: string; body: string[] }
+  challenge?:     { sidebar: string; heading: string; body: string[] }
   gallery:        GalleryItem[]
   process?:       ProcessStep[]
   testimonial?:   { quote: string; name: string; role: string; company: string }
@@ -124,17 +134,17 @@ const PROJECTS: Project[] = [
       role: 'Founding Team',
       company: 'NoteDoctor.AI',
     },
-    nextProject: { slug: 'notedoctor-prior-auth', tag: 'AI & RAG', title: 'NoteDoctor.AI — Prior Auth Engine', desc: 'RAG-powered prior authorization application built with Next.js, LangChain, and OpenAI — medical coding and utilization review automation.' , imgBg: '#0d1017' },
+    nextProject: { slug: 'notedoctor-prior-auth', tag: 'AI · API · MCP', title: 'NoteDoctor.AI — Prior Auth Engine', desc: 'RAG-powered prior authorization app with a public screening API and an MCP server for Claude, Cursor, and ChatGPT.', imgBg: '#0d1017' },
   },
 
   {
     slug: 'notedoctor-prior-auth',
     featured: false,
     category: 'ai',
-    tag: 'AI & RAG',
+    tag: 'AI · API · MCP',
     name: 'NoteDoctor.AI — Prior Auth Engine',
     year: '2025',
-    desc: 'RAG-powered prior authorization readiness app built with Next.js, LangChain, and OpenAI. Structured reports with a documentation checklist, PDF export, saved reports, auth, and Stripe billing.',
+    desc: 'RAG-powered prior authorization readiness app built with Next.js, LangChain, and OpenAI, plus a public screening API and an MCP server that puts the engine inside Claude, Cursor, and ChatGPT.',
     imgBg: '#0d1017',
     imgSrc: '/images/projects/noteDoctorAi_webApp/request-summary.webp',
     imgLabel: 'Prior auth interface',
@@ -143,14 +153,14 @@ const PROJECTS: Project[] = [
     title: ['NoteDoctor.AI', 'Prior Auth Engine.'],
     client: 'NoteDoctor.AI',
     timeline: '8 weeks',
-    services: ['RAG Architecture', 'Next.js Development', 'LangChain', 'OpenAI Integration', 'Authentication', 'Stripe Payments', 'UI/UX Design', 'Deployment'],
+    services: ['RAG Architecture', 'Next.js Development', 'LangChain', 'OpenAI Integration', 'Public REST API', 'MCP Server', 'OAuth 2.1', 'Authentication', 'Stripe Payments', 'UI/UX Design', 'Deployment'],
     heroImgAlt: 'NoteDoctor.AI request form beside an AI-generated prior authorization summary',
     heroImgSrc: '/images/projects/noteDoctorAi_webApp/request-summary.webp',
     results: [
       { num: '8wk',  lbl: 'concept to production deployment' },
       { num: 'RAG',  lbl: 'retrieval-augmented generation with LangChain + OpenAI' },
       { num: 'PDF',  lbl: 'branded export of every generated authorization' },
-      { num: '100%', lbl: 'responsive — desktop, tablet, and mobile' },
+      { num: 'API',  lbl: 'public REST API and MCP server on the same engine' },
     ],
     overview: {
       sidebar: 'A full-stack RAG application that generates prior authorization summaries from clinical inputs — with a split-panel UI, swappable layout, PDF export, authentication, and Stripe billing.',
@@ -167,6 +177,55 @@ const PROJECTS: Project[] = [
       body: [
         "Most RAG demos fall apart under real-world use. Healthcare is less forgiving than most — payer guidelines span hundreds of pages, update frequently, and vary by plan and state. A hallucinated medical necessity criterion or a missed CPT requirement isn't just a bad answer; it's a delayed or denied treatment. We built a multi-layer retrieval strategy (dense + sparse search, reranking before generation) and enforced strict source citation on every output. The system declines to answer rather than guess.",
         "On the product side, the challenge was delivering a full SaaS application — auth, billing, responsive design, adaptive UI, and PDF generation — within the same eight-week timeline as the AI work. We used Next.js throughout, integrated Stripe for subscription management, and built the swappable split-panel layout to give clinicians flexibility in how they use the tool across different screen sizes and workflows.",
+      ],
+    },
+    highlights: {
+      label: 'Developer platform',
+      heading: 'The engine, opened up to other software and to AI assistants.',
+      items: [
+        {
+          eyebrow: 'Screening API · public beta',
+          heading: 'The screening engine, as an API.',
+          body: 'The same engine clinicians use in the app, exposed as a versioned REST API, so a health system can send a case from its EHR or internal tools and get an authorization-readiness determination back.',
+          points: [
+            'Two scoped APIs: Agents runs a full prior-auth screening (45–65 seconds); Chat answers questions grounded in the note, the payer policy and the run.',
+            'An in-app API Playground: pick an endpoint, edit the JSON, send it with a short-lived test key that never reaches the browser, and copy the call as cURL, JavaScript or Python.',
+            'Idempotency keys, so a retried request replays the same response instead of running (and billing) twice.',
+            'Per-key rate limits and /me and /usage endpoints, with usage metered straight into Stripe billing.',
+          ],
+          tags: ['REST', 'API Playground', 'Idempotency', 'Stripe metering'],
+          image: { src: '/images/projects/noteDoctorAi_webApp/platform/playground-response.webp', label: 'API Playground: a live /agents screening and its response', width: 1807, height: 1024 },
+        },
+        {
+          eyebrow: 'API keys · self-serve',
+          heading: 'Keys you can govern.',
+          body: 'Organizations issue their own keys from the dashboard. Each key is a server-side secret scoped to the organization, and it is shown once, at creation.',
+          points: [
+            'Live and Test environments, labelled on every usage row; test keys run against a sandbox with simulated cases.',
+            'Scopes per key (agents, chat), granted at the minimum needed and never widened later: a new need means a new key.',
+            'A rate limit and an optional expiry (30 days, 90 days, 1 year or none) on every key.',
+            'Rotate by creating a replacement and revoking the old key; revoked and expired keys stop working immediately.',
+          ],
+          tags: ['Scoped keys', 'Live / Test', 'Rotation', 'Expiry'],
+          image: { src: '/images/projects/noteDoctorAi_webApp/platform/keys.webp', label: 'API key management', width: 1248, height: 796 },
+        },
+        {
+          eyebrow: 'MCP server · available now',
+          heading: 'Prior auth inside Claude, Cursor and ChatGPT.',
+          body: 'The same engine, published over the Model Context Protocol. A provider adds one URL to Claude, ChatGPT or Cursor, signs in with their NoteDoctor.AI account through OAuth, and can run a full screening from the assistant they already use. No API key to copy.',
+          points: [
+            'A remote server: one HTTPS endpoint, nothing to install, host or keep up to date.',
+            'Five tools, from run_prior_auth_screening for the whole determination to Medicare and commercial guideline search, a policy extractor and key usage.',
+            'The same scopes, plan checks and rate limits as the REST API, and a tool the connection can\'t use is never listed.',
+            'OAuth 2.1 sign-in makes it a claude.ai or ChatGPT connector, including ChatGPT deep research; clients set up by config file can still connect with an API key.',
+          ],
+          tags: ['MCP', 'OAuth 2.1', 'Claude', 'Cursor', 'ChatGPT'],
+          image: {
+            src: '/images/projects/noteDoctorAi_webApp/platform/mcp.webp',
+            label: 'Developer platform: the MCP server and its tools',
+            fullPage: { src: '/images/projects/noteDoctorAi/pages/developers-mcp.webp', width: 1600, height: 6234 },
+          },
+        },
       ],
     },
     gallery: [
@@ -390,6 +449,42 @@ const PROJECTS: Project[] = [
       { bg: '#fbf6ea', src: '/images/projects/runawayCow/menu.webp',       label: 'Menu header and section links', size: 'standard' },
       { bg: '#141414', src: '/images/projects/runawayCow/snowstorms.webp', label: 'Snowstorms: sizes and flavors as text', size: 'standard' },
       { bg: '#e6f2c8', src: '/images/projects/runawayCow/hot-food.webp',   label: 'Hot food and deli', size: 'standard' },
+    ],
+    nextProject: { slug: 'notedoctor-ios', tag: 'Mobile App · iOS', title: 'NoteDoctor.AI for iOS', desc: 'An iPhone app for the NoteDoctor.AI prior authorization platform, in development. Sign in or create an account, with the same clean, clinical look as the web app.', imgBg: '#0d1017' },
+  },
+
+  {
+    slug: 'notedoctor-ios',
+    featured: false,
+    comingSoon: true,
+    category: 'mobile',
+    tag: 'Mobile App · iOS',
+    name: 'NoteDoctor.AI for iOS',
+    year: '2026',
+    desc: 'An iPhone app for the NoteDoctor.AI prior authorization platform, in development. Sign in or create an account, with the same clean, clinical look as the web app.',
+    imgBg: '#0d1017',
+    imgSrc: '/images/projects/noteDoctorAi_ios/cover.webp',
+    wideImgSrc: '/images/projects/noteDoctorAi_ios/banner.webp',
+    imgLabel: 'Sign-in and sign-up screens',
+    hoverName: 'NoteDoctor.AI for iOS',
+    tall: false,
+    title: ['NoteDoctor.AI', 'for iOS.'],
+    client: 'NoteDoctor.AI',
+    status: 'Coming soon · in development',
+    services: ['iOS App', 'Mobile UI Design', 'Authentication'],
+    heroImgAlt: 'NoteDoctor.AI iOS sign-in and sign-up screens',
+    heroImgSrc: '/images/projects/noteDoctorAi_ios/cover.webp',
+    overview: {
+      sidebar: 'A native iPhone app for NoteDoctor.AI, the prior authorization readiness platform. It\'s in development; these are the first screens.',
+      heading: 'Prior authorization screening, coming to iPhone.',
+      body: [
+        'NoteDoctor.AI already runs on the web. The iOS app brings it to the phone, starting with the front door: signing in with an existing account and creating a new one.',
+        'The screens carry over the web app\'s look: the NoteDoctor mark, soft clinical blues, roomy inputs and a single clear call to action. More screens will be added here as the app takes shape.',
+      ],
+    },
+    gallery: [
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_ios/sign-in.webp', label: 'Sign in', size: 'standard', fit: 'contain' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_ios/sign-up.webp', label: 'Create an account', size: 'standard', fit: 'contain' },
     ],
     nextProject: { slug: 'notedoctor-ai', tag: 'Web Design & Development', title: 'NoteDoctor.AI Marketing Site', desc: 'Full marketing site for an AI-powered prior authorization platform — design, development, content, and end-to-end deployment.', imgBg: '#0d1017' },
   },
