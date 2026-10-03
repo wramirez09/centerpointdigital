@@ -19,7 +19,7 @@ export default function HeroImage({ src, alt, gallery, pages }: {
 }) {
   const fromGallery = viewableItems(gallery);
   const hasPages = !!pages && pages.length > 0;
-  const at = hasPages ? -1 : fromGallery.findIndex((it) => it.src === src);
+  const at = hasPages ? -1 : fromGallery.findIndex((it) => it.thumb === src);
   const items: LightboxItem[] = hasPages
     ? pages!.map((p) => ({ src: p.src, label: `${p.label} — full page`, fullPage: { width: p.width, height: p.height } }))
     : at >= 0 ? fromGallery : [{ src, label: alt }];

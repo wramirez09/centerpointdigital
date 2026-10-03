@@ -1,8 +1,12 @@
 export interface ProjectResult  { num: string; lbl: string }
-export interface GalleryItem    { bg: string; label: string; size: 'wide' | 'standard'; src?: string }
 export interface ProcessStep    { period: string; title: string; body: string }
 export interface FullImage      { src: string; width: number; height: number }
 export interface PageCapture    extends FullImage { label: string }
+export interface GalleryItem {
+  bg: string; label: string; size: 'wide' | 'standard'; src?: string
+  /** Opens this full-page capture in the lightbox instead of the cropped thumbnail. */
+  fullPage?: FullImage
+}
 export interface Comparison     { label: string; before: FullImage; after: FullImage; beforeNote?: string; afterNote?: string }
 
 export interface Project {
@@ -304,7 +308,8 @@ const PROJECTS: Project[] = [
     },
     gallery: [
       { bg: '#1d4ed8', src: '/images/projects/spotless/hero.webp',            label: 'Homepage hero with the bay-signal card', size: 'wide' },
-      { bg: '#1d4ed8', src: '/images/projects/spotless/buy-tokens.webp',      label: 'Wash-token checkout with Stripe', size: 'standard' },
+      { bg: '#1d4ed8', src: '/images/projects/spotless/buy-tokens.webp',      label: 'Wash-token checkout with Stripe', size: 'standard',
+        fullPage: { src: '/images/projects/spotless/pages/buy-tokens.webp', width: 1600, height: 2949 } },
       { bg: '#f3f6fb', src: '/images/projects/spotless/packages.webp',        label: 'Four color-coded wash packages', size: 'standard' },
       { bg: '#0b1b4d', src: '/images/projects/spotless/how-it-works.webp',    label: 'How it works: watch the lights', size: 'standard' },
       { bg: '#e6edf8', src: '/images/projects/spotless/locations.webp',       label: 'Two locations, ten bays', size: 'standard' },
