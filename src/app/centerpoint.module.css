@@ -676,9 +676,10 @@
 }
 
 .workDesc {
-  font-size: 13px;
+  font-size: 15px;
+  line-height: 1.6;
   color: rgba(237, 230, 214, 0.75);
-  font-weight: 300;
+  font-weight: 400;
   margin-top: 4px;
 }
 
@@ -1090,6 +1091,18 @@
   .workCardTall,
   .workCardShort {
     min-height: 220px;
+  }
+
+  /* Short stacked cards: keep the larger text but cap it at two lines. */
+  .workOverlay {
+    padding: 20px;
+  }
+
+  .workDesc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 

@@ -154,13 +154,12 @@
   color: var(--faint); margin-bottom: 28px; display: flex; align-items: center; gap: 10px;
 }
 .galleryLabel::before { content: ''; width: 16px; height: 1px; background: var(--faint); }
-.galleryRow1 { display: grid; grid-template-columns: 2fr 1fr; gap: 2px; background: var(--border); margin-bottom: 2px; }
-.galleryRow2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; background: var(--border); }
-.galleryImg { position: relative; overflow: hidden; background: var(--bg3); cursor: zoom-in; }
+.galleryGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); }
+.galleryImg { position: relative; overflow: hidden; background: var(--bg3); cursor: zoom-in; height: 400px; }
+.galleryImgSpan { grid-column: 1 / -1; }
+.galleryImgSpan img { object-position: 50% 30% !important; }
 .galleryImg img { transform: scale(1); }
 .galleryImg:hover img { transform: scale(1.06); }
-.galleryImg400 { height: 400px; }
-.galleryImg320 { height: 320px; }
 .gStripe {
   position: absolute; inset: 0;
   background-image: repeating-linear-gradient(
@@ -296,10 +295,102 @@
   .breadcrumb, .projectHero, .contentBody, .processSection,
   .gallerySection, .nextProject { padding-left: 24px; padding-right: 24px; }
   .divider { margin: 0 24px; }
-  .heroTop, .contentGrid, .processSteps, .galleryRow1,
-  .galleryRow2, .testimonialInner, .nextCard, .ctaInner { grid-template-columns: 1fr; }
+  .heroTop, .contentGrid, .processSteps, .galleryGrid,
+  .testimonialInner, .nextCard, .ctaInner { grid-template-columns: 1fr; }
   .resultsInner { grid-template-columns: 1fr 1fr; }
   .heroImage { height: 280px; }
+  .galleryImg { height: auto; aspect-ratio: 16 / 10; }
   .footer { padding: 28px 24px; flex-direction: column; gap: 16px; text-align: center; }
   .ctaInner { padding: 64px 24px; }
+}
+
+/* ─── BEFORE / AFTER ──────────────────────────────────── */
+.compareList { display: flex; flex-direction: column; gap: 56px; }
+.compareTitle {
+  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 16px;
+}
+.compareRow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.compareFigure { margin: 0; }
+.compareImg {
+  position: relative; display: block; width: 100%; height: 520px; padding: 0;
+  border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+  background: var(--bg3); cursor: zoom-in;
+}
+.compareImg img { transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+.compareImg:hover img { transform: scale(1.03); }
+.compareImg:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.compareBadge {
+  position: absolute; top: 14px; left: 14px; z-index: 1;
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 6px 10px; border-radius: 2px;
+  background: rgba(10,9,6,0.85); color: var(--text); border: 1px solid var(--faint);
+}
+.compareBadgeAfter { background: var(--amber); color: #0a0906; border-color: var(--amber); }
+.compareNote { margin-top: 12px; font-size: 15px; line-height: 1.6; color: rgba(237,230,214,0.72); }
+@media (max-width: 960px) {
+  .compareRow { grid-template-columns: 1fr; }
+  .compareImg { height: 360px; }
+}
+
+/* ─── LIGHTBOX ────────────────────────────────────────── */
+.galleryButton { display: block; width: 100%; padding: 0; border: 0; font: inherit; }
+.heroImageButton {
+  position: absolute; inset: 0; display: block; width: 100%; padding: 0; border: 0;
+  background: none; cursor: zoom-in; overflow: hidden;
+}
+.heroImageButton img { transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+.heroImageButton:hover img { transform: scale(1.03); }
+.heroImageButton:focus-visible { outline: 2px solid var(--amber); outline-offset: -2px; }
+.galleryButton:focus-visible { outline: 2px solid var(--amber); outline-offset: -2px; }
+.lightbox {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 64px 72px;
+  background: rgba(10,9,6,0.94);
+  backdrop-filter: blur(8px);
+  cursor: zoom-out;
+  animation: lightboxIn 0.2s ease-out;
+}
+@keyframes lightboxIn { from { opacity: 0; } to { opacity: 1; } }
+.lightboxFigure { margin: 0; width: 100%; height: 100%; display: flex; flex-direction: column; gap: 16px; cursor: default; }
+.lightboxImg { position: relative; flex: 1; min-height: 0; }
+.lightboxScroll {
+  flex: 1; min-height: 0; width: 100%; max-width: 1280px; margin: 0 auto;
+  overflow-y: auto; overscroll-behavior: contain;
+  border: 1px solid var(--border); border-radius: 4px;
+}
+.lightboxScroll:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+/* Shown until the (large) capture paints over it. */
+.lightboxScroll { position: relative; background: var(--bg3); }
+.lightboxScroll::before {
+  content: 'Loading page…'; position: absolute; top: 48px; left: 0; right: 0;
+  text-align: center; font-size: 13px; letter-spacing: .08em; color: var(--muted);
+}
+.lightboxScroll img { position: relative; z-index: 1; }
+.lightboxCaption {
+  display: flex; justify-content: space-between; gap: 16px;
+  font-size: 13px; color: var(--muted);
+}
+.lightboxCaption span { color: var(--faint); font-variant-numeric: tabular-nums; }
+.lightboxClose, .lightboxNav {
+  position: absolute; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; padding: 0;
+  background: var(--bg3); color: var(--text);
+  border: 1px solid var(--border); border-radius: 50%;
+  font-size: 26px; line-height: 1; cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.lightboxClose:hover, .lightboxNav:hover { border-color: var(--amber); color: var(--amber); }
+.lightboxClose:focus-visible, .lightboxNav:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.lightboxClose { top: 12px; right: 16px; }
+.lightboxNav { top: 50%; transform: translateY(-50%); }
+.lightboxPrev { left: 14px; }
+.lightboxNext { right: 14px; }
+@media (max-width: 640px) {
+  .lightbox { padding: 64px 16px 88px; }
+  .lightboxNav { top: auto; bottom: 20px; transform: none; }
+  .lightboxPrev { left: calc(50% - 56px); }
+  .lightboxNext { right: calc(50% - 56px); }
 }

@@ -1,23 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './centerpointWork.module.css';
 import { FEATURED_PROJECT, GRID_PROJECTS } from './projects';
 
 /* ─── STATIC DATA ───────────────────────────────────────── */
-const FILTERS = [
-  { id: 'all',      label: 'All Work' },
-  { id: 'web',      label: 'Web Design' },
-  { id: 'mobile',   label: 'Mobile Apps' },
-  { id: 'ai',       label: 'AI & RAG' },
-  { id: 'branding', label: 'Branding' },
-  { id: 'seo',      label: 'SEO & Marketing' },
-  { id: 'uiux',     label: 'UI/UX' },
-  { id: 'social',   label: 'Social Media' },
-];
-
 const STATS = [
   { num: '120', suffix: '+',  lbl: 'projects shipped' },
   { num: '8',   suffix: 'yr', lbl: 'in business' },
@@ -40,13 +28,6 @@ const ArrowSmall = () => (
 
 /* ─── COMPONENT ─────────────────────────────────────────── */
 export default function CenterpointWorkPage() {
-  const [activeFilter, setActiveFilter] = useState('all');
-
-  const showFeatured = activeFilter === 'all' || activeFilter === FEATURED_PROJECT.category;
-  const visibleProjects = activeFilter === 'all'
-    ? GRID_PROJECTS
-    : GRID_PROJECTS.filter(p => p.category === activeFilter);
-
   const F = FEATURED_PROJECT;
 
   return (
@@ -92,81 +73,61 @@ export default function CenterpointWorkPage() {
         </div>
       </header>
 
-      {/* ── FILTER BAR ── */}
-      <div className={styles.filterBar}>
-        <div className={styles.filterInner}>
-          {FILTERS.map(f => (
-            <button
-              key={f.id}
-              className={`${styles.filterBtn} ${activeFilter === f.id ? styles.filterBtnActive : ''}`}
-              onClick={() => setActiveFilter(f.id)}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* ── FEATURED ── */}
-      {showFeatured && (
-        <div className={styles.featured}>
-          <div className={styles.featuredLabel}>Featured project</div>
-          <Link href={`/work/${F.slug}`} className={styles.featuredCard}>
-            <div className={styles.featuredImg} style={{ background: F.imgBg }}>
-              {F.imgSrc
-                ? <Image src={F.imgSrc} alt={F.hoverName} fill style={{ objectFit: 'cover' }} />
-                : <><div className={styles.featuredStripe} /><div className={styles.featuredImgPlaceholder}>Full-site screenshot</div></>
-              }
-            </div>
-            <div className={styles.featuredInfo}>
-              <div>
-                <div className={styles.fTag}>{F.tag}</div>
-                <div className={styles.fTitle}>
-                  {(F.featuredTitle ?? F.name).split('\n').map((line, i, arr) => (
-                    <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
-                  ))}
-                </div>
-                <p className={styles.fDesc}>{F.featuredDesc ?? F.desc}</p>
-                <div className={styles.fMeta}>
-                  {[['Client', F.client], ['Year', F.year], ['Timeline', F.timeline]].map(([lbl, val]) => (
-                    <div key={lbl}>
-                      <div className={styles.fMetaLabel}>{lbl}</div>
-                      <div className={styles.fMetaVal}>{val}</div>
-                    </div>
-                  ))}
-                </div>
+      <div className={styles.featured}>
+        <div className={styles.featuredLabel}>Featured project</div>
+        <Link href={`/work/${F.slug}`} className={styles.featuredCard}>
+          <div className={styles.featuredImg} style={{ background: F.imgBg }}>
+            {F.imgSrc
+              ? <Image src={F.imgSrc} alt={F.hoverName} fill style={{ objectFit: 'cover' }} />
+              : <><div className={styles.featuredStripe} /><div className={styles.featuredImgPlaceholder}>Full-site screenshot</div></>
+            }
+          </div>
+          <div className={styles.featuredInfo}>
+            <div>
+              <div className={styles.fTag}>{F.tag}</div>
+              <div className={styles.fTitle}>
+                {(F.featuredTitle ?? F.name).split('\n').map((line, i, arr) => (
+                  <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                ))}
               </div>
-              <div className={styles.fResults}>
-                {(F.featuredResults ?? F.results.slice(0, 3)).map(r => (
-                  <div key={r.lbl} className={styles.fResultCell}>
-                    <div className={styles.fResultNum}>{r.num}</div>
-                    <div className={styles.fResultLbl}>{r.lbl}</div>
+              <p className={styles.fDesc}>{F.featuredDesc ?? F.desc}</p>
+              <div className={styles.fMeta}>
+                {[['Client', F.client], ['Year', F.year], ['Timeline', F.timeline]].map(([lbl, val]) => (
+                  <div key={lbl}>
+                    <div className={styles.fMetaLabel}>{lbl}</div>
+                    <div className={styles.fMetaVal}>{val}</div>
                   </div>
                 ))}
               </div>
             </div>
-          </Link>
-        </div>
-      )}
+            <div className={styles.fResults}>
+              {(F.featuredResults ?? F.results.slice(0, 3)).map(r => (
+                <div key={r.lbl} className={styles.fResultCell}>
+                  <div className={styles.fResultNum}>{r.num}</div>
+                  <div className={styles.fResultLbl}>{r.lbl}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Link>
+      </div>
 
       {/* ── PROJECT GRID ── */}
       <div className={styles.gridSection}>
         <h2 className={styles.gridHeading}>
-          {activeFilter === 'all' ? 'All projects' : FILTERS.find(f => f.id === activeFilter)?.label}
+          All projects
         </h2>
 
-        {visibleProjects.length === 0 ? (
+        {GRID_PROJECTS.length === 0 ? (
           <p style={{ color: 'var(--muted)', fontWeight: 300, fontSize: 15 }}>
-            No projects in this category yet — check back soon.
+            No projects yet — check back soon.
           </p>
         ) : (
           <div
             className={styles.projectGrid}
-            style={{
-              gridTemplateColumns: visibleProjects.length <= 2 ? '1fr 1fr' : 'repeat(3,1fr)',
-            }}
           >
-            {visibleProjects.map(p => (
+            {GRID_PROJECTS.map(p => (
               <Link key={p.slug} href={`/work/${p.slug}`} className={styles.projectCard}>
                 <div
                   className={`${styles.cardImg} ${p.tall ? styles.cardImgTall : ''}`}

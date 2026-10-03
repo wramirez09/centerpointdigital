@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './centerpoint.module.css';
@@ -28,7 +28,10 @@ const VALUES = [
   { title: 'Long-term partnership',   body: "We grow with our clients. The relationship doesn't end at launch — it starts there." },
 ];
 
-const WORK = PROJECTS.slice(0, 3);
+// Home page "Selected work": the first slug is the large card, the next two the small cards.
+// Second and third picks are still to be decided; until then they show the other real projects.
+const HOME_WORK_SLUGS = ['notedoctor-prior-auth', 'notedoctor-ai', 'one-stop'];
+const WORK = HOME_WORK_SLUGS.map((slug) => PROJECTS.find((p) => p.slug === slug)).filter(Boolean);
 
 const STATS = [
   { num: '120+', lbl: 'projects shipped' },
@@ -126,9 +129,9 @@ export default function CenterpointPage() {
           </div>
           <div className={styles.heroStats}>
             {STATS.map((s, i) => (
-              <>
-                {i > 0 && <div key={`d${i}`} className={styles.heroDivider} />}
-                <div key={s.num}>
+              <Fragment key={s.num}>
+                {i > 0 && <div className={styles.heroDivider} />}
+                <div>
                   <div className={styles.heroStatNum}>
                     {s.num.replace(/[★yr+]/, '')}
                     <span style={{ color: 'var(--amber)' }}>
@@ -137,7 +140,7 @@ export default function CenterpointPage() {
                   </div>
                   <div className={styles.heroStatLbl}>{s.lbl}</div>
                 </div>
-              </>
+              </Fragment>
             ))}
           </div>
         </div>

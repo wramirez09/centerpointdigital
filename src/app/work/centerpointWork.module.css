@@ -89,29 +89,6 @@
 .hstatNum span { color: var(--amber); }
 .hstatLbl { font-size: 12px; color: var(--muted); font-weight: 300; margin-top: 4px; }
 
-/* ─── FILTER BAR ──────────────────────────────────────── */
-.filterBar {
-  border-bottom: 1px solid var(--border);
-  background: var(--bg2);
-  position: sticky; top: 64px; z-index: 90;
-}
-.filterInner {
-  max-width: 1400px; margin: 0 auto; padding: 0 48px;
-  display: flex; align-items: center; gap: 4px;
-  overflow-x: auto; scrollbar-width: none;
-}
-.filterInner::-webkit-scrollbar { display: none; }
-.filterBtn {
-  font-family: var(--font-syne, 'Syne', sans-serif);
-  font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  padding: 18px 20px; background: transparent; border: none;
-  color: var(--muted); cursor: pointer; white-space: nowrap;
-  border-bottom: 2px solid transparent; margin-bottom: -1px;
-  transition: color .2s, border-color .2s;
-}
-.filterBtn:hover { color: var(--text); }
-.filterBtnActive { color: var(--amber) !important; border-bottom-color: var(--amber) !important; }
-
 /* ─── FEATURED ────────────────────────────────────────── */
 .featured { max-width: 1400px; margin: 0 auto; padding: 72px 48px 0; }
 .featuredLabel {
@@ -174,7 +151,7 @@
 }
 .gridHeading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 .projectGrid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid; grid-template-columns: repeat(2, 1fr);
   gap: 2px; background: var(--border);
 }
 .projectCard {
@@ -182,7 +159,7 @@
   cursor: pointer; display: flex; flex-direction: column;
   text-decoration: none; color: inherit;
 }
-.cardImg { height: 260px; position: relative; overflow: hidden; flex-shrink: 0; }
+.cardImg { height: 340px; position: relative; overflow: hidden; flex-shrink: 0; }
 .cardImgTall { height: 340px; }
 .cardStripe {
   position: absolute; inset: 0;
@@ -205,11 +182,11 @@
 }
 .projectCard:hover .cardHoverOverlay { opacity: 1; }
 .cardInfo { padding: 24px 28px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-.cardTag { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
+.cardTag { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
 .cardName { font-family: var(--font-syne, 'Syne', sans-serif); font-size: 18px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 6px; color: var(--text); }
-.cardDesc { font-size: 13px; color: var(--muted); line-height: 1.55; font-weight: 300; }
+.cardDesc { font-size: 15px; color: rgba(237,230,214,0.72); line-height: 1.6; font-weight: 400; }
 .cardFooter { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
-.cardYear { font-size: 11px; color: var(--faint); font-weight: 300; }
+.cardYear { font-size: 13px; color: rgba(237,230,214,0.55); font-weight: 400; font-variant-numeric: tabular-nums; }
 .cardArrow {
   width: 30px; height: 30px; border-radius: 50%;
   border: 1px solid var(--border);
@@ -262,7 +239,6 @@
   .pageHeader { padding: 64px 24px 56px; }
   .pageHeaderInner { grid-template-columns: 1fr; }
   .pageHeaderBg { display: none; }
-  .filterInner { padding: 0 24px; }
   .featured { padding: 48px 24px 0; }
   .featuredCard { grid-template-columns: 1fr; }
   .featuredImg { min-height: 260px; }
