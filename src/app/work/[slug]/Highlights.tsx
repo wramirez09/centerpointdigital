@@ -10,12 +10,17 @@ import styles from './centerpointProject.module.css';
  * API or MCP server): copy on one side, a screen on the other, alternating.
  * A screen opens its full page in the lightbox when one is given.
  */
-export default function Highlights({ highlights }: { highlights: Highlight[] }) {
-  const items: LightboxItem[] = highlights.map((h) =>
+/** Lightbox entries for highlight screens; the hero lightbox appends these too. */
+export function highlightItems(highlights: Highlight[]): LightboxItem[] {
+  return highlights.map((h) =>
     h.image.fullPage
       ? { src: h.image.fullPage.src, label: `${h.image.label} — full page`, fullPage: h.image.fullPage }
       : { src: h.image.src, label: h.image.label },
   );
+}
+
+export default function Highlights({ highlights }: { highlights: Highlight[] }) {
+  const items = highlightItems(highlights);
   const lb = useLightbox(items);
 
   return (

@@ -4,8 +4,8 @@
   --bg2:     #0f0d0a;
   --bg3:     #141210;
   --text:    #ede6d6;
-  --muted:   rgba(237,230,214,0.45);
-  --faint:   rgba(237,230,214,0.18);
+  --muted:   rgba(237,230,214,0.72);
+  --faint:   rgba(237,230,214,0.42);
   --border:  rgba(237,230,214,0.08);
   --amber:   oklch(76% 0.18 72);
   --amber-d: oklch(76% 0.18 72 / 0.1);
@@ -54,7 +54,7 @@
 .breadcrumb {
   max-width: 1400px; margin: 0 auto; padding: 24px 48px;
   display: flex; align-items: center; gap: 10px;
-  font-size: 12px; color: var(--faint);
+  font-size: 13px; color: var(--faint);
 }
 .breadcrumb a { color: var(--faint); text-decoration: none; transition: color .15s; }
 .breadcrumb a:hover { color: var(--muted); }
@@ -90,7 +90,7 @@
 .metaItemVal { font-size: 15px; color: var(--text); }
 .metaTags { display: flex; flex-wrap: wrap; gap: 6px; }
 .metaTag {
-  font-size: 11px; font-weight: 500; padding: 4px 10px;
+  font-size: 12px; font-weight: 500; padding: 4px 10px;
   border: 1px solid var(--border); border-radius: 2px; color: var(--muted);
 }
 .heroImage {
@@ -127,7 +127,7 @@
   font-size: 56px; font-weight: 800; letter-spacing: -.04em; line-height: 1;
   color: var(--amber); margin-bottom: 8px;
 }
-.resultLbl { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.5; }
+.resultLbl { font-size: 15px; color: var(--muted); font-weight: 400; line-height: 1.5; }
 
 /* ─── CONTENT ─────────────────────────────────────────── */
 .contentBody { max-width: 1400px; margin: 0 auto; padding: 96px 48px; }
@@ -138,13 +138,13 @@
   color: var(--amber); display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
 }
 .sidebarHeading::before { content: ''; width: 16px; height: 1px; background: var(--amber); }
-.sidebarText { font-size: 15px; color: var(--muted); line-height: 1.75; font-weight: 300; }
+.sidebarText { font-size: 16px; color: var(--muted); line-height: 1.75; font-weight: 400; }
 .contentH2 {
   font-family: var(--font-syne, 'Syne', sans-serif);
   font-size: clamp(28px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em;
   line-height: 1.06; margin-bottom: 24px; color: var(--text);
 }
-.contentP { font-size: 17px; color: var(--muted); line-height: 1.8; font-weight: 300; margin-bottom: 20px; }
+.contentP { font-size: 18px; color: var(--muted); line-height: 1.8; font-weight: 400; margin-bottom: 20px; }
 .contentP:last-child { margin-bottom: 0; }
 .divider { border: none; border-top: 1px solid var(--border); margin: 0 48px; }
 
@@ -192,7 +192,7 @@
   font-family: var(--font-syne, 'Syne', sans-serif);
   font-size: 20px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 12px; color: var(--text);
 }
-.stepBody { font-size: 14px; color: var(--muted); line-height: 1.65; font-weight: 300; }
+.stepBody { font-size: 16px; color: var(--muted); line-height: 1.65; font-weight: 400; }
 
 /* ─── TESTIMONIAL ─────────────────────────────────────── */
 .testimonialSection { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); }
@@ -201,7 +201,7 @@
   display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start;
 }
 .tWho { font-family: var(--font-syne, 'Syne', sans-serif); font-size: 15px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 4px; }
-.tRole { font-size: 13px; color: var(--muted); font-weight: 300; }
+.tRole { font-size: 14px; color: var(--muted); font-weight: 400; }
 .tCompany { font-size: 12px; color: var(--amber); margin-top: 2px; font-weight: 500; }
 .tStars { color: var(--amber); font-size: 16px; margin-top: 20px; letter-spacing: 2px; }
 .testimonialQuote {
@@ -249,7 +249,7 @@
   font-size: clamp(22px, 2.5vw, 36px); font-weight: 800; letter-spacing: -.04em;
   line-height: 1.05; color: var(--text); margin-bottom: 12px;
 }
-.nextDesc { font-size: 14px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+.nextDesc { font-size: 16px; color: var(--muted); line-height: 1.6; font-weight: 400; }
 .nextArrow {
   display: inline-flex; align-items: center; gap: 10px; margin-top: 32px;
   font-family: var(--font-syne, 'Syne', sans-serif); font-size: 12px; font-weight: 700;
@@ -269,7 +269,7 @@
   font-size: clamp(32px, 4vw, 56px); font-weight: 800; letter-spacing: -.04em; line-height: .98; color: var(--text);
 }
 .ctaH2 em { font-style: normal; color: var(--amber); }
-.ctaP { font-size: 16px; color: var(--muted); line-height: 1.65; font-weight: 300; margin-top: 14px; }
+.ctaP { font-size: 18px; color: var(--muted); line-height: 1.65; font-weight: 400; margin-top: 14px; }
 .btnAmber {
   background: var(--amber); color: var(--bg);
   font-family: var(--font-syne, 'Syne', sans-serif); font-size: 13px; font-weight: 700;
@@ -283,7 +283,7 @@
 .footer {
   border-top: 1px solid var(--border); padding: 36px 48px;
   display: flex; align-items: center; justify-content: space-between;
-  font-size: 12px; color: var(--faint); background: var(--bg);
+  font-size: 13px; color: var(--faint); background: var(--bg);
 }
 .footerLinks { display: flex; gap: 28px; }
 .footerLinks a { color: var(--muted); text-decoration: none; transition: color .15s; }

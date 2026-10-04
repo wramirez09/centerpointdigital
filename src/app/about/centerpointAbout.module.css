@@ -4,8 +4,8 @@
   --bg2:     #0f0d0a;
   --bg3:     #141210;
   --text:    #ede6d6;
-  --muted:   rgba(237,230,214,0.45);
-  --faint:   rgba(237,230,214,0.18);
+  --muted:   rgba(237,230,214,0.72);
+  --faint:   rgba(237,230,214,0.42);
   --border:  rgba(237,230,214,0.08);
   --amber:   oklch(76% 0.18 72);
   --amber-d: oklch(76% 0.18 72 / 0.1);
@@ -90,11 +90,11 @@
 }
 .heroH1 em { font-style: normal; color: var(--amber); }
 .heroRight { padding-bottom: 8px; }
-.heroSub { font-size: 18px; color: var(--muted); line-height: 1.75; font-weight: 300; margin-bottom: 40px; }
+.heroSub { font-size: 18px; color: var(--muted); line-height: 1.75; font-weight: 400; margin-bottom: 40px; }
 .heroFounded {
   display: inline-flex; align-items: center; gap: 12px;
   padding: 14px 20px; border: 1px solid var(--border); border-radius: 4px;
-  font-size: 13px; color: var(--muted); font-weight: 300;
+  font-size: 14px; color: var(--muted); font-weight: 400;
 }
 .heroFounded strong { font-weight: 600; color: var(--text); font-family: var(--font-syne, 'Syne', sans-serif); }
 .heroFoundedDot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
@@ -102,7 +102,7 @@
 /* ─── STORY ───────────────────────────────────────────── */
 .story { padding: 120px 0; }
 .storyGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
-.storyP { font-size: 17px; color: var(--muted); line-height: 1.82; font-weight: 300; margin-bottom: 24px; }
+.storyP { font-size: 18px; color: var(--muted); line-height: 1.82; font-weight: 400; margin-bottom: 24px; }
 .storyP:last-child { margin-bottom: 0; }
 .storyPull {
   font-family: var(--font-syne, 'Syne', sans-serif);
@@ -122,12 +122,12 @@
   color: var(--text); margin-bottom: 10px;
 }
 .numBig span { color: var(--amber); }
-.numLbl { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.5; }
+.numLbl { font-size: 15px; color: var(--muted); font-weight: 400; line-height: 1.5; }
 
 /* ─── VALUES ──────────────────────────────────────────── */
 .values { padding: 120px 0; }
 .valuesHead { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 72px; }
-.valuesSub { font-size: 16px; color: var(--muted); line-height: 1.7; font-weight: 300; max-width: 400px; }
+.valuesSub { font-size: 17px; color: var(--muted); line-height: 1.7; font-weight: 400; max-width: 400px; }
 .valuesGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); }
 .valueCard { background: var(--bg2); padding: 52px 44px; transition: background .2s; }
 .valueCard:hover { background: #141210; }
@@ -139,7 +139,7 @@
   font-family: var(--font-syne, 'Syne', sans-serif);
   font-size: 22px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 14px; color: var(--text);
 }
-.valueBody { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; }
+.valueBody { font-size: 16px; color: var(--muted); line-height: 1.7; font-weight: 400; }
 
 /* ─── TEAM ────────────────────────────────────────────── */
 .team { background: var(--bg2); border-top: 1px solid var(--border); padding: 120px 0; }
@@ -166,7 +166,7 @@
   font-size: 18px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 4px; color: var(--text);
 }
 .teamRole { font-size: 12px; font-weight: 500; color: var(--amber); letter-spacing: .04em; margin-bottom: 12px; }
-.teamBio { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+.teamBio { font-size: 15px; color: var(--muted); line-height: 1.6; font-weight: 400; }
 .teamSocial { display: flex; gap: 10px; margin-top: 16px; }
 .teamSoc {
   width: 28px; height: 28px; border-radius: 4px; border: 1px solid var(--border);
@@ -222,7 +222,7 @@
   color: var(--text); position: relative; z-index: 1;
 }
 .prSub { font-size: 12px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--amber); }
-.prBody { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; position: relative; z-index: 1; }
+.prBody { font-size: 16px; color: var(--muted); line-height: 1.7; font-weight: 400; position: relative; z-index: 1; }
 
 /* ─── CTA ─────────────────────────────────────────────── */
 .ctaSection { border-top: 1px solid var(--border); }
@@ -236,7 +236,7 @@
   color: var(--text);
 }
 .ctaH2 em { font-style: normal; color: var(--amber); }
-.ctaP { font-size: 16px; color: var(--muted); line-height: 1.65; font-weight: 300; margin-top: 14px; max-width: 480px; }
+.ctaP { font-size: 18px; color: var(--muted); line-height: 1.65; font-weight: 400; margin-top: 14px; max-width: 480px; }
 .btnAmber {
   background: var(--amber); color: var(--bg);
   font-family: var(--font-syne, 'Syne', sans-serif); font-size: 13px; font-weight: 700;
@@ -250,7 +250,7 @@
 .footer {
   border-top: 1px solid var(--border); padding: 36px 48px;
   display: flex; align-items: center; justify-content: space-between;
-  font-size: 12px; color: var(--faint); background: var(--bg);
+  font-size: 13px; color: var(--faint); background: var(--bg);
 }
 .footerLinks { display: flex; gap: 28px; }
 .footerLinks a { color: var(--muted); text-decoration: none; transition: color .15s; }

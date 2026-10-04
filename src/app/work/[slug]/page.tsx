@@ -101,7 +101,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         </div>
         <div className={styles.heroImage} style={{ background: imgBg }}>
           {heroImgSrc
-            ? <HeroImage src={heroImgSrc} alt={heroImgAlt} gallery={gallery} pages={heroPages} />
+            ? <HeroImage src={heroImgSrc} alt={heroImgAlt} gallery={gallery} pages={heroPages} highlights={highlights?.items} />
             : <><div className={styles.heroStripe} /><div className={styles.heroPlaceholder}>{heroImgAlt}</div></>
           }
         </div>

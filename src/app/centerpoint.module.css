@@ -4,8 +4,8 @@
   --bg2: #0f0d0a;
   --bg3: #141210;
   --text: #ede6d6;
-  --muted: rgba(237, 230, 214, 0.45);
-  --faint: rgba(237, 230, 214, 0.18);
+  --muted: rgba(237, 230, 214, 0.72);
+  --faint: rgba(237, 230, 214, 0.42);
   --border: rgba(237, 230, 214, 0.08);
   --amber: oklch(76% 0.18 72);
   --amber-d: oklch(76% 0.18 72 / 0.1);
@@ -185,10 +185,10 @@
 }
 
 .heroSub {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--muted);
   line-height: 1.7;
-  font-weight: 300;
+  font-weight: 400;
   max-width: 380px;
 }
 
@@ -216,9 +216,9 @@
 }
 
 .heroStatLbl {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
-  font-weight: 300;
+  font-weight: 400;
   margin-top: 4px;
 }
 
@@ -251,7 +251,7 @@
 }
 
 .btnOutline {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--muted);
   text-decoration: none;
@@ -375,10 +375,10 @@
 }
 
 .sub {
-  font-size: 15px;
+  font-size: 17px;
   color: var(--muted);
   line-height: 1.72;
-  font-weight: 300;
+  font-weight: 400;
   max-width: 440px;
 }
 
@@ -450,8 +450,8 @@
 }
 
 .svcNameSub {
-  font-size: 13px;
-  font-weight: 300;
+  font-size: 15px;
+  font-weight: 400;
   font-family: var(--font-outfit, 'Outfit', sans-serif);
   color: var(--muted);
   display: block;
@@ -538,9 +538,9 @@
 }
 
 .aboutNumLbl {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .valList {
@@ -581,10 +581,10 @@
 }
 
 .valBody {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--muted);
   line-height: 1.6;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 /* ─── WORK ────────────────────────────────────────────── */
@@ -715,11 +715,11 @@
 }
 
 .captureTopP {
-  font-size: 15px;
+  font-size: 16px;
   color: rgba(10, 9, 6, 0.6);
   line-height: 1.6;
   margin-top: 12px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .offerBadge {
@@ -799,7 +799,7 @@
   color: var(--text);
   font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   padding: 13px 16px;
   outline: none;
   transition: border-color .2s;
@@ -848,9 +848,9 @@
 }
 
 .submitNote {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--faint);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.5;
 }
 
@@ -903,10 +903,10 @@
 }
 
 .fDesc {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
   line-height: 1.65;
-  font-weight: 300;
+  font-weight: 400;
   max-width: 240px;
   margin-bottom: 28px;
 }
@@ -931,11 +931,11 @@
 }
 
 .fCol a {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--muted);
   text-decoration: none;
   transition: color .15s;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .fCol a:hover {
@@ -946,7 +946,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--faint);
 }
 
@@ -1139,7 +1139,7 @@
   }
 
   .heroSub {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .heroStats {

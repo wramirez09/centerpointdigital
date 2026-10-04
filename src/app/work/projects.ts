@@ -158,10 +158,10 @@ const PROJECTS: Project[] = [
     },
     gallery: [
       { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/request-summary.webp',      label: 'Request form beside the AI-generated authorization summary', size: 'wide' },
-      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/report-required-docs.webp', label: 'Report view: required-documentation checklist and determination', size: 'standard' },
-      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/pdf-export.png',            label: 'Branded PDF export of the summary', size: 'standard' },
-      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/assistant-start.webp',      label: 'AI assistant with guided starter questions', size: 'standard' },
-      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/sign-in.webp',              label: 'Secure sign-in with light and dark themes', size: 'standard' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/report-checklist.webp', label: 'Report view: required-documentation checklist and determination', size: 'standard' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/pdf-summary.png',            label: 'Branded PDF export of the summary', size: 'standard' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/assistant.webp',      label: 'AI assistant with guided starter questions', size: 'standard' },
+      { bg: '#0d1017', src: '/images/projects/noteDoctorAi_webApp/sign-in-screen.webp',              label: 'Secure sign-in with light and dark themes', size: 'standard' },
     ],
     process: [
       { period: 'Week 01–02', title: 'Architecture & design',    body: 'RAG pipeline design, vector store selection, UI/UX for the split-panel interface, auth flow, and Stripe integration planning.' },

@@ -4,8 +4,8 @@
   --bg2:     #0f0d0a;
   --bg3:     #141210;
   --text:    #ede6d6;
-  --muted:   rgba(237,230,214,0.45);
-  --faint:   rgba(237,230,214,0.18);
+  --muted:   rgba(237,230,214,0.72);
+  --faint:   rgba(237,230,214,0.42);
   --border:  rgba(237,230,214,0.08);
   --amber:   oklch(76% 0.18 72);
   --amber-d: oklch(76% 0.18 72 / 0.1);
@@ -81,14 +81,14 @@
   color: var(--text);
 }
 .pageH1 em { font-style: normal; color: var(--amber); }
-.pageSub { font-size: 16px; color: var(--muted); line-height: 1.7; font-weight: 300; max-width: 420px; }
+.pageSub { font-size: 18px; color: var(--muted); line-height: 1.7; font-weight: 400; max-width: 420px; }
 .headerStats { display: flex; flex-direction: column; gap: 32px; flex-shrink: 0; }
 .hstatNum {
   font-family: var(--font-syne, 'Syne', sans-serif);
   font-size: 48px; font-weight: 800; letter-spacing: -.04em; line-height: 1; color: var(--text);
 }
 .hstatNum span { color: var(--amber); }
-.hstatLbl { font-size: 12px; color: var(--muted); font-weight: 300; margin-top: 4px; }
+.hstatLbl { font-size: 13px; color: var(--muted); font-weight: 400; margin-top: 4px; }
 
 /* ─── FEATURED ────────────────────────────────────────── */
 .featured { max-width: 1400px; margin: 0 auto; padding: 72px 48px 0; }
@@ -129,7 +129,7 @@
   font-size: clamp(28px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em;
   line-height: 1.05; margin-bottom: 20px; color: var(--text);
 }
-.fDesc { font-size: 15px; color: var(--muted); line-height: 1.7; font-weight: 300; margin-bottom: 40px; }
+.fDesc { font-size: 17px; color: var(--muted); line-height: 1.7; font-weight: 400; margin-bottom: 40px; }
 .fMeta { display: flex; gap: 32px; margin-bottom: 40px; }
 .fMetaLabel { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin-bottom: 4px; }
 .fMetaVal { font-size: 14px; color: var(--text); }
@@ -140,7 +140,7 @@
   font-size: 32px; font-weight: 800; letter-spacing: -.04em; line-height: 1;
   color: var(--amber); margin-bottom: 4px;
 }
-.fResultLbl { font-size: 12px; color: var(--muted); font-weight: 300; }
+.fResultLbl { font-size: 14px; color: var(--muted); font-weight: 400; }
 
 /* ─── GRID ────────────────────────────────────────────── */
 .gridSection { max-width: 1400px; margin: 0 auto; padding: 64px 48px 120px; }
@@ -219,7 +219,7 @@
   color: var(--text);
 }
 .ctaH2 em { font-style: normal; color: var(--amber); }
-.ctaP { font-size: 16px; color: var(--muted); line-height: 1.65; font-weight: 300; margin-top: 14px; max-width: 480px; }
+.ctaP { font-size: 18px; color: var(--muted); line-height: 1.65; font-weight: 400; margin-top: 14px; max-width: 480px; }
 .btnAmber {
   background: var(--amber); color: var(--bg);
   font-family: var(--font-syne, 'Syne', sans-serif); font-size: 13px; font-weight: 700;
@@ -233,7 +233,7 @@
 .footer {
   border-top: 1px solid var(--border); padding: 36px 48px;
   display: flex; align-items: center; justify-content: space-between;
-  font-size: 12px; color: var(--faint);
+  font-size: 13px; color: var(--faint);
   background: var(--bg);
 }
 .footerLinks { display: flex; gap: 28px; }
