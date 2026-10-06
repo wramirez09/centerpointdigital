@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import MobileMenu from '@/components/MobileMenu/MobileMenu';
+import SiteNav from '@/components/SiteNav/SiteNav';
 import Image from 'next/image';
 import styles from './centerpointWork.module.css';
 import { FEATURED_PROJECT, GRID_PROJECTS } from './projects';
@@ -14,12 +14,6 @@ const STATS = [
 ];
 
 /* ─── SVG ───────────────────────────────────────────────── */
-const LogoIcon = () => (
-  <svg viewBox="0 0 12 12" width="12" height="12">
-    <circle cx="6" cy="6" r="2.5" fill="currentColor"/>
-    <circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" strokeWidth="1.2"/>
-  </svg>
-);
 const ArrowSmall = () => (
   <svg viewBox="0 0 12 12" width="12" height="12" fill="none"
     stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -35,20 +29,7 @@ export default function CenterpointWorkPage() {
     <div className={styles.root}>
 
       {/* ── NAV ── */}
-      <nav className={styles.nav}>
-        <Link href="/" className={styles.navLogo}>
-          <div className={styles.navMark}><LogoIcon /></div>
-          CenterPoint<span style={{ color: 'var(--amber)' }}>.</span>
-        </Link>
-        <ul className={styles.navLinks}>
-          <li><Link href="/">Home</Link></li>
-          <li><a href="/#services">Services</a></li>
-          <li><Link href="/work" className={styles.navLinkActive}>Work</Link></li>
-          <li><a href="/#about">About</a></li>
-        </ul>
-        <a href="/#consult" className={styles.navCta}>Free Consultation</a>
-        <MobileMenu current="work" />
-      </nav>
+      <SiteNav current="work" />
 
       {/* ── PAGE HEADER ── */}
       <header className={styles.pageHeader}>
@@ -156,6 +137,18 @@ export default function CenterpointWorkPage() {
                     <div className={styles.cardTag}>{p.tag}</div>
                     <div className={styles.cardName}>{p.name}</div>
                     <div className={styles.cardDesc}>{p.desc}</div>
+                    {(p.scope || p.stack) && (
+                      <div className={styles.cardLists}>
+                        {[['What we did', p.scope], ['Built with', p.stack]].filter(([, items]) => items).map(([label, items]) => (
+                          <div key={label}>
+                            <div className={styles.cardListLabel}>{label}</div>
+                            <ul className={styles.cardList}>
+                              {items.map((item) => <li key={item}>{item}</li>)}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <div className={styles.cardFooter}>
                     <span className={styles.cardYear}>{p.year}</span>

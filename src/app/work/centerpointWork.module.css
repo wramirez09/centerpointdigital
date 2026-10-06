@@ -19,38 +19,6 @@
 }
 
 /* ─── NAV ─────────────────────────────────────────────── */
-.nav {
-  position: sticky; top: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px; height: 64px;
-  background: rgba(10,9,6,0.92);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-}
-.navLogo {
-  font-family: var(--font-syne, 'Syne', sans-serif);
-  font-weight: 800; font-size: 15px; letter-spacing: -.02em;
-  color: var(--text); text-decoration: none;
-  display: flex; align-items: center; gap: 10px;
-}
-.navMark {
-  width: 28px; height: 28px; border-radius: 6px; background: var(--amber);
-  display: flex; align-items: center; justify-content: center;
-}
-.navMark svg { width: 12px; height: 12px; fill: var(--bg); }
-.navLinks { display: flex; gap: 36px; list-style: none; font-size: 13px; margin: 0; padding: 0; }
-.navLinks a { color: var(--muted); text-decoration: none; transition: color .15s; }
-.navLinks a:hover { color: var(--text); }
-.navLinkActive { color: var(--text) !important; }
-.navCta {
-  font-family: var(--font-outfit, 'Outfit', sans-serif);
-  font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  padding: 9px 20px; border-radius: 4px;
-  border: 1px solid var(--amber); color: var(--amber);
-  text-decoration: none; transition: background .2s, color .2s;
-}
-.navCta:hover { background: var(--amber); color: var(--bg); }
-
 /* ─── PAGE HEADER ─────────────────────────────────────── */
 .pageHeader {
   padding: 96px 48px 80px;
@@ -193,6 +161,11 @@
 .cardTag { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
 .cardName { font-family: var(--font-outfit, 'Outfit', sans-serif); font-size: 18px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 6px; color: var(--text); }
 .cardDesc { font-size: 15px; color: rgba(237,230,214,0.72); line-height: 1.6; font-weight: 400; }
+.cardLists { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
+.cardListLabel { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(237,230,214,0.55); margin-bottom: 10px; }
+.cardList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.cardList li { font-size: 14px; color: rgba(237,230,214,0.72); line-height: 1.4; padding-left: 14px; position: relative; }
+.cardList li::before { content: ''; position: absolute; left: 0; top: .55em; width: 5px; height: 5px; border-radius: 50%; background: var(--amber); }
 .cardFooter { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
 .cardYear { font-size: 13px; color: rgba(237,230,214,0.55); font-weight: 400; font-variant-numeric: tabular-nums; }
 .cardArrow {
@@ -242,9 +215,6 @@
 
 /* ─── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 960px) {
-  .nav { padding: 0 24px; }
-  .navLinks { display: none; }
-  .navCta { display: none; }
   .pageHeader { padding: 64px 24px 56px; }
   .pageHeaderInner { grid-template-columns: 1fr; }
   .pageHeaderBg { display: none; }

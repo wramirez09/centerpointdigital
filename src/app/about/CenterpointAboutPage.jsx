@@ -7,7 +7,7 @@
 
 import styles from './centerpointAbout.module.css';
 import Link from 'next/link';
-import MobileMenu from '@/components/MobileMenu/MobileMenu';
+import SiteNav from '@/components/SiteNav/SiteNav';
 
 export const metadata = {
   title: 'About — CenterPoint Digital',
@@ -57,12 +57,6 @@ const PROCESS = [
 ];
 
 /* ─── SVG ICONS ────────────────────────────────────────── */
-const LogoIcon = () => (
-  <svg viewBox="0 0 12 12" width="12" height="12">
-    <circle cx="6" cy="6" r="2.5" fill="currentColor" />
-    <circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" strokeWidth="1.2" />
-  </svg>
-);
 const SOCIAL_SVGS = {
   linkedin: <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>,
   twitter:  <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>,
@@ -76,20 +70,7 @@ export default function CenterpointAboutPage() {
     <div className={styles.root}>
 
       {/* ── NAV ── */}
-      <nav className={styles.nav}>
-        <Link href="/" className={styles.navLogo}>
-          <div className={styles.navMark}><LogoIcon /></div>
-          CenterPoint<span style={{ color: 'var(--amber)' }}>.</span>
-        </Link>
-        <ul className={styles.navLinks}>
-          <li><Link href="/">Home</Link></li>
-          <li><Link href="/#services">Services</Link></li>
-          <li><Link href="/work">Work</Link></li>
-          <li><Link href="/about" className={styles.navLinkActive}>About</Link></li>
-        </ul>
-        <Link href="/#consult" className={styles.navCta}>Free Consultation</Link>
-        <MobileMenu current="about" />
-      </nav>
+      <SiteNav current="about" />
 
       {/* ── HERO ── */}
       <header className={styles.hero}>

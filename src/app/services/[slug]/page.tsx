@@ -3,7 +3,7 @@ import styles from './centerpointService.module.css';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import MobileMenu from '@/components/MobileMenu/MobileMenu';
+import SiteNav from '@/components/SiteNav/SiteNav';
 import SERVICES from '../services';
 import PROJECTS from '../../work/projects';
 import type { Metadata } from 'next';
@@ -19,15 +19,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     title: `${service.name} — CenterPoint Digital`,
     description: service.intro,
   };
-}
-
-function LogoIcon() {
-  return (
-    <svg viewBox="0 0 12 12" width="12" height="12">
-      <circle cx="6" cy="6" r="2.5" fill="currentColor" />
-      <circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" strokeWidth="1.2" />
-    </svg>
-  );
 }
 
 function ArrowRight() {
@@ -53,20 +44,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
     <div className={s.root}>
 
       {/* ── NAV ── */}
-      <nav className={s.nav}>
-        <Link href="/" className={s.navLogo}>
-          <div className={s.navMark}><LogoIcon /></div>
-          CenterPoint<span style={{ color: 'var(--amber)' }}>.</span>
-        </Link>
-        <ul className={s.navLinks}>
-          <li><Link href="/">Home</Link></li>
-          <li><a href="/#services">Services</a></li>
-          <li><Link href="/work">Work</Link></li>
-          <li><Link href="/about">About</Link></li>
-        </ul>
-        <Link href="/#consult" className={s.navCta}>Free Consultation</Link>
-        <MobileMenu current="service" slug={params.slug} />
-      </nav>
+      <SiteNav current="service" slug={params.slug} />
 
       {/* ── BREADCRUMB ── */}
       <div className={s.breadcrumb}>

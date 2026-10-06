@@ -41,6 +41,8 @@ export interface Project {
   client:         string
   timeline?:      string   // omitted when unknown; hidden on the page
   services:       string[]
+  scope?:         string[]  // work card: what we did
+  stack?:         string[]  // work card: tech used to build and deploy
   heroImgAlt:     string
   heroImgSrc?:    string   // detail page hero image
   heroPages?:     PageCapture[]  // full-page captures of every page, opened from the hero
@@ -82,6 +84,8 @@ const PROJECTS: Project[] = [
     client: 'NoteDoctor.AI',
     timeline: '8 weeks',
     services: ['RAG Architecture', 'Next.js Development', 'LangChain', 'OpenAI Integration', 'Public REST API', 'MCP Server', 'OAuth 2.1', 'Authentication', 'Stripe Payments', 'UI/UX Design', 'Deployment'],
+    scope:    ['RAG pipeline', 'Public REST API', 'MCP server', 'Auth & billing', 'UI/UX design', 'Deployment'],
+    stack:    ['Next.js', 'LangChain', 'OpenAI', 'OAuth 2.1', 'Stripe'],
     heroImgAlt: 'NoteDoctor.AI request form beside an AI-generated prior authorization summary',
     heroImgSrc: '/images/projects/noteDoctorAi_webApp/request-summary.webp',
     results: [
@@ -202,6 +206,8 @@ const PROJECTS: Project[] = [
     client: 'NoteDoctor.AI',
     timeline: '3 weeks',
     services: ['Web Design', 'Next.js Development', 'Content Development', 'Server Configuration', 'Domain Transfer', 'Deployment'],
+    scope:    ['Web design', 'Content & copy', 'Server configuration', 'Domain transfer', 'Deployment'],
+    stack:    ['Next.js'],
     heroImgAlt: 'NoteDoctor.AI homepage hero',
     heroImgSrc: '/images/projects/noteDoctorAi/home-hero.webp',
     heroPages: [
@@ -274,6 +280,8 @@ const PROJECTS: Project[] = [
     client: '1 Stop Property Maintenance Inc.',
     timeline: '4 weeks',
     services: ['Web Design', 'Next.js Development', 'Tailwind CSS', 'Content Creation', 'SEO', 'Server Configuration', 'Deployment'],
+    scope:    ['Web design', 'Content creation', 'SEO', 'Server configuration', 'Deployment'],
+    stack:    ['Next.js', 'Tailwind CSS'],
     heroImgAlt: '1 Stop Property Maintenance website',
     heroImgSrc: '/images/projects/oneStop/hero.webp',
     heroPages: [
@@ -339,6 +347,8 @@ const PROJECTS: Project[] = [
     title: ['Spotless', 'Carwash.'],
     client: 'Spotless Carwash',
     services: ['Web Design', 'Next.js Development', 'Sanity CMS', 'Stripe Checkout', 'Local SEO'],
+    scope:    ['Web design', 'Online token sales', 'Local SEO'],
+    stack:    ['Next.js', 'Sanity CMS', 'Stripe Checkout'],
     heroImgAlt: 'Spotless Carwash homepage hero',
     heroImgSrc: '/images/projects/spotless/hero.webp',
     heroPages: [
@@ -403,6 +413,8 @@ const PROJECTS: Project[] = [
     client: 'Runaway Cow',
     status: 'Unsolicited pitch, not engaged',
     services: ['Web Design', 'Menu Design', 'Content Structure', 'React', 'Tailwind CSS', 'Cloudflare Pages'],
+    scope:    ['Web design', 'Menu design', 'Content structure'],
+    stack:    ['React', 'Tailwind CSS', 'Cloudflare Pages'],
     heroImgAlt: 'Runaway Cow redesign homepage hero',
     heroImgSrc: '/images/projects/runawayCow/hero.webp',
     heroPages: [
@@ -479,6 +491,7 @@ const PROJECTS: Project[] = [
     client: 'NoteDoctor.AI',
     status: 'Coming soon · in development',
     services: ['iOS App', 'Mobile UI Design', 'Authentication'],
+    scope:    ['iOS app', 'Mobile UI design', 'Authentication'],
     heroImgAlt: 'NoteDoctor.AI iOS sign-in and sign-up screens',
     heroImgSrc: '/images/projects/noteDoctorAi_ios/cover.webp',
     overview: {

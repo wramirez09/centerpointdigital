@@ -2,7 +2,8 @@
 
 import { Fragment, useState } from 'react';
 import Link from 'next/link';
-import MobileMenu from '@/components/MobileMenu/MobileMenu';
+import SiteNav from '@/components/SiteNav/SiteNav';
+import LogoIcon from '@/components/SiteNav/LogoIcon';
 import Image from 'next/image';
 import styles from './centerpoint.module.css';
 import PROJECTS from './work/projects';
@@ -26,6 +27,9 @@ const VALUES = [
 const HOME_WORK_SLUGS = ['notedoctor-prior-auth', 'notedoctor-ai', 'one-stop'];
 const WORK = HOME_WORK_SLUGS.map((slug) => PROJECTS.find((p) => p.slug === slug)).filter(Boolean);
 
+// Every project quote from /work, so a new testimonial shows up here too.
+const TESTIMONIALS = PROJECTS.filter((p) => p.testimonial).map((p) => ({ ...p.testimonial, slug: p.slug, project: p.name }));
+
 const STATS = [
   { num: '120+', lbl: 'projects shipped' },
   { num: '5.0★', lbl: 'average rating' },
@@ -37,13 +41,6 @@ const ArrowRight = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
     stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
     <path d="M2 7h10M8 3l4 4-4 4"/>
-  </svg>
-);
-
-const LogoIcon = () => (
-  <svg viewBox="0 0 12 12" width="12" height="12">
-    <circle cx="6" cy="6" r="2.5" fill="currentColor"/>
-    <circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" strokeWidth="1.2"/>
   </svg>
 );
 
@@ -86,20 +83,7 @@ export default function CenterpointPage() {
     <div className={styles.root}>
 
       {/* ── NAV ── */}
-      <nav className={styles.nav}>
-        <Link href="/" className={styles.navLogo}>
-          <div className={styles.navMark}><LogoIcon /></div>
-          CenterPoint<span style={{ color: 'var(--amber)' }}>.</span>
-        </Link>
-        <ul className={styles.navLinks}>
-          <li><Link href="/">Home</Link></li>
-          <li><a href="#services">Services</a></li>
-          <li><Link href="/work">Work</Link></li>
-          <li><Link href="/about">About</Link></li>
-        </ul>
-        <a href="#consult" className={styles.navCta}>Free Consultation</a>
-        <MobileMenu current="home" />
-      </nav>
+      <SiteNav current="home" />
 
       {/* ── HERO ── */}
       <section className={styles.hero}>
@@ -229,6 +213,33 @@ export default function CenterpointPage() {
           </div>
         </div>
       </section>
+
+      {/* ── TESTIMONIALS ── */}
+      {TESTIMONIALS.length > 0 && (
+        <section className={styles.sectionTestimonials} id="testimonials">
+          <div className={styles.max}>
+            <div className={styles.tag}>Testimonials</div>
+            <h2 className={styles.h2}>What our<br />clients say.</h2>
+            <div className={styles.tGrid}>
+              {TESTIMONIALS.map((t) => (
+                <figure key={t.slug} className={styles.tCard}>
+                  <div className={styles.tStars} aria-label="5 out of 5 stars">★★★★★</div>
+                  <blockquote className={styles.tQuote}>{t.quote}</blockquote>
+                  <figcaption className={styles.tFoot}>
+                    <div>
+                      <div className={styles.tName}>{t.name}</div>
+                      <div className={styles.tRole}>{t.role} · {t.company}</div>
+                    </div>
+                    <Link href={`/work/${t.slug}`} className={styles.tLink}>
+                      {t.project} <ArrowRight />
+                    </Link>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── WORK ── */}
       <section className={styles.sectionWork} id="work">

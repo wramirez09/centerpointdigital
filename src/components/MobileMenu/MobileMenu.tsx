@@ -8,7 +8,7 @@ import PROJECTS from '@/app/work/projects';
 import SERVICES from '@/app/services/services';
 import styles from './MobileMenu.module.css';
 
-type Current = 'home' | 'work' | 'about' | 'project' | 'service';
+export type Current = 'home' | 'work' | 'about' | 'project' | 'service';
 
 const PAGES: { key: Current; label: string; href: string }[] = [
   { key: 'home', label: 'Home', href: '/' },

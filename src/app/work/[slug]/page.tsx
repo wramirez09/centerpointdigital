@@ -1,7 +1,7 @@
 import styles from './centerpointProject.module.css';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import MobileMenu from '@/components/MobileMenu/MobileMenu';
+import SiteNav from '@/components/SiteNav/SiteNav';
 import Image from 'next/image';
 import PROJECTS from '../projects';
 import ProjectGallery from './ProjectGallery';
@@ -23,15 +23,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-function LogoIcon() {
-  return (
-    <svg viewBox="0 0 12 12" width="12" height="12">
-      <circle cx="6" cy="6" r="2.5" fill="currentColor" />
-      <circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" strokeWidth="1.2" />
-    </svg>
-  );
-}
-
 export default function ProjectPage({ params }: { params: { slug: string } }) {
   const project = PROJECTS.find(p => p.slug === params.slug);
   if (!project) notFound();
@@ -49,20 +40,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     <div className={styles.root}>
 
       {/* ── NAV ── */}
-      <nav className={styles.nav}>
-        <Link href="/" className={styles.navLogo}>
-          <div className={styles.navMark}><LogoIcon /></div>
-          CenterPoint<span style={{ color: 'var(--amber)' }}>.</span>
-        </Link>
-        <ul className={styles.navLinks}>
-          <li><Link href="/">Home</Link></li>
-          <li><a href="/#services">Services</a></li>
-          <li><Link href="/work">Work</Link></li>
-          <li><a href="/#about">About</a></li>
-        </ul>
-        <Link href="/#consult" className={styles.navCta}>Free Consultation</Link>
-        <MobileMenu current="project" slug={params.slug} />
-      </nav>
+      <SiteNav current="project" slug={params.slug} />
 
       {/* ── BREADCRUMB ── */}
       <div className={styles.breadcrumb}>
