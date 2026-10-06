@@ -157,7 +157,7 @@ export default function CenterpointPage() {
           <div className={styles.servicesHead}>
             <div>
               <div className={styles.tag}>What we do</div>
-              <h2 className={styles.h2}>Six ways we<br />grow your business.</h2>
+              <h2 className={`${styles.h2} ${styles.h2Sans}`}>Six ways we<br />grow your business.</h2>
             </div>
             <p className={styles.sub}>
               Every service is built around one goal: shipping work that drives real growth.
@@ -190,7 +190,7 @@ export default function CenterpointPage() {
             {/* Left */}
             <div className={styles.aboutLeft}>
               <div className={styles.tag}>Our mission</div>
-              <h2 className={styles.h2}>Built for<br />builders.</h2>
+              <h2 className={`${styles.h2} ${styles.h2Sans}`}>Built for<br />builders.</h2>
               <p className={styles.sub} style={{ marginTop: 20 }}>
                 We started CenterPoint because great digital products shouldn't be out of reach
                 for small businesses. We partner closely with founders to ship work that
@@ -211,7 +211,7 @@ export default function CenterpointPage() {
             {/* Right */}
             <div className={styles.aboutRight}>
               <div className={styles.tag}>How we work</div>
-              <h2 className={styles.h2} style={{ fontSize: 'clamp(28px,3vw,44px)' }}>
+              <h2 className={`${styles.h2} ${styles.h2Sans}`} style={{ fontSize: 'clamp(34px,3.6vw,54px)' }}>
                 Three things<br />we never<br />compromise on.
               </h2>
               <div className={styles.valList}>
@@ -304,7 +304,7 @@ export default function CenterpointPage() {
               {submitted ? (
                 <div style={{ textAlign: 'center', padding: '40px 0' }}>
                   <div style={{
-                    fontFamily: 'var(--font-syne,"Syne",sans-serif)',
+                    fontFamily: 'var(--font-outfit,"Outfit",sans-serif)',
                     fontSize: 32, fontWeight: 800, letterSpacing: '-.03em',
                     color: 'var(--amber)', marginBottom: 12,
                   }}>We'll be in touch.</div>

@@ -62,7 +62,7 @@
   border-bottom: 1px solid var(--border);
 }
 .panelTitle {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
   color: var(--faint);
 }
@@ -78,7 +78,7 @@
 .pages { list-style: none; margin: 0 0 8px; padding: 0; }
 .pageLink {
   display: block; padding: 12px 0;
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 30px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1;
   color: var(--text); text-decoration: none;
 }
@@ -106,7 +106,7 @@
 .cta {
   flex-shrink: 0; margin: 0 24px 24px;
   display: flex; align-items: center; justify-content: center; height: 48px;
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
   border-radius: 4px; background: var(--amber); color: var(--bg); text-decoration: none;
 }

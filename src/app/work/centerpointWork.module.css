@@ -43,7 +43,7 @@
 .navLinks a:hover { color: var(--text); }
 .navLinkActive { color: var(--text) !important; }
 .navCta {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
   padding: 9px 20px; border-radius: 4px;
   border: 1px solid var(--amber); color: var(--amber);
@@ -84,7 +84,7 @@
 .pageSub { font-size: 18px; color: var(--muted); line-height: 1.7; font-weight: 400; max-width: 420px; }
 .headerStats { display: flex; flex-direction: column; gap: 32px; flex-shrink: 0; }
 .hstatNum {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 48px; font-weight: 800; letter-spacing: -.04em; line-height: 1; color: var(--text);
 }
 .hstatNum span { color: var(--amber); }
@@ -115,7 +115,7 @@
 }
 .featuredImgPlaceholder {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
   color: var(--faint); padding: 10px 20px; border: 1px solid var(--border); border-radius: 2px;
 }
@@ -125,7 +125,7 @@
 }
 .fTag { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); margin-bottom: 16px; }
 .fTitle {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: clamp(28px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em;
   line-height: 1.05; margin-bottom: 20px; color: var(--text);
 }
@@ -136,7 +136,7 @@
 .fResults { display: flex; gap: 24px; }
 .fResultCell { padding: 20px 24px; border: 1px solid var(--border); border-radius: 4px; flex: 1; }
 .fResultNum {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 32px; font-weight: 800; letter-spacing: -.04em; line-height: 1;
   color: var(--amber); margin-bottom: 4px;
 }
@@ -178,7 +178,7 @@
 }
 .cardPlaceholder {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
   color: var(--faint); padding: 6px 14px; border: 1px solid var(--border); border-radius: 2px;
 }
@@ -191,7 +191,7 @@
 .projectCard:hover .cardHoverOverlay { opacity: 1; }
 .cardInfo { padding: 24px 28px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
 .cardTag { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
-.cardName { font-family: var(--font-syne, 'Syne', sans-serif); font-size: 18px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 6px; color: var(--text); }
+.cardName { font-family: var(--font-outfit, 'Outfit', sans-serif); font-size: 18px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 6px; color: var(--text); }
 .cardDesc { font-size: 15px; color: rgba(237,230,214,0.72); line-height: 1.6; font-weight: 400; }
 .cardFooter { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
 .cardYear { font-size: 13px; color: rgba(237,230,214,0.55); font-weight: 400; font-variant-numeric: tabular-nums; }
@@ -205,7 +205,7 @@
 .cardArrow svg { width: 12px; height: 12px; stroke: var(--muted); stroke-width: 1.8; fill: none; stroke-linecap: round; }
 .projectCard:hover .cardArrow svg { stroke: var(--bg); }
 .hoverTag { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 4px; }
-.hoverName { font-family: var(--font-syne, 'Syne', sans-serif); font-size: 20px; font-weight: 800; letter-spacing: -.03em; color: var(--text); }
+.hoverName { font-family: var(--font-outfit, 'Outfit', sans-serif); font-size: 20px; font-weight: 800; letter-spacing: -.03em; color: var(--text); }
 
 /* ─── CTA ─────────────────────────────────────────────── */
 .ctaSection { border-top: 1px solid var(--border); background: var(--bg2); }
@@ -222,7 +222,7 @@
 .ctaP { font-size: 18px; color: var(--muted); line-height: 1.65; font-weight: 400; margin-top: 14px; max-width: 480px; }
 .btnAmber {
   background: var(--amber); color: var(--bg);
-  font-family: var(--font-syne, 'Syne', sans-serif); font-size: 13px; font-weight: 700;
+  font-family: var(--font-outfit, 'Outfit', sans-serif); font-size: 13px; font-weight: 700;
   letter-spacing: .06em; text-transform: uppercase;
   padding: 18px 36px; border-radius: 4px; text-decoration: none;
   transition: opacity .2s, transform .15s; white-space: nowrap; flex-shrink: 0;

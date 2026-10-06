@@ -87,7 +87,7 @@
 }
 
 .navCta {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .06em;
@@ -207,7 +207,7 @@
 }
 
 .heroStatNum {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 36px;
   font-weight: 800;
   letter-spacing: -.03em;
@@ -233,7 +233,7 @@
 .btnAmber {
   background: var(--amber);
   color: var(--bg);
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: .04em;
@@ -301,7 +301,7 @@
 }
 
 .tickerItem {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: .12em;
@@ -346,7 +346,7 @@
 }
 
 .tag {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .2em;
@@ -372,6 +372,11 @@
   letter-spacing: -.04em;
   line-height: 1.0;
   color: var(--text);
+}
+
+.h2Sans {
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
+  font-size: clamp(44px, 5vw, 76px);
 }
 
 .sub {
@@ -401,7 +406,7 @@
   grid-template-columns: 56px 1fr auto;
   align-items: center;
   gap: 32px;
-  padding: 28px 0;
+  padding: 28px 24px 28px 0;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
   text-decoration: none;
@@ -438,7 +443,7 @@
 }
 
 .svcNum {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 12px;
   font-weight: 700;
   color: var(--faint);
@@ -446,7 +451,7 @@
 }
 
 .svcName {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 22px;
   font-weight: 700;
   letter-spacing: -.02em;
@@ -530,7 +535,7 @@
 }
 
 .aboutNumBig {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 52px;
   font-weight: 800;
   letter-spacing: -.04em;
@@ -571,23 +576,23 @@
 
 .valIcon {
   color: var(--amber);
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-weight: 800;
-  font-size: 14px;
-  margin-top: 2px;
+  font-size: 18px;
+  margin-top: 1px;
 }
 
 .valTitle {
-  font-family: var(--font-syne, 'Syne', sans-serif);
-  font-size: 15px;
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   letter-spacing: -.01em;
   color: var(--text);
 }
 
 .valBody {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--muted);
   line-height: 1.6;
   font-weight: 400;
@@ -659,7 +664,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: .16em;
@@ -680,7 +685,7 @@
 }
 
 .workTitle {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -.02em;
@@ -742,7 +747,7 @@
 }
 
 .offerPct {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 32px;
   font-weight: 800;
   color: var(--amber);
@@ -835,7 +840,7 @@
 .btnSubmit {
   background: var(--amber);
   color: var(--bg);
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: .06em;
@@ -918,7 +923,7 @@
 }
 
 .fCol h4 {
-  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .14em;
@@ -1175,6 +1180,10 @@
 
   .h2 {
     font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .h2Sans {
+    font-size: clamp(34px, 9.5vw, 48px);
   }
 
   .aboutLeft,
