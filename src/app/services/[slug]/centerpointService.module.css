@@ -1,0 +1,149 @@
+/* Service detail page. Shares tokens and most layout with the project page
+   (centerpointProject.module.css); only what's new lives here. */
+
+/* ─── HERO ────────────────────────────────────────────── */
+.serviceHero {
+  max-width: 1400px; margin: 0 auto;
+  padding: 32px 48px 96px;
+  border-bottom: 1px solid var(--border);
+}
+.serviceHero .serviceHeroTop { margin-bottom: 0; }
+.serviceHeroTop > * { min-width: 0; }
+.heroIntro {
+  font-size: 20px; line-height: 1.65; color: var(--muted); font-weight: 400;
+  max-width: 640px; margin: 32px 0 0;
+}
+.heroCtas { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 40px; }
+.btnOutline {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-syne, 'Syne', sans-serif); font-size: 13px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 17px 28px; border-radius: 4px; text-decoration: none;
+  border: 1px solid rgba(237,230,214,0.2); color: var(--text);
+  transition: border-color .2s, color .2s;
+}
+.btnOutline:hover { border-color: var(--amber); color: var(--amber); }
+.serviceHeroMeta { max-width: 320px; }
+.bestFor { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.bestFor li {
+  position: relative; padding-left: 20px;
+  font-size: 15px; line-height: 1.5; color: var(--text);
+}
+.bestFor li::before {
+  content: ''; position: absolute; left: 0; top: .7em; width: 10px; height: 2px; background: var(--amber);
+}
+
+/* ─── WHAT'S INCLUDED ─────────────────────────────────── */
+.offeringsSection { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); }
+.offeringsInner { max-width: 1400px; margin: 0 auto; padding: 96px 48px; }
+.offeringsGrid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+  margin-top: 56px;
+}
+.offering { background: var(--bg); padding: 40px 36px; transition: background .2s; }
+.offering:hover { background: var(--bg3); }
+
+/* ─── RELATED WORK ────────────────────────────────────── */
+.workGrid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px; margin-top: 56px;
+}
+.workCard {
+  display: flex; flex-direction: column;
+  border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+  text-decoration: none; transition: border-color .3s;
+}
+.workCard:hover { border-color: rgba(237,230,214,0.2); }
+.workCard:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.workImg { position: relative; height: 240px; overflow: hidden; }
+.workImg img { transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+.workCard:hover .workImg img { transform: scale(1.04); }
+.workBadge {
+  position: absolute; top: 14px; left: 14px; z-index: 1;
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 6px 10px; border-radius: 2px; background: var(--amber); color: #0a0906;
+}
+.workInfo { padding: 28px 28px 32px; background: var(--bg2); flex: 1; }
+.workTitle {
+  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-size: 22px; font-weight: 800; letter-spacing: -.03em; line-height: 1.15;
+  color: var(--text); margin-bottom: 10px;
+}
+.workDesc { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+/* ─── FAQ ─────────────────────────────────────────────── */
+.faqList { border-top: 1px solid var(--border); }
+.faq { border-bottom: 1px solid var(--border); }
+.faq summary {
+  list-style: none; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center; gap: 24px;
+  padding: 24px 0;
+  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-size: 19px; font-weight: 700; letter-spacing: -.02em; color: var(--text);
+  transition: color .15s;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: '+'; flex-shrink: 0;
+  font-size: 24px; font-weight: 400; color: var(--amber); transition: transform .2s;
+}
+.faq[open] summary::after { transform: rotate(45deg); }
+.faq summary:hover { color: var(--amber); }
+.faq summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
+.faq p { margin: 0 0 24px; max-width: 720px; font-size: 17px; line-height: 1.75; color: var(--muted); }
+
+/* ─── OTHER SERVICES ──────────────────────────────────── */
+.otherList { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+.otherRow {
+  position: relative;
+  display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 32px;
+  padding: 24px 0; border-bottom: 1px solid var(--border);
+  text-decoration: none; transition: padding-left .3s;
+}
+.otherRow::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  background: var(--amber-d); transition: width .3s;
+}
+.otherRow:hover::before { width: 100%; }
+.otherRow:hover { padding-left: 12px; }
+.otherRow:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.otherNum {
+  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-size: 12px; font-weight: 700; color: var(--faint); letter-spacing: .04em;
+}
+.otherName {
+  position: relative; z-index: 1;
+  font-family: var(--font-syne, 'Syne', sans-serif);
+  font-size: 20px; font-weight: 700; letter-spacing: -.02em; color: var(--text);
+}
+.otherSub {
+  display: block; margin-top: 3px;
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
+  font-size: 15px; font-weight: 400; letter-spacing: 0; color: var(--muted);
+}
+.otherArrow {
+  position: relative; z-index: 1;
+  width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); transition: border-color .2s, background .2s, color .2s;
+}
+.otherRow:hover .otherArrow { border-color: var(--amber); background: var(--amber); color: var(--bg); }
+
+/* ─── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 960px) {
+  .serviceHero { padding: 24px 24px 64px; }
+  .serviceHero .serviceHeroTop { gap: 40px; }
+  .serviceHeroMeta { max-width: none; }
+  .serviceHero h1 { font-size: clamp(36px, 10.5vw, 72px); }
+  .heroIntro { font-size: 18px; }
+  .offeringsInner { padding: 64px 24px; }
+  .offeringsGrid { grid-template-columns: 1fr; }
+  .workGrid { grid-template-columns: 1fr; }
+  .otherRow { grid-template-columns: 32px 1fr auto; gap: 16px; }
+  .otherName { font-size: 17px; }
+  .otherSub { font-size: 14px; }
+}
+@media (min-width: 961px) and (max-width: 1200px) {
+  .offeringsGrid { grid-template-columns: repeat(2, 1fr); }
+}

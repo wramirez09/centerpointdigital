@@ -5,9 +5,10 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import PROJECTS from '@/app/work/projects';
+import SERVICES from '@/app/services/services';
 import styles from './MobileMenu.module.css';
 
-type Current = 'home' | 'work' | 'about' | 'project';
+type Current = 'home' | 'work' | 'about' | 'project' | 'service';
 
 const PAGES: { key: Current; label: string; href: string }[] = [
   { key: 'home', label: 'Home', href: '/' },
@@ -96,13 +97,29 @@ export default function MobileMenu({ current, slug }: { current: Current; slug?:
             ))}
           </ul>
 
+          <div className={styles.groupLabel}>Services</div>
+          <ul className={styles.list}>
+            {SERVICES.map((s) => {
+              const active = current === 'service' && slug === s.slug;
+              return (
+                <li key={s.slug}>
+                  <Link href={`/services/${s.slug}`} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}
+                    className={`${styles.subLink} ${active ? styles.active : ''}`}
+                    aria-current={active ? 'page' : undefined}>
+                    <span>{s.name}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+
           <div className={styles.groupLabel}>Work</div>
           <ul className={styles.list}>
             {PROJECTS.map((p) => (
               <li key={p.slug}>
                 <Link href={`/work/${p.slug}`} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}
-                  className={`${styles.subLink} ${slug === p.slug ? styles.active : ''}`}
-                  aria-current={slug === p.slug ? 'page' : undefined}>
+                  className={`${styles.subLink} ${current === 'project' && slug === p.slug ? styles.active : ''}`}
+                  aria-current={current === 'project' && slug === p.slug ? 'page' : undefined}>
                   <span>{p.name}</span>
                   <span className={styles.subTag}>{p.tag}</span>
                 </Link>

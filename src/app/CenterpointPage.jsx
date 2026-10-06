@@ -6,17 +6,9 @@ import MobileMenu from '@/components/MobileMenu/MobileMenu';
 import Image from 'next/image';
 import styles from './centerpoint.module.css';
 import PROJECTS from './work/projects';
+import SERVICES from './services/services';
 
 /* ─── DATA ─────────────────────────────────────────────── */
-const SERVICES = [
-  { num: '01', name: 'Web Design & Development', sub: 'Fast, beautiful sites that convert visitors into customers' },
-  { num: '02', name: 'Mobile Apps',              sub: 'Native-quality iOS & Android from MVP to full product' },
-  { num: '03', name: 'AI & RAG Applications',   sub: 'Custom LLM-powered apps and retrieval pipelines built for production' },
-  { num: '04', name: 'Branding & Identity',      sub: 'Logos, visual systems, and guidelines built to last' },
-  { num: '05', name: 'SEO & Digital Marketing',  sub: 'Organic growth strategies that compound over time' },
-  { num: '06', name: 'UI/UX Design',             sub: 'Research-led design that reduces friction and lifts retention' },
-  { num: '07', name: 'Social Media Management',  sub: 'On-brand content that builds community and drives leads' },
-];
 
 const TICKER_ITEMS = [
   'Web Design', 'Mobile Apps', 'AI Applications', 'Branding', 'SEO & Marketing', 'UI/UX Design', 'RAG Pipelines', 'Social Media',
@@ -173,7 +165,7 @@ export default function CenterpointPage() {
           </div>
           <div className={styles.svcList}>
             {SERVICES.map((s) => (
-              <div key={s.num} className={styles.svcRow}>
+              <Link key={s.num} href={`/services/${s.slug}`} className={styles.svcRow}>
                 <div className={styles.svcNum}>{s.num}</div>
                 <div className={styles.svcName}>
                   {s.name}
@@ -185,7 +177,7 @@ export default function CenterpointPage() {
                     <path d="M2 7h10M8 3l4 4-4 4"/>
                   </svg>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -413,12 +405,9 @@ export default function CenterpointPage() {
           <div className={styles.fCol}>
             <h4>Services</h4>
             <ul>
-              <li><a href="#services">Web Development</a></li>
-              <li><a href="#services">Mobile Apps</a></li>
-              <li><a href="#services">AI &amp; RAG Apps</a></li>
-              <li><a href="#services">Branding</a></li>
-              <li><a href="#services">SEO &amp; Marketing</a></li>
-              <li><a href="#services">UI/UX Design</a></li>
+              {SERVICES.map((s) => (
+                <li key={s.slug}><Link href={`/services/${s.slug}`}>{s.name}</Link></li>
+              ))}
             </ul>
           </div>
           <div className={styles.fCol}>

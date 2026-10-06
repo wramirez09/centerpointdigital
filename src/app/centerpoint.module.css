@@ -403,7 +403,8 @@
   gap: 32px;
   padding: 28px 0;
   border-bottom: 1px solid var(--border);
-  cursor: default;
+  cursor: pointer;
+  text-decoration: none;
   transition: padding-left .3s;
   position: relative;
 }
@@ -429,6 +430,11 @@
 
 .svcRow:hover {
   padding-left: 12px;
+}
+
+.svcRow:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
 }
 
 .svcNum {
