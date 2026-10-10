@@ -1,0 +1,112 @@
+/* The panel is portalled to <body>, outside each page's token scope, so the
+   site palette is restated here. Keep in sync with the page modules. */
+.layer {
+  --bg:     #0a0906;
+  --bg3:    #141210;
+  --text:   #ede6d6;
+  --muted:  rgba(237,230,214,0.72);
+  --faint:  rgba(237,230,214,0.42);
+  --border: rgba(237,230,214,0.1);
+  --amber:  oklch(76% 0.18 72);
+}
+
+/* ─── TOGGLE (lives in each page's nav) ─────────────────── */
+.toggle {
+  display: none;
+  flex-direction: column; justify-content: center; gap: 5px;
+  width: 44px; height: 44px; margin-right: -10px; padding: 0 11px;
+  background: none; border: 0; cursor: pointer;
+}
+.toggle span { display: block; height: 2px; border-radius: 2px; background: #ede6d6; }
+.toggle span:nth-child(2) { width: 70%; margin-left: auto; background: oklch(76% 0.18 72); }
+.toggle:focus-visible { outline: 2px solid oklch(76% 0.18 72); outline-offset: 2px; border-radius: 4px; }
+
+@media (max-width: 960px) {
+  .toggle { display: flex; }
+}
+
+/* ─── LAYER ─────────────────────────────────────────────── */
+.layer {
+  position: fixed; inset: 0; z-index: 1100;
+  visibility: hidden; pointer-events: none;
+  transition: visibility 0s linear .32s;
+}
+.layerOpen { visibility: visible; pointer-events: auto; transition: visibility 0s; }
+
+.backdrop {
+  position: absolute; inset: 0;
+  background: rgba(10,9,6,0.6); backdrop-filter: blur(4px);
+  opacity: 0; transition: opacity .32s ease;
+}
+.layerOpen .backdrop { opacity: 1; }
+
+.panel {
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: min(86vw, 380px);
+  display: flex; flex-direction: column;
+  background: var(--bg); color: var(--text);
+  border-left: 1px solid var(--border);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
+  transform: translateX(100%);
+  transition: transform .32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.layerOpen .panel { transform: translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .layer, .backdrop, .panel { transition: none; }
+}
+
+.panelHead {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; padding: 0 16px 0 24px; flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+.panelTitle {
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
+  font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--faint);
+}
+.close {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; padding: 0;
+  background: none; border: 0; color: var(--text); cursor: pointer;
+}
+.close:focus-visible { outline: 2px solid var(--amber); outline-offset: -4px; border-radius: 4px; }
+
+.body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 8px 24px 24px; }
+
+.pages { list-style: none; margin: 0 0 8px; padding: 0; }
+.pageLink {
+  display: block; padding: 12px 0;
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
+  font-size: 30px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1;
+  color: var(--text); text-decoration: none;
+}
+
+.groupLabel {
+  margin: 24px 0 6px;
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--amber);
+}
+.list { list-style: none; margin: 0; padding: 0; }
+.list li + li .subLink { border-top: 1px solid var(--border); }
+.subLink {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 12px 0; min-height: 44px; justify-content: center;
+  font-size: 16px; color: var(--text); text-decoration: none;
+}
+.subTag { font-size: 12px; color: var(--muted); }
+
+.pageLink:hover, .subLink:hover { color: var(--amber); }
+.pageLink:focus-visible, .subLink:focus-visible, .cta:focus-visible {
+  outline: 2px solid var(--amber); outline-offset: 2px; border-radius: 2px;
+}
+.active { color: var(--amber); }
+
+.cta {
+  flex-shrink: 0; margin: 0 24px 24px;
+  display: flex; align-items: center; justify-content: center; height: 48px;
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
+  font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  border-radius: 4px; background: var(--amber); color: var(--bg); text-decoration: none;
+}

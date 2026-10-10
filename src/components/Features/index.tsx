@@ -4,10 +4,11 @@ import { motion } from 'framer-motion';
 import SectionTitle from '../Common/SectionTitle';
 import SingleFeature from './SingleFeature';
 import featuresData from './featuresData';
+import { Container } from '@mantine/core';
 
 const Features = () => {
   return (
-    <>
+    <Container size={'xl'}>
       <section id="features" className="py-16 md:py-20 lg:py-28">
         <div className="container">
           <motion.div
@@ -16,8 +17,9 @@ const Features = () => {
             transition={{ duration: 2 }}
           >
             <SectionTitle
-              title="Comprehensive Digital Solutions for Agencies & Their Clients"
-              paragraph="we specialize in providing full-scale digital solutions designed to help ad agencies meet their clients' needs"
+              width="100%"
+              title="Comprehensive Digital Solutions for Businesses"
+              paragraph="we specialize in providing full-scale digital solutions designed to help Businesses Grow"
               center
             />
           </motion.div>
@@ -29,7 +31,7 @@ const Features = () => {
           </div>
         </div>
       </section>
-    </>
+    </Container>
   );
 };
 

@@ -1,0 +1,177 @@
+'use client';
+
+import Link from 'next/link';
+import SiteNav from '@/components/SiteNav/SiteNav';
+import CtaBand from '@/components/CtaBand/CtaBand';
+import SiteFooter from '@/components/SiteFooter/SiteFooter';
+import Image from 'next/image';
+import styles from './centerpointWork.module.css';
+import { FEATURED_PROJECT, GRID_PROJECTS } from './projects';
+
+/* ─── STATIC DATA ───────────────────────────────────────── */
+const STATS = [
+  { num: '120', suffix: '+',  lbl: 'projects shipped' },
+  { num: '8',   suffix: 'yr', lbl: 'in business' },
+  { num: '96',  suffix: '%',  lbl: 'client satisfaction' },
+];
+
+/* ─── SVG ───────────────────────────────────────────────── */
+const ArrowSmall = () => (
+  <svg viewBox="0 0 12 12" width="12" height="12" fill="none"
+    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+    <path d="M2 6h8M7 3l3 3-3 3"/>
+  </svg>
+);
+
+/* ─── COMPONENT ─────────────────────────────────────────── */
+export default function CenterpointWorkPage() {
+  const F = FEATURED_PROJECT;
+
+  return (
+    <div className={styles.root}>
+
+      {/* ── NAV ── */}
+      <SiteNav current="work" />
+
+      {/* ── PAGE HEADER ── */}
+      <header className={styles.pageHeader}>
+        <div className={styles.pageHeaderBg}>WK</div>
+        <div className={styles.pageHeaderInner}>
+          <div>
+            <div className={styles.eyebrow}>Selected projects</div>
+            <h1 className={styles.pageH1}>
+              Work we're<br /><em>proud of.</em>
+            </h1>
+            <p className={styles.pageSub}>
+              Every project starts with a real problem and ends with measurable
+              results. Here's a selection of what we've shipped.
+            </p>
+          </div>
+          <div className={styles.headerStats}>
+            {STATS.map(s => (
+              <div key={s.lbl}>
+                <div className={styles.hstatNum}>{s.num}<span>{s.suffix}</span></div>
+                <div className={styles.hstatLbl}>{s.lbl}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      {/* ── FEATURED ── */}
+      <div className={styles.featured}>
+        <div className={styles.featuredLabel}>Featured project</div>
+        <Link href={`/work/${F.slug}`} className={styles.featuredCard}>
+          <div className={styles.featuredImg} style={{ background: F.imgBg }}>
+            {F.imgSrc
+              ? <Image src={F.imgSrc} alt={F.hoverName} fill style={{ objectFit: 'cover' }} />
+              : <><div className={styles.featuredStripe} /><div className={styles.featuredImgPlaceholder}>Full-site screenshot</div></>
+            }
+          </div>
+          <div className={styles.featuredInfo}>
+            <div>
+              <div className={styles.fTag}>{F.tag}</div>
+              <div className={styles.fTitle}>
+                {(F.featuredTitle ?? F.name).split('\n').map((line, i, arr) => (
+                  <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                ))}
+              </div>
+              <p className={styles.fDesc}>{F.featuredDesc ?? F.desc}</p>
+              <div className={styles.fMeta}>
+                {[['Client', F.client], ['Year', F.year], ['Timeline', F.timeline]].map(([lbl, val]) => (
+                  <div key={lbl}>
+                    <div className={styles.fMetaLabel}>{lbl}</div>
+                    <div className={styles.fMetaVal}>{val}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={styles.fResults}>
+              {(F.featuredResults ?? F.results.slice(0, 3)).map(r => (
+                <div key={r.lbl} className={styles.fResultCell}>
+                  <div className={styles.fResultNum}>{r.num}</div>
+                  <div className={styles.fResultLbl}>{r.lbl}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Link>
+      </div>
+
+      {/* ── PROJECT GRID ── */}
+      <div className={styles.gridSection}>
+        <h2 className={styles.gridHeading}>
+          All projects
+        </h2>
+
+        {GRID_PROJECTS.length === 0 ? (
+          <p style={{ color: 'var(--muted)', fontWeight: 300, fontSize: 15 }}>
+            No projects yet — check back soon.
+          </p>
+        ) : (
+          <div
+            className={styles.projectGrid}
+          >
+            {GRID_PROJECTS.map(p => (
+              <Link key={p.slug} href={`/work/${p.slug}`} className={`${styles.projectCard} ${p.comingSoon ? styles.projectCardWide : ''}`}>
+                <div
+                  className={`${styles.cardImg} ${p.tall ? styles.cardImgTall : ''}`}
+                  style={{ background: p.imgBg }}
+                >
+                  {p.comingSoon && p.wideImgSrc
+                    ? <>
+                        {/* Full-row card: a wide banner, swapped for the regular image once the grid stacks. */}
+                        <Image src={p.wideImgSrc} alt={p.hoverName} fill sizes="100vw" className={styles.wideOnly} style={{ objectFit: 'cover' }} />
+                        <Image src={p.imgSrc} alt={p.hoverName} fill sizes="100vw" className={styles.narrowOnly} style={{ objectFit: 'cover' }} />
+                      </>
+                    : p.imgSrc
+                    ? <Image src={p.imgSrc} alt={p.hoverName} fill style={{ objectFit: p.imgObjectFit ?? 'cover' }} />
+                    : <><div className={styles.cardStripe} /><div className={styles.cardPlaceholder}>{p.imgLabel}</div></>
+                  }
+                  {p.comingSoon && <span className={styles.comingSoonBadge}>Coming soon</span>}
+                  <div className={styles.cardHoverOverlay}>
+                    <div className={styles.hoverTag}>{p.tag}</div>
+                    <div className={styles.hoverName}>{p.hoverName}</div>
+                  </div>
+                </div>
+                <div className={styles.cardInfo}>
+                  <div>
+                    <div className={styles.cardTag}>{p.tag}</div>
+                    <div className={styles.cardName}>{p.name}</div>
+                    <div className={styles.cardDesc}>{p.desc}</div>
+                    {(p.scope || p.stack) && (
+                      <div className={styles.cardLists}>
+                        {[['What we did', p.scope], ['Built with', p.stack]].filter(([, items]) => items).map(([label, items]) => (
+                          <div key={label}>
+                            <div className={styles.cardListLabel}>{label}</div>
+                            <ul className={styles.cardList}>
+                              {items.map((item) => <li key={item}>{item}</li>)}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className={styles.cardFooter}>
+                    <span className={styles.cardYear}>{p.year}</span>
+                    <div className={styles.cardArrow}><ArrowSmall /></div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── CTA ── */}
+      <CtaBand
+        title={<>Ready to be our<br /><em>next project?</em></>}
+        text="Book a free 30-minute discovery call and let's talk about what you're building. No commitment, just a conversation."
+      />
+
+      {/* ── FOOTER ── */}
+      <SiteFooter />
+
+    </div>
+  );
+}
