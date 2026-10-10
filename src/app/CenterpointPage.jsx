@@ -111,9 +111,9 @@ export default function CenterpointPage() {
                 {i > 0 && <div className={styles.heroDivider} />}
                 <div>
                   <div className={styles.heroStatNum}>
-                    {s.num.replace(/[★yr+]/, '')}
+                    {s.num.replace(/(★|yr|\+)$/, '')}
                     <span style={{ color: 'var(--amber)' }}>
-                      {s.num.match(/[★yr+]/)?.[0] ?? ''}
+                      {s.num.match(/(★|yr|\+)$/)?.[0] ?? ''}
                     </span>
                   </div>
                   <div className={styles.heroStatLbl}>{s.lbl}</div>

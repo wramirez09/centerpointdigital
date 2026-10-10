@@ -8,6 +8,8 @@
 import styles from './centerpointAbout.module.css';
 import Link from 'next/link';
 import SiteNav from '@/components/SiteNav/SiteNav';
+import CtaBand from '@/components/CtaBand/CtaBand';
+import SiteFooter from '@/components/SiteFooter/SiteFooter';
 
 export const metadata = {
   title: 'About — CenterPoint Digital',
@@ -234,31 +236,13 @@ export default function CenterpointAboutPage() {
       </section>
 
       {/* ── CTA ── */}
-      <div className={styles.ctaSection}>
-        <div className={styles.ctaInner}>
-          <div>
-            <h2 className={styles.ctaH2}>
-              Let's build something<br /><em>together.</em>
-            </h2>
-            <p className={styles.ctaP}>
-              Book a free 30-minute discovery call. No commitment — just an honest
-              conversation about what you're building and how we can help.
-            </p>
-          </div>
-          <Link href="/#consult" className={styles.btnAmber}>Book a free call →</Link>
-        </div>
-      </div>
+      <CtaBand
+        title={<>Let's build something<br /><em>together.</em></>}
+        text="Book a free 30-minute discovery call. No commitment — just an honest conversation about what you're building and how we can help."
+      />
 
       {/* ── FOOTER ── */}
-      <footer className={styles.footer}>
-        <span>© {new Date().getFullYear()} CenterPoint Digital. All rights reserved.</span>
-        <div className={styles.footerLinks}>
-          <Link href="/">Home</Link>
-          <Link href="/work">Work</Link>
-          <Link href="#">Privacy</Link>
-          <Link href="/#consult">Contact</Link>
-        </div>
-      </footer>
+      <SiteFooter />
 
     </div>
   );

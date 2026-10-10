@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import SiteNav from '@/components/SiteNav/SiteNav';
+import CtaBand from '@/components/CtaBand/CtaBand';
+import SiteFooter from '@/components/SiteFooter/SiteFooter';
 import SERVICES from '../services';
 import PROJECTS from '../../work/projects';
 import type { Metadata } from 'next';
@@ -69,7 +71,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
             </h1>
             <p className={s.heroIntro}>{intro}</p>
             <div className={s.heroCtas}>
-              <Link href="/#consult" className={s.btnAmber}>Book a free call →</Link>
+              <a href="/#consult" className={s.btnAmber}>Book a free call →</a>
               {work.length > 0 && (
                 <a href="#work" className={s.btnOutline}>See the work <ArrowRight /></a>
               )}
@@ -206,30 +208,13 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       </div>
 
       {/* ── CTA ── */}
-      <div className={s.ctaSection}>
-        <div className={s.ctaInner}>
-          <div>
-            <h2 className={s.ctaH2}>
-              Ready to get<br /><em>started?</em>
-            </h2>
-            <p className={s.ctaP}>
-              Book a free 30-minute call and let&apos;s talk about what you&apos;re building.
-            </p>
-          </div>
-          <Link href="/#consult" className={s.btnAmber}>Book a free call →</Link>
-        </div>
-      </div>
+      <CtaBand
+        title={<>Ready to get<br /><em>started?</em></>}
+        text="Book a free 30-minute call and let's talk about what you're building."
+      />
 
       {/* ── FOOTER ── */}
-      <footer className={s.footer}>
-        <span>© {new Date().getFullYear()} CenterPoint Digital. All rights reserved.</span>
-        <div className={s.footerLinks}>
-          <Link href="/">Home</Link>
-          <Link href="/work">Work</Link>
-          <a href="#">Privacy</a>
-          <a href="/#consult">Contact</a>
-        </div>
-      </footer>
+      <SiteFooter />
 
     </div>
   );

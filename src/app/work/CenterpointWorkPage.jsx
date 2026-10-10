@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import SiteNav from '@/components/SiteNav/SiteNav';
+import CtaBand from '@/components/CtaBand/CtaBand';
+import SiteFooter from '@/components/SiteFooter/SiteFooter';
 import Image from 'next/image';
 import styles from './centerpointWork.module.css';
 import { FEATURED_PROJECT, GRID_PROJECTS } from './projects';
@@ -162,31 +164,13 @@ export default function CenterpointWorkPage() {
       </div>
 
       {/* ── CTA ── */}
-      <div className={styles.ctaSection}>
-        <div className={styles.ctaInner}>
-          <div>
-            <h2 className={styles.ctaH2}>
-              Ready to be our<br /><em>next project?</em>
-            </h2>
-            <p className={styles.ctaP}>
-              Book a free 30-minute discovery call and let's talk about what
-              you're building. No commitment, just a conversation.
-            </p>
-          </div>
-          <Link href="/#consult" className={styles.btnAmber}>Book a free call →</Link>
-        </div>
-      </div>
+      <CtaBand
+        title={<>Ready to be our<br /><em>next project?</em></>}
+        text="Book a free 30-minute discovery call and let's talk about what you're building. No commitment, just a conversation."
+      />
 
       {/* ── FOOTER ── */}
-      <footer className={styles.footer}>
-        <span>© {new Date().getFullYear()} CenterPoint Digital. All rights reserved.</span>
-        <div className={styles.footerLinks}>
-          <Link href="/">Home</Link>
-          <Link href="/work">Work</Link>
-          <a href="#">Privacy</a>
-          <a href="/#consult">Contact</a>
-        </div>
-      </footer>
+      <SiteFooter />
 
     </div>
   );

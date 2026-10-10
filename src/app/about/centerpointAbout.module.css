@@ -194,42 +194,12 @@
 .prBody { font-size: 16px; color: var(--muted); line-height: 1.7; font-weight: 400; position: relative; z-index: 1; }
 
 /* ─── CTA ─────────────────────────────────────────────── */
-.ctaSection { border-top: 1px solid var(--border); }
-.ctaInner {
-  max-width: 1400px; margin: 0 auto; padding: 96px 48px;
-  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 60px;
-}
-.ctaH2 {
-  font-family: var(--font-syne, 'Syne', sans-serif);
-  font-size: clamp(32px, 4vw, 60px); font-weight: 800; letter-spacing: -.04em; line-height: .98;
-  color: var(--text);
-}
-.ctaH2 em { font-style: normal; color: var(--amber); }
-.ctaP { font-size: 18px; color: var(--muted); line-height: 1.65; font-weight: 400; margin-top: 14px; max-width: 480px; }
-.btnAmber {
-  background: var(--amber); color: var(--bg);
-  font-family: var(--font-outfit, 'Outfit', sans-serif); font-size: 13px; font-weight: 700;
-  letter-spacing: .06em; text-transform: uppercase;
-  padding: 18px 36px; border-radius: 4px; text-decoration: none;
-  transition: opacity .2s, transform .15s; white-space: nowrap; flex-shrink: 0;
-}
-.btnAmber:hover { opacity: .88; transform: translateY(-1px); }
-
-/* ─── FOOTER ──────────────────────────────────────────── */
-.footer {
-  border-top: 1px solid var(--border); padding: 36px 48px;
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: 13px; color: var(--faint); background: var(--bg);
-}
-.footerLinks { display: flex; gap: 28px; }
-.footerLinks a { color: var(--muted); text-decoration: none; transition: color .15s; }
-.footerLinks a:hover { color: var(--text); }
 
 /* ─── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 960px) {
   .hero { padding: 64px 24px 72px; }
   .heroBgText { display: none; }
-  .heroInner, .storyGrid, .valuesHead, .ctaInner { grid-template-columns: 1fr; }
+  .heroInner, .storyGrid, .valuesHead { grid-template-columns: 1fr; }
   .max { padding: 0 24px; }
 
   /* Numbers: reduce padding + font so large numbers fit in 2-col cells */
@@ -250,8 +220,6 @@
   .processRow { grid-template-columns: 48px 1fr; padding: 32px 24px; gap: 24px; }
   .processRow > .prBody { grid-column: 2; }
   .story, .values, .team, .process { padding: 64px 0; }
-  .footer { padding: 28px 24px; flex-direction: column; gap: 16px; text-align: center; }
-  .ctaInner { padding: 64px 24px; }
 }
 
 /* ─── SMALL PHONES (≤ 480px) ──────────────────────────── */
@@ -275,6 +243,4 @@
 
   .clientsLogos { grid-template-columns: 1fr 1fr; }
   .story, .values, .team, .process { padding: 48px 0; }
-  .ctaInner { padding: 48px 16px; }
-  .footer { padding: 28px 16px; }
 }
