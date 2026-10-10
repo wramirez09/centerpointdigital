@@ -31,9 +31,7 @@ const WORK = HOME_WORK_SLUGS.map((slug) => PROJECTS.find((p) => p.slug === slug)
 const TESTIMONIALS = PROJECTS.filter((p) => p.testimonial).map((p) => ({ ...p.testimonial, slug: p.slug, project: p.name }));
 
 const STATS = [
-  { num: '120+', lbl: 'projects shipped' },
   { num: '5.0★', lbl: 'average rating' },
-  { num: '8yr',  lbl: 'in business' },
 ];
 
 /* ─── SVG ICONS ────────────────────────────────────────── */
@@ -181,7 +179,7 @@ export default function CenterpointPage() {
                 actually moves the needle.
               </p>
               <div className={styles.aboutNumRow}>
-                {[['120+','happy clients'],['8yr','in business'],['96%','repeat clients'],['2wk','avg time to launch']].map(([big, lbl]) => (
+                {[['2wk','avg time to launch']].map(([big, lbl]) => (
                   <div key={lbl} className={styles.aboutNumCell}>
                     <div className={styles.aboutNumBig}>
                       {big.replace(/[+%yr wk]/g, '')}

@@ -18,9 +18,6 @@ export const metadata = {
 
 /* ─── DATA ─────────────────────────────────────────────── */
 const STATS = [
-  { num: '120', suffix: '+', lbl: 'projects shipped since 2018' },
-  { num: '8',   suffix: 'yr', lbl: 'in business, still growing' },
-  { num: '96',  suffix: '%',  lbl: 'client satisfaction rate' },
   { num: '2',   suffix: 'wk', lbl: 'average time from brief to launch' },
   { num: '5.0', suffix: '★',  lbl: 'average client rating' },
 ];
@@ -111,7 +108,7 @@ export default function CenterpointAboutPage() {
               </h2>
               <p className={styles.storyP}>CenterPoint started in 2018 when our founders got tired of watching great products fail because of bad digital execution. Too many startups were being sold overpriced, underdelivered agency work — or settling for templates that made them look like everyone else.</p>
               <p className={styles.storyP}>We set out to do the opposite: a small, focused team that works directly with founders, moves fast, and takes quality personally. No account managers, no hand-offs, no wasted weeks. Just sharp people doing the work.</p>
-              <p className={styles.storyP}>Six years and 120+ projects later, that's still what we are.</p>
+              <p className={styles.storyP}>That's still what we are today.</p>
               <p className={styles.storyP}>More recently, that same approach has shaped how we build AI — designing and shipping production RAG applications and LLM-powered features for clients who want real results, not demos.</p>
             </div>
             <div>

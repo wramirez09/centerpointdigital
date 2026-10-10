@@ -8,13 +8,6 @@ import Image from 'next/image';
 import styles from './centerpointWork.module.css';
 import { FEATURED_PROJECT, GRID_PROJECTS } from './projects';
 
-/* ─── STATIC DATA ───────────────────────────────────────── */
-const STATS = [
-  { num: '120', suffix: '+',  lbl: 'projects shipped' },
-  { num: '8',   suffix: 'yr', lbl: 'in business' },
-  { num: '96',  suffix: '%',  lbl: 'client satisfaction' },
-];
-
 /* ─── SVG ───────────────────────────────────────────────── */
 const ArrowSmall = () => (
   <svg viewBox="0 0 12 12" width="12" height="12" fill="none"
@@ -46,14 +39,6 @@ export default function CenterpointWorkPage() {
               Every project starts with a real problem and ends with measurable
               results. Here's a selection of what we've shipped.
             </p>
-          </div>
-          <div className={styles.headerStats}>
-            {STATS.map(s => (
-              <div key={s.lbl}>
-                <div className={styles.hstatNum}>{s.num}<span>{s.suffix}</span></div>
-                <div className={styles.hstatLbl}>{s.lbl}</div>
-              </div>
-            ))}
           </div>
         </div>
       </header>
