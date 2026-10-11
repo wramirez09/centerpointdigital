@@ -6,8 +6,10 @@ import SiteNav from '@/components/SiteNav/SiteNav';
 import LogoIcon from '@/components/SiteNav/LogoIcon';
 import Image from 'next/image';
 import emailjs from '@emailjs/browser';
+import { motion } from 'framer-motion';
+import { IconRocket } from '@tabler/icons-react';
 import styles from './centerpoint.module.css';
-import { Reveal, Stagger, StaggerItem } from '@/components/Reveal/Reveal';
+import { Reveal } from '@/components/Reveal/Reveal';
 import ChromaType from '@/components/ChromaType/ChromaType';
 import PROJECTS from './work/projects';
 import SERVICES from './services/services';
@@ -42,6 +44,57 @@ const STATS = [
 
 // Same EmailJS account and template as the /contact form. The template reads name, email and message.
 const EMAILJS = { publicKey: '1Y7wGEfTmPGt-GE90', serviceId: 'default_service', templateId: 'template_teh6b2b' };
+
+/* ─── FRAME ANIMATION ──────────────────────────────────── */
+// Bordered boxes (the about section, testimonial cards) draw their border in amber, clockwise
+// from the top-left corner; then their content fades in and the amber settles back to the
+// normal border colour. `offset` (seconds) shifts a whole sequence later.
+const FRAME_LINES = [
+  // [class, delay, duration] — linear and back to back so the trace never pauses at a corner.
+  ['frameTop', 0, 0.7],
+  ['frameRight', 0.7, 0.4],
+  ['frameBottom', 1.1, 0.7],
+  ['frameLeft', 1.8, 0.4],
+];
+const FRAME_DONE = 2.2;
+
+const drawLine = {
+  // Scaling both axes from the line's origin grows it along its length, whichever way it runs.
+  hidden: { scaleX: 0, scaleY: 0 },
+  visible: ({ delay, duration }) => ({ scaleX: 1, scaleY: 1, transition: { delay, duration, ease: 'linear' } }),
+};
+const lineGlow = {
+  hidden: { opacity: 1 },
+  visible: (offset) => ({ opacity: 0, transition: { delay: offset + FRAME_DONE + 0.2, duration: 1.2 } }),
+};
+const fadeIn = {
+  hidden: { opacity: 0, y: 16 },
+  visible: (delay) => ({ opacity: 1, y: 0, transition: { delay, duration: 1, ease: [0.45, 0, 0.25, 1] } }),
+};
+
+// Selected-work cards slide in from off screen, from the side of the grid they sit on. The grid
+// triggers them: a card parked off screen never counts as in view, so it can't trigger itself.
+const MotionLink = motion(Link);
+const slideIn = {
+  hidden: ({ from }) => ({ x: from === 'left' ? '-100vw' : '100vw' }),
+  visible: ({ delay = 0 }) => ({ x: 0, transition: { delay, duration: 1.6, ease: [0.45, 0, 0.25, 1] } }),
+};
+
+function FrameLine({ className, delay, duration, offset = 0 }) {
+  return (
+    <motion.span aria-hidden="true" className={`${styles.frameLine} ${className}`}
+      variants={drawLine} custom={{ delay: offset + delay, duration }}>
+      <motion.span className={styles.frameGlow} variants={lineGlow} custom={offset} />
+    </motion.span>
+  );
+}
+
+// The four border lines. Its parent needs position: relative and no CSS border of its own.
+function Frame({ offset = 0 }) {
+  return FRAME_LINES.map(([cls, delay, duration]) => (
+    <FrameLine key={cls} className={styles[cls]} delay={delay} duration={duration} offset={offset} />
+  ));
+}
 
 /* ─── SVG ICONS ────────────────────────────────────────── */
 const ArrowRight = () => (
@@ -174,9 +227,10 @@ export default function CenterpointPage() {
               Every service is built around one goal: shipping work that drives real growth.
             </p>
           </Reveal>
-          <Stagger className={styles.svcList}>
+          {/* Each row reveals on its own as it scrolls into view. */}
+          <div className={styles.svcList}>
             {SERVICES.map((s) => (
-              <StaggerItem as="link" key={s.num} href={`/services/${s.slug}`} className={styles.svcRow}>
+              <Reveal as="link" key={s.num} href={`/services/${s.slug}`} className={styles.svcRow}>
                 <div className={styles.svcNum}>{s.num}</div>
                 <div className={styles.svcName}>
                   {s.name}
@@ -188,26 +242,29 @@ export default function CenterpointPage() {
                     <path d="M2 7h10M8 3l4 4-4 4" />
                   </svg>
                 </div>
-              </StaggerItem>
+              </Reveal>
             ))}
-          </Stagger>
+          </div>
         </div>
       </section>
 
       {/* ── ABOUT ── */}
       <section className={styles.sectionAlt} id="about">
         <div className={styles.max}>
-          <div className={styles.aboutGrid}>
+          <motion.div className={styles.aboutGrid} initial="hidden" whileInView="visible"
+            viewport={{ once: true, margin: '0px 0px -15% 0px' }}>
+            <Frame />
             {/* Left */}
-            <Reveal className={styles.aboutLeft}>
-              <div className={styles.tag}>Our mission</div>
-              <h2 className={`${styles.h2} ${styles.h2Sans}`}>Built for<br />builders.</h2>
-              <p className={styles.sub} style={{ marginTop: 20 }}>
+            <div className={styles.aboutLeft}>
+              <FrameLine className={styles.aboutDivider} delay={0.35} duration={0.9} />
+              <motion.div variants={fadeIn} custom={FRAME_DONE} className={styles.tag}>Our mission</motion.div>
+              <motion.h2 variants={fadeIn} custom={FRAME_DONE} className={`${styles.h2} ${styles.h2Sans}`}>Built for<br />builders.</motion.h2>
+              <motion.p variants={fadeIn} custom={FRAME_DONE + 0.6} className={styles.sub} style={{ marginTop: 20 }}>
                 We started CenterPoint because great digital products shouldn't be out of reach
                 for small businesses. We partner closely with founders to ship work that
                 actually moves the needle.
-              </p>
-              <div className={styles.aboutNumRow}>
+              </motion.p>
+              <motion.div variants={fadeIn} custom={FRAME_DONE + 0.8} className={styles.aboutNumRow}>
                 {[['2wk', 'avg time to launch']].map(([big, lbl]) => (
                   <div key={lbl} className={styles.aboutNumCell}>
                     <div className={styles.aboutNumBig}>
@@ -217,15 +274,21 @@ export default function CenterpointPage() {
                     <div className={styles.aboutNumLbl}>{lbl}</div>
                   </div>
                 ))}
-              </div>
-            </Reveal>
+                <div className={`${styles.aboutNumCell} ${styles.aboutNumIcon}`} aria-hidden="true">
+                  <IconRocket size={56} stroke={1.4} />
+                </div>
+              </motion.div>
+              <motion.div variants={fadeIn} custom={FRAME_DONE + 1} className={styles.aboutCta}>
+                <a href="#consult" className={styles.btnAmber}>Contact us</a>
+              </motion.div>
+            </div>
             {/* Right */}
-            <Reveal delay={0.25} className={styles.aboutRight}>
-              <div className={styles.tag}>How we work</div>
-              <h2 className={`${styles.h2} ${styles.h2Sans}`} style={{ fontSize: 'clamp(34px,3.6vw,54px)' }}>
+            <div className={styles.aboutRight}>
+              <motion.div variants={fadeIn} custom={FRAME_DONE + 0.2} className={styles.tag}>How we work</motion.div>
+              <motion.h2 variants={fadeIn} custom={FRAME_DONE + 0.2} className={`${styles.h2} ${styles.h2Sans}`} style={{ fontSize: 'clamp(34px,3.6vw,54px)' }}>
                 Three things<br />we never<br />compromise on.
-              </h2>
-              <div className={styles.valList}>
+              </motion.h2>
+              <motion.div variants={fadeIn} custom={FRAME_DONE + 0.8} className={styles.valList}>
                 {VALUES.map((v) => (
                   <div key={v.title} className={styles.valRow}>
                     <div className={styles.valIcon}>→</div>
@@ -235,9 +298,9 @@ export default function CenterpointPage() {
                     </div>
                   </div>
                 ))}
-              </div>
-            </Reveal>
-          </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -249,23 +312,29 @@ export default function CenterpointPage() {
               <div className={styles.tag}>Testimonials</div>
               <h2 className={styles.h2}>What our<br />clients say.</h2>
             </Reveal>
-            <Stagger className={styles.tGrid}>
-              {TESTIMONIALS.map((t) => (
-                <StaggerItem as="figure" key={t.slug} className={styles.tCard}>
-                  <div className={styles.tStars} aria-label="5 out of 5 stars">★★★★★</div>
-                  <blockquote className={styles.tQuote}>{t.quote}</blockquote>
-                  <figcaption className={styles.tFoot}>
-                    <div>
-                      <div className={styles.tName}>{t.name}</div>
-                      <div className={styles.tRole}>{t.role} · {t.company}</div>
-                    </div>
-                    <Link href={`/work/${t.slug}`} className={styles.tLink}>
-                      {t.project} <ArrowRight />
-                    </Link>
-                  </figcaption>
-                </StaggerItem>
-              ))}
-            </Stagger>
+            <div className={styles.tGrid}>
+              {TESTIMONIALS.map((t, i) => {
+                // Side-by-side cards trace one after another, left to right.
+                const offset = i * 0.3;
+                return (
+                  <motion.figure key={t.slug} className={styles.tCard} initial="hidden" whileInView="visible"
+                    viewport={{ once: true, margin: '0px 0px -15% 0px' }}>
+                    <Frame offset={offset} />
+                    <motion.div variants={fadeIn} custom={offset + FRAME_DONE} className={styles.tStars} aria-label="5 out of 5 stars">★★★★★</motion.div>
+                    <motion.blockquote variants={fadeIn} custom={offset + FRAME_DONE} className={styles.tQuote}>{t.quote}</motion.blockquote>
+                    <motion.figcaption variants={fadeIn} custom={offset + FRAME_DONE + 0.4} className={styles.tFoot}>
+                      <div>
+                        <div className={styles.tName}>{t.name}</div>
+                        <div className={styles.tRole}>{t.role} · {t.company}</div>
+                      </div>
+                      <Link href={`/work/${t.slug}`} className={styles.tLink}>
+                        {t.project} <ArrowRight />
+                      </Link>
+                    </motion.figcaption>
+                  </motion.figure>
+                );
+              })}
+            </div>
           </div>
         </section>
       )}
@@ -282,11 +351,13 @@ export default function CenterpointPage() {
               View all work <ArrowRight />
             </Link>
           </Reveal>
-          <Stagger className={styles.workGrid}>
+          <motion.div className={styles.workGrid} initial="hidden" whileInView="visible"
+            viewport={{ once: true, margin: '0px 0px -10% 0px' }}>
             {/* Featured card */}
-            <StaggerItem as="link" href={`/work/${WORK[0].slug}`}
+            <MotionLink href={`/work/${WORK[0].slug}`}
+              variants={slideIn} custom={{ from: 'left' }}
               className={`${styles.workCard} ${styles.workCardTall}`}
-              style={{ background: WORK[0].imgBg }}>
+              style={{ background: WORK[0].imgBg, '--card-bg': WORK[0].imgBg }}>
               {WORK[0].imgSrc
                 ? <Image src={WORK[0].imgSrc} alt={WORK[0].name} fill style={{ objectFit: WORK[0].imgObjectFit ?? 'cover' }} />
                 : <><div className={styles.workStripe} /><div className={styles.workPlaceholder}>{WORK[0].imgLabel}</div></>
@@ -296,13 +367,14 @@ export default function CenterpointPage() {
                 <div className={styles.workTitle}>{WORK[0].name}</div>
                 <div className={styles.workDesc}>{WORK[0].desc}</div>
               </div>
-            </StaggerItem>
+            </MotionLink>
             {/* Stacked cards */}
-            <StaggerItem className={styles.workGridRight}>
-              {WORK.slice(1).map((w) => (
-                <Link key={w.slug} href={`/work/${w.slug}`}
+            <div className={styles.workGridRight}>
+              {WORK.slice(1).map((w, i) => (
+                <MotionLink key={w.slug} href={`/work/${w.slug}`}
+                  variants={slideIn} custom={{ from: 'right', delay: 0.2 + i * 0.2 }}
                   className={`${styles.workCard} ${styles.workCardShort}`}
-                  style={{ background: w.imgBg }}>
+                  style={{ background: w.imgBg, '--card-bg': w.imgBg }}>
                   {w.imgSrc
                     ? <Image src={w.imgSrc} alt={w.name} fill style={{ objectFit: w.imgObjectFit ?? 'cover' }} />
                     : <><div className={styles.workStripe} /><div className={styles.workPlaceholder}>{w.imgLabel}</div></>
@@ -312,10 +384,10 @@ export default function CenterpointPage() {
                     <div className={styles.workTitle}>{w.name}</div>
                     <div className={styles.workDesc}>{w.desc}</div>
                   </div>
-                </Link>
+                </MotionLink>
               ))}
-            </StaggerItem>
-          </Stagger>
+            </div>
+          </motion.div>
         </div>
       </section>
 

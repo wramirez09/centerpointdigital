@@ -257,6 +257,7 @@
 
 .sectionWork {
   padding: 120px 0;
+  overflow-x: clip; /* work cards slide in from beyond the edges */
 }
 
 .sectionConsult {
@@ -424,15 +425,24 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
-  border: 1px solid var(--border);
   border-radius: 2px;
   overflow: hidden;
+  position: relative;
 }
 
 .aboutLeft {
   padding: 72px 64px;
-  border-right: 1px solid var(--border);
+  position: relative;
 }
+
+/* Border and column divider, drawn in by the about-section animation. */
+.frameLine { position: absolute; background: var(--border); pointer-events: none; }
+.frameGlow { position: absolute; inset: 0; background: var(--amber); }
+.frameTop { top: 0; left: 0; right: 0; height: 1px; transform-origin: left; }
+.frameRight { top: 0; right: 0; bottom: 0; width: 1px; transform-origin: top; }
+.frameBottom { bottom: 0; left: 0; right: 0; height: 1px; transform-origin: right; }
+.frameLeft { top: 0; left: 0; bottom: 0; width: 1px; transform-origin: bottom; }
+.aboutDivider { top: 0; right: 0; bottom: 0; width: 1px; transform-origin: top; }
 
 .aboutRight {
   padding: 72px 64px;
@@ -450,6 +460,17 @@
 .aboutNumCell {
   background: var(--bg2);
   padding: 36px 32px;
+}
+
+.aboutNumIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--amber);
+}
+
+.aboutCta {
+  margin-top: 32px;
 }
 
 .aboutNumBig {
@@ -535,7 +556,7 @@
   margin: 0;
   padding: 36px;
   background: var(--bg2);
-  border: 1px solid var(--border);
+  position: relative; /* border drawn by the frame animation */
 }
 
 .tStars {
@@ -604,7 +625,6 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 2px;
-  background: var(--border);
 }
 
 .workGridRight {
@@ -644,7 +664,11 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: 32px;
-  background: linear-gradient(to top, rgba(10, 9, 6, 0.97) 0%, rgba(10, 9, 6, 0.7) 45%, rgba(10, 9, 6, 0.25) 100%);
+  /* Tinted with the card's own background (--card-bg, set inline) so it blends with the card. */
+  background: linear-gradient(to top,
+      color-mix(in srgb, var(--card-bg, #0a0906) 97%, transparent) 0%,
+      color-mix(in srgb, var(--card-bg, #0a0906) 70%, transparent) 45%,
+      color-mix(in srgb, var(--card-bg, #0a0906) 25%, transparent) 100%);
   opacity: 0;
   transition: opacity .3s;
 }
@@ -1066,10 +1090,8 @@
     padding: 48px 0;
   }
 
-  .aboutLeft {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
+  /* Columns stack, so the divider runs along the bottom of the left column instead. */
+  .aboutDivider { top: auto; left: 0; width: auto; height: 1px; transform-origin: left; }
 
   /* Reduced side padding — was 32px, leaving only 263px for text */
   .aboutLeft,
