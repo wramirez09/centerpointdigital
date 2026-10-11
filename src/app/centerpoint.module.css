@@ -852,6 +852,12 @@
   transform: translateY(-1px);
 }
 
+.btnSubmit:disabled {
+  opacity: .6;
+  transform: none;
+  cursor: wait;
+}
+
 .submitNote {
   font-size: 13px;
   color: var(--faint);
@@ -954,6 +960,17 @@
   font-size: 13px;
   color: var(--faint);
 }
+
+.fPhone {
+  display: inline-block;
+  margin-bottom: 24px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  transition: color .15s;
+}
+.fPhone:hover { color: var(--amber); }
 
 .socialRow {
   display: flex;

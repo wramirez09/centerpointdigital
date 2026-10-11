@@ -5,6 +5,7 @@ import Link from 'next/link';
 import SiteNav from '@/components/SiteNav/SiteNav';
 import LogoIcon from '@/components/SiteNav/LogoIcon';
 import Image from 'next/image';
+import emailjs from '@emailjs/browser';
 import styles from './centerpoint.module.css';
 import { Reveal, Stagger, StaggerItem } from '@/components/Reveal/Reveal';
 import ChromaType from '@/components/ChromaType/ChromaType';
@@ -23,8 +24,8 @@ const TICKER_ITEMS = [
 
 const VALUES = [
   { title: 'Clarity over complexity', body: 'We keep projects lean and purposeful — no unnecessary scope, no hidden fees, no surprises.' },
-  { title: 'Speed to value',          body: 'We move fast without cutting corners. Most projects ship in weeks, not months.' },
-  { title: 'Long-term partnership',   body: "We grow with our clients. The relationship doesn't end at launch — it starts there." },
+  { title: 'Speed to value', body: 'We move fast without cutting corners. Most projects ship in weeks, not months.' },
+  { title: 'Long-term partnership', body: "We grow with our clients. The relationship doesn't end at launch — it starts there." },
 ];
 
 // Home page "Selected work": the first slug is the large card, the next two the small cards.
@@ -39,32 +40,35 @@ const STATS = [
   { num: '5.0★', lbl: 'average rating' },
 ];
 
+// Same EmailJS account and template as the /contact form. The template reads name, email and message.
+const EMAILJS = { publicKey: '1Y7wGEfTmPGt-GE90', serviceId: 'default_service', templateId: 'template_teh6b2b' };
+
 /* ─── SVG ICONS ────────────────────────────────────────── */
 const ArrowRight = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
     stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-    <path d="M2 7h10M8 3l4 4-4 4"/>
+    <path d="M2 7h10M8 3l4 4-4 4" />
   </svg>
 );
 
 const TwitterIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
 
 const LinkedInIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
-    <circle cx="4" cy="4" r="2"/>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+    <circle cx="4" cy="4" r="2" />
   </svg>
 );
 
 const InstagramIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-    <rect x="2" y="2" width="20" height="20" rx="5"/>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+    <rect x="2" y="2" width="20" height="20" rx="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
   </svg>
 );
 
@@ -74,12 +78,31 @@ export default function CenterpointPage() {
     firstName: '', lastName: '', email: '', service: '', timeline: '', message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: wire up to your API / form handler here
-    console.log('Form submitted:', form);
-    setSubmitted(true);
+    setSending(true);
+    setError('');
+    try {
+      await emailjs.send(EMAILJS.serviceId, EMAILJS.templateId, {
+        name: `${form.firstName} ${form.lastName}`.trim(),
+        email: form.email,
+        message: [
+          `Service: ${form.service || 'Not specified'}`,
+          `Timeline: ${form.timeline || 'Not specified'}`,
+          '',
+          form.message,
+        ].join('\n'),
+      }, { publicKey: EMAILJS.publicKey });
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Consultation form failed to send:', err);
+      setError('Something went wrong sending your message. Please try again, or call us at (773) 780-0098.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -162,7 +185,7 @@ export default function CenterpointPage() {
                 <div className={styles.svcArrow}>
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                     stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-                    <path d="M2 7h10M8 3l4 4-4 4"/>
+                    <path d="M2 7h10M8 3l4 4-4 4" />
                   </svg>
                 </div>
               </StaggerItem>
@@ -185,7 +208,7 @@ export default function CenterpointPage() {
                 actually moves the needle.
               </p>
               <div className={styles.aboutNumRow}>
-                {[['2wk','avg time to launch']].map(([big, lbl]) => (
+                {[['2wk', 'avg time to launch']].map(([big, lbl]) => (
                   <div key={lbl} className={styles.aboutNumCell}>
                     <div className={styles.aboutNumBig}>
                       {big.replace(/[+%yr wk]/g, '')}
@@ -334,7 +357,7 @@ export default function CenterpointPage() {
                   <div className={styles.formGrid}>
                     <div className={styles.fg}>
                       <label htmlFor="firstName">First name</label>
-                      <input id="firstName" type="text" placeholder="Jane"
+                      <input id="firstName" type="text" placeholder="Jane" required
                         value={form.firstName}
                         onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))} />
                     </div>
@@ -346,7 +369,7 @@ export default function CenterpointPage() {
                     </div>
                     <div className={styles.fg}>
                       <label htmlFor="email">Email</label>
-                      <input id="email" type="email" placeholder="jane@startup.com"
+                      <input id="email" type="email" placeholder="jane@startup.com" required
                         value={form.email}
                         onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
                     </div>
@@ -387,13 +410,16 @@ export default function CenterpointPage() {
                       onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
                   </div>
                   <div className={styles.submitRow}>
-                    <button type="submit" className={styles.btnSubmit}>
-                      Book My Free Consultation →
+                    <button type="submit" className={styles.btnSubmit} disabled={sending}>
+                      {sending ? 'Sending…' : 'Book My Free Consultation →'}
                     </button>
                     <p className={styles.submitNote}>
                       No credit card needed. 30-min call, zero commitment.
                     </p>
                   </div>
+                  {error && (
+                    <p role="alert" style={{ marginTop: 16, color: 'var(--amber)', fontSize: 14 }}>{error}</p>
+                  )}
                 </form>
               )}
             </div>
@@ -413,6 +439,7 @@ export default function CenterpointPage() {
               A digital agency helping small businesses and startups build
               products they're proud of.
             </p>
+            <a className={styles.fPhone} href="tel:+17737800098">(773) 780-0098</a>
             <div className={styles.socialRow}>
               <a className={styles.soc} href="#" aria-label="Twitter"><TwitterIcon /></a>
               <a className={styles.soc} href="#" aria-label="LinkedIn"><LinkedInIcon /></a>

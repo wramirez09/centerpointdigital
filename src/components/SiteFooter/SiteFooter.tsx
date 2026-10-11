@@ -11,6 +11,7 @@ export default function SiteFooter() {
         <Link href="/work">Work</Link>
         <Link href="/about">About</Link>
         <a href="/#consult">Contact</a>
+        <a href="tel:+17737800098">(773) 780-0098</a>
       </div>
     </footer>
   );
