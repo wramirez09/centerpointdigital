@@ -10,6 +10,7 @@ import ProjectGallery from './ProjectGallery';
 import HeroImage from './HeroImage';
 import BeforeAfter from './BeforeAfter';
 import Highlights from './Highlights';
+import { Reveal, Stagger, StaggerItem } from '@/components/Reveal/Reveal';
 import type { Metadata } from 'next';
 
 export async function generateStaticParams() {
@@ -55,8 +56,8 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
       {/* ── HERO ── */}
       <div className={styles.projectHero}>
-        <div className={styles.heroTag}>{tag}</div>
-        <div className={styles.heroTop}>
+        <Reveal className={styles.heroTag}>{tag}</Reveal>
+        <Reveal delay={0.15} className={styles.heroTop}>
           <h1 className={styles.projectTitle}>
             {title.map((line, i) => (
               <span key={i}>
@@ -78,32 +79,32 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               </div>
             </div>
           </div>
-        </div>
-        <div className={styles.heroImage} style={{ background: imgBg }}>
+        </Reveal>
+        <Reveal delay={0.3} className={styles.heroImage} style={{ background: imgBg }}>
           {heroImgSrc
             ? <HeroImage src={heroImgSrc} alt={heroImgAlt} gallery={gallery} pages={heroPages} highlights={highlights?.items} />
             : <><div className={styles.heroStripe} /><div className={styles.heroPlaceholder}>{heroImgAlt}</div></>
           }
-        </div>
+        </Reveal>
       </div>
 
       {/* ── RESULTS BAR ── */}
       {results && results.length > 0 && (
         <div className={styles.resultsBar}>
-          <div className={styles.resultsInner}>
+          <Stagger className={styles.resultsInner}>
             {results.map(r => (
-              <div key={r.lbl} className={styles.resultCell}>
+              <StaggerItem key={r.lbl} className={styles.resultCell}>
                 <div className={styles.resultNum}>{r.num}</div>
                 <div className={styles.resultLbl}>{r.lbl}</div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       )}
 
       {/* ── OVERVIEW ── */}
       <div className={styles.contentBody}>
-        <div className={styles.contentGrid}>
+        <Reveal className={styles.contentGrid}>
           <div>
             <div className={styles.sidebarHeading}>Overview</div>
             <p className={styles.sidebarText}>{overview.sidebar}</p>
@@ -112,7 +113,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             <h2 className={styles.contentH2}>{overview.heading}</h2>
             {overview.body.map((p, i) => <p key={i} className={styles.contentP}>{p}</p>)}
           </div>
-        </div>
+        </Reveal>
       </div>
 
       <hr className={styles.divider} />
@@ -120,11 +121,11 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
       {/* ── HIGHLIGHTS ── */}
       {highlights && highlights.items.length > 0 && (
         <>
-          <div className={styles.gallerySection} style={{ paddingTop: 96 }}>
+          <Reveal className={styles.gallerySection} style={{ paddingTop: 96 }}>
             <div className={styles.galleryLabel}>{highlights.label}</div>
             <h2 className={styles.contentH2} style={{ maxWidth: 760, marginBottom: 48 }}>{highlights.heading}</h2>
             <Highlights highlights={highlights.items} />
-          </div>
+          </Reveal>
           <hr className={styles.divider} />
         </>
       )}
@@ -132,25 +133,25 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
       {/* ── BEFORE / AFTER ── */}
       {comparisons && comparisons.length > 0 && (
         <>
-          <div className={styles.gallerySection} style={{ paddingTop: 96 }}>
+          <Reveal className={styles.gallerySection} style={{ paddingTop: 96 }}>
             <div className={styles.galleryLabel}>Before &amp; after</div>
             <BeforeAfter comparisons={comparisons} />
-          </div>
+          </Reveal>
           <hr className={styles.divider} />
         </>
       )}
 
       {/* ── GALLERY ── */}
-      <div className={styles.gallerySection} style={{ paddingTop: 96 }}>
+      <Reveal className={styles.gallerySection} style={{ paddingTop: 96 }}>
         <div className={styles.galleryLabel}>Screens</div>
         <ProjectGallery gallery={gallery} />
-      </div>
+      </Reveal>
 
       {/* ── CHALLENGE ── */}
       {challenge && (
         <>
           <div className={styles.contentBody} style={{ paddingTop: 0 }}>
-            <div className={styles.contentGrid}>
+            <Reveal className={styles.contentGrid}>
               <div>
                 <div className={styles.sidebarHeading}>The challenge</div>
                 <p className={styles.sidebarText}>{challenge.sidebar}</p>
@@ -159,7 +160,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                 <h2 className={styles.contentH2}>{challenge.heading}</h2>
                 {challenge.body.map((p, i) => <p key={i} className={styles.contentP}>{p}</p>)}
               </div>
-            </div>
+            </Reveal>
           </div>
 
           <hr className={styles.divider} />
@@ -169,26 +170,28 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
       {/* ── PROCESS ── */}
       {process && process.length > 0 && (
         <div className={styles.processSection}>
-          <div className={styles.heroTag}>How we worked</div>
-          <h2 className={styles.contentH2} style={{ maxWidth: 600 }}>
-            {timeline ? `A ${timeline} process built for speed and quality.` : 'A process built for speed and quality.'}
-          </h2>
-          <div className={styles.processSteps}>
+          <Reveal>
+            <div className={styles.heroTag}>How we worked</div>
+            <h2 className={styles.contentH2} style={{ maxWidth: 600 }}>
+              {timeline ? `A ${timeline} process built for speed and quality.` : 'A process built for speed and quality.'}
+            </h2>
+          </Reveal>
+          <Stagger className={styles.processSteps}>
             {process.map(step => (
-              <div key={step.period} className={styles.processStep}>
+              <StaggerItem key={step.period} className={styles.processStep}>
                 <div className={styles.stepNum}>{step.period}</div>
                 <div className={styles.stepTitle}>{step.title}</div>
                 <div className={styles.stepBody}>{step.body}</div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       )}
 
       {/* ── TESTIMONIAL ── */}
       {testimonial && (
         <div className={styles.testimonialSection}>
-          <div className={styles.testimonialInner}>
+          <Reveal className={styles.testimonialInner}>
             <div>
               <div className={styles.tWho}>{testimonial.name}</div>
               <div className={styles.tRole}>{testimonial.role}</div>
@@ -196,13 +199,13 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               <div className={styles.tStars}>★★★★★</div>
             </div>
             <div className={styles.testimonialQuote}>{testimonial.quote}</div>
-          </div>
+          </Reveal>
         </div>
       )}
 
       {/* ── NEXT PROJECT ── */}
       {nextProject && (
-        <div className={styles.nextProject}>
+        <Reveal className={styles.nextProject}>
           <div className={styles.nextLabel}>Next project</div>
           <Link href={`/work/${nextProject.slug}`} className={styles.nextCard}>
             <div className={styles.nextImg} style={{ background: nextProject.imgBg }}>
@@ -226,7 +229,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               </div>
             </div>
           </Link>
-        </div>
+        </Reveal>
       )}
 
       {/* ── CTA ── */}

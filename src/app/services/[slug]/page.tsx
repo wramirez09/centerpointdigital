@@ -6,6 +6,7 @@ import Image from 'next/image';
 import SiteNav from '@/components/SiteNav/SiteNav';
 import CtaBand from '@/components/CtaBand/CtaBand';
 import SiteFooter from '@/components/SiteFooter/SiteFooter';
+import { Reveal, Stagger, StaggerItem } from '@/components/Reveal/Reveal';
 import SERVICES from '../services';
 import PROJECTS from '../../work/projects';
 import type { Metadata } from 'next';
@@ -59,9 +60,9 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
       {/* ── HERO ── */}
       <div className={s.serviceHero}>
-        <div className={s.heroTag}>Service {num} · {name}</div>
+        <Reveal className={s.heroTag}>Service {num} · {name}</Reveal>
         <div className={`${s.heroTop} ${s.serviceHeroTop}`}>
-          <div>
+          <Reveal delay={0.15}>
             <h1 className={s.projectTitle}>
               {title.map((line, i) => (
                 <span key={i}>
@@ -76,8 +77,8 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                 <a href="#work" className={s.btnOutline}>See the work <ArrowRight /></a>
               )}
             </div>
-          </div>
-          <div className={`${s.heroMeta} ${s.serviceHeroMeta}`}>
+          </Reveal>
+          <Reveal delay={0.3} className={`${s.heroMeta} ${s.serviceHeroMeta}`}>
             <div>
               <div className={s.metaItemLabel}>Best for</div>
               <ul className={s.bestFor}>
@@ -90,13 +91,13 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                 {stack.map(t => <span key={t} className={s.metaTag}>{t}</span>)}
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
 
       {/* ── OVERVIEW ── */}
       <div className={s.contentBody}>
-        <div className={s.contentGrid} style={{ marginBottom: 0 }}>
+        <Reveal className={s.contentGrid} style={{ marginBottom: 0 }}>
           <div>
             <div className={s.sidebarHeading}>Overview</div>
             <p className={s.sidebarText}>{overview.sidebar}</p>
@@ -105,39 +106,43 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
             <h2 className={s.contentH2}>{overview.heading}</h2>
             {overview.body.map((p, i) => <p key={i} className={s.contentP}>{p}</p>)}
           </div>
-        </div>
+        </Reveal>
       </div>
 
       {/* ── WHAT'S INCLUDED ── */}
       <div className={s.offeringsSection}>
         <div className={s.offeringsInner}>
-          <div className={s.heroTag}>What&apos;s included</div>
-          <h2 className={s.contentH2} style={{ maxWidth: 640 }}>Everything you need, handled by one team.</h2>
-          <div className={s.offeringsGrid}>
+          <Reveal>
+            <div className={s.heroTag}>What&apos;s included</div>
+            <h2 className={s.contentH2} style={{ maxWidth: 640 }}>Everything you need, handled by one team.</h2>
+          </Reveal>
+          <Stagger className={s.offeringsGrid}>
             {offerings.map((o, i) => (
-              <div key={o.title} className={s.offering}>
+              <StaggerItem key={o.title} className={s.offering}>
                 <div className={s.stepNum}>{String(i + 1).padStart(2, '0')}</div>
                 <div className={s.stepTitle}>{o.title}</div>
                 <div className={s.stepBody}>{o.body}</div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </div>
 
       {/* ── PROCESS ── */}
       <div className={s.processSection}>
-        <div className={s.heroTag}>How it works</div>
-        <h2 className={s.contentH2} style={{ maxWidth: 600 }}>A clear process, from first call to launch.</h2>
-        <div className={s.processSteps}>
+        <Reveal>
+          <div className={s.heroTag}>How it works</div>
+          <h2 className={s.contentH2} style={{ maxWidth: 600 }}>A clear process, from first call to launch.</h2>
+        </Reveal>
+        <Stagger className={s.processSteps}>
           {process.map(step => (
-            <div key={step.title} className={s.processStep}>
+            <StaggerItem key={step.title} className={s.processStep}>
               <div className={s.stepNum}>{step.period}</div>
               <div className={s.stepTitle}>{step.title}</div>
               <div className={s.stepBody}>{step.body}</div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </div>
 
       {/* ── RELATED WORK ── */}
@@ -145,13 +150,15 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
         <>
           <hr className={s.divider} />
           <div className={s.processSection} id="work">
-            <div className={s.heroTag}>Related work</div>
-            <h2 className={s.contentH2} style={{ maxWidth: 600 }}>
-              {name} we&apos;ve shipped.
-            </h2>
-            <div className={s.workGrid}>
+            <Reveal>
+              <div className={s.heroTag}>Related work</div>
+              <h2 className={s.contentH2} style={{ maxWidth: 600 }}>
+                {name} we&apos;ve shipped.
+              </h2>
+            </Reveal>
+            <Stagger className={s.workGrid}>
               {work.map(p => (
-                <Link key={p.slug} href={`/work/${p.slug}`} className={s.workCard}>
+                <StaggerItem as="link" key={p.slug} href={`/work/${p.slug}`} className={s.workCard}>
                   <div className={s.workImg} style={{ background: p.imgBg }}>
                     {p.imgSrc
                       ? <Image src={p.imgSrc} alt={p.name} fill sizes="(max-width: 960px) 100vw, 33vw"
@@ -165,16 +172,16 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                     <div className={s.workTitle}>{p.name}</div>
                     <div className={s.workDesc}>{p.desc}</div>
                   </div>
-                </Link>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </>
       )}
 
       {/* ── FAQ ── */}
       <div className={s.testimonialSection}>
-        <div className={s.testimonialInner}>
+        <Reveal className={s.testimonialInner}>
           <div>
             <div className={s.sidebarHeading}>FAQ</div>
             <h2 className={s.contentH2}>Common questions.</h2>
@@ -187,24 +194,24 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
               </details>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
 
       {/* ── OTHER SERVICES ── */}
       <div className={s.processSection}>
-        <div className={s.nextLabel}>Other services</div>
-        <div className={s.otherList}>
+        <Reveal className={s.nextLabel}>Other services</Reveal>
+        <Stagger className={s.otherList}>
           {others.map(o => (
-            <Link key={o.slug} href={`/services/${o.slug}`} className={s.otherRow}>
+            <StaggerItem as="link" key={o.slug} href={`/services/${o.slug}`} className={s.otherRow}>
               <span className={s.otherNum}>{o.num}</span>
               <span className={s.otherName}>
                 {o.name}
                 <span className={s.otherSub}>{o.sub}</span>
               </span>
               <span className={s.otherArrow}><ArrowRight /></span>
-            </Link>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </div>
 
       {/* ── CTA ── */}

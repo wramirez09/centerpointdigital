@@ -10,6 +10,7 @@ import Link from 'next/link';
 import SiteNav from '@/components/SiteNav/SiteNav';
 import CtaBand from '@/components/CtaBand/CtaBand';
 import SiteFooter from '@/components/SiteFooter/SiteFooter';
+import { Reveal, Stagger, StaggerItem } from '@/components/Reveal/Reveal';
 
 export const metadata = {
   title: 'About — CenterPoint Digital',
@@ -75,13 +76,13 @@ export default function CenterpointAboutPage() {
       <header className={styles.hero}>
         <div className={styles.heroBgText}>AB</div>
         <div className={styles.heroInner}>
-          <div>
+          <Reveal>
             <div className={styles.heroEyebrow}>Who we are</div>
             <h1 className={styles.heroH1}>
               We build things<br />people are<br /><em>proud of.</em>
             </h1>
-          </div>
-          <div className={styles.heroRight}>
+          </Reveal>
+          <Reveal delay={0.25} className={styles.heroRight}>
             <p className={styles.heroSub}>
               CenterPoint is a digital agency for small businesses and startups.
               We partner closely with founders to ship websites, apps, and brands
@@ -93,7 +94,7 @@ export default function CenterpointAboutPage() {
               Based in <strong>New York</strong> &nbsp;·&nbsp;
               Remote-first
             </div>
-          </div>
+          </Reveal>
         </div>
       </header>
 
@@ -101,7 +102,7 @@ export default function CenterpointAboutPage() {
       <section className={styles.story}>
         <div className={styles.max}>
           <div className={styles.storyGrid}>
-            <div>
+            <Reveal>
               <div className={styles.tag}>Our story</div>
               <h2 className={styles.h2} style={{ marginBottom: 32 }}>
                 Started by founders,<br />for founders.
@@ -110,34 +111,34 @@ export default function CenterpointAboutPage() {
               <p className={styles.storyP}>We set out to do the opposite: a small, focused team that works directly with founders, moves fast, and takes quality personally. No account managers, no hand-offs, no wasted weeks. Just sharp people doing the work.</p>
               <p className={styles.storyP}>That's still what we are today.</p>
               <p className={styles.storyP}>More recently, that same approach has shaped how we build AI — designing and shipping production RAG applications and LLM-powered features for clients who want real results, not demos.</p>
-            </div>
-            <div>
+            </Reveal>
+            <Reveal delay={0.25}>
               <p className={styles.storyPull}>
                 We believe <em>great digital products</em> shouldn't be out of reach for small businesses.
               </p>
               <p className={styles.storyP}>That belief shapes everything about how we work — from pricing that doesn't punish early-stage companies, to processes designed to ship in weeks instead of quarters, to relationships that don't end at launch.</p>
               <p className={styles.storyP}>We've worked with solo founders on their first product and with established brands reinventing their digital presence. What every client has in common is that they care deeply about what they're building — and so do we.</p>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* ── NUMBERS ── */}
       <div className={styles.numbers}>
-        <div className={styles.numbersGrid}>
+        <Stagger className={styles.numbersGrid}>
           {STATS.map(s => (
-            <div key={s.lbl} className={styles.numCell}>
+            <StaggerItem key={s.lbl} className={styles.numCell}>
               <div className={styles.numBig}>{s.num}<span>{s.suffix}</span></div>
               <div className={styles.numLbl}>{s.lbl}</div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </div>
 
       {/* ── VALUES ── */}
       <section className={styles.values}>
         <div className={styles.max}>
-          <div className={styles.valuesHead}>
+          <Reveal className={styles.valuesHead}>
             <div>
               <div className={styles.tag}>What we stand for</div>
               <h2 className={styles.h2}>Three things we<br />never compromise on.</h2>
@@ -145,29 +146,29 @@ export default function CenterpointAboutPage() {
             <p className={styles.valuesSub}>
               These aren't aspirations. They're how we actually work, on every project, with every client.
             </p>
-          </div>
-          <div className={styles.valuesGrid}>
+          </Reveal>
+          <Stagger className={styles.valuesGrid}>
             {VALUES.map(v => (
-              <div key={v.num} className={styles.valueCard}>
+              <StaggerItem key={v.num} className={styles.valueCard}>
                 <div className={styles.valueNum}>{v.num}</div>
                 <div className={styles.valueTitle}>{v.title}</div>
                 <div className={styles.valueBody}>{v.body}</div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* ── TEAM ── */}
       <section className={styles.team}>
         <div className={styles.max}>
-          <div className={styles.teamHead}>
+          <Reveal className={styles.teamHead}>
             <div className={styles.tag}>The team</div>
             <h2 className={styles.h2}>Small by design.<br />Senior by default.</h2>
-          </div>
-          <div className={styles.teamGrid}>
+          </Reveal>
+          <Stagger className={styles.teamGrid}>
             {TEAM.map(m => (
-              <div key={m.name} className={styles.teamCard}>
+              <StaggerItem key={m.name} className={styles.teamCard}>
                 {/* Swap this div for <Image> when you have real photos */}
                 <div className={styles.teamPhoto} style={{ background: m.bg }}>
                   <div className={styles.teamStripe} />
@@ -185,50 +186,50 @@ export default function CenterpointAboutPage() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* ── CLIENTS ── */}
       <section className={styles.clients}>
         <div className={styles.max}>
-          <div className={styles.clientsHead}>
+          <Reveal className={styles.clientsHead}>
             <div className={styles.tag}>Who we've worked with</div>
             <h2 className={styles.h2} style={{ fontSize: 'clamp(28px,3vw,44px)' }}>
               Trusted by builders<br />at every stage.
             </h2>
-          </div>
-          <div className={styles.clientsLogos}>
+          </Reveal>
+          <Stagger className={styles.clientsLogos}>
             {CLIENTS.map(c => (
-              <div key={c} className={styles.clientCell}>
+              <StaggerItem key={c} className={styles.clientCell}>
                 <div className={styles.clientName}>{c}</div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* ── PROCESS ── */}
       <section className={styles.process}>
         <div className={styles.max}>
-          <div className={styles.processHead}>
+          <Reveal className={styles.processHead}>
             <div className={styles.tag}>How we work</div>
             <h2 className={styles.h2}>Every project.<br />Same four steps.</h2>
-          </div>
-          <div className={styles.processRows}>
+          </Reveal>
+          <Stagger className={styles.processRows}>
             {PROCESS.map(p => (
-              <div key={p.num} className={styles.processRow}>
+              <StaggerItem key={p.num} className={styles.processRow}>
                 <div className={styles.prNum}>{p.num}</div>
                 <div>
                   <div className={styles.prTitle}>{p.title}</div>
                   <div className={styles.prSub}>{p.sub}</div>
                 </div>
                 <p className={styles.prBody}>{p.body}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 

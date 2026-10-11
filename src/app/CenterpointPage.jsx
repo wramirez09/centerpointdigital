@@ -6,10 +6,15 @@ import SiteNav from '@/components/SiteNav/SiteNav';
 import LogoIcon from '@/components/SiteNav/LogoIcon';
 import Image from 'next/image';
 import styles from './centerpoint.module.css';
+import { Reveal, Stagger, StaggerItem } from '@/components/Reveal/Reveal';
+import ChromaType from '@/components/ChromaType/ChromaType';
 import PROJECTS from './work/projects';
 import SERVICES from './services/services';
 
 /* ─── DATA ─────────────────────────────────────────────── */
+
+// Hero headline endings, typed in one after another. The first is what search engines see.
+const HERO_WORDS = ['digital reality.', 'websites that sell.', 'apps people love.', 'AI that delivers.'];
 
 const TICKER_ITEMS = [
   'Web Design', 'Mobile Apps', 'AI Applications', 'Branding', 'SEO & Marketing', 'UI/UX Design', 'RAG Pipelines', 'Social Media',
@@ -87,12 +92,13 @@ export default function CenterpointPage() {
       <section className={styles.hero}>
         <div className={styles.heroBgNum}>CP</div>
         <div className={styles.heroLine} />
-        <div className={styles.heroLabel}>Digital agency for startups</div>
-        <h1 className={styles.heroH1}>
+        <Reveal className={styles.heroLabel}>Digital agency for startups</Reveal>
+        <Reveal as="h1" delay={0.15} className={styles.heroH1}
+          aria-label="Transforming vision into digital reality.">
           Transforming<br />vision into<br />
-          <em>digital</em><br />reality.
-        </h1>
-        <div className={styles.heroFooter}>
+          <ChromaType words={HERO_WORDS} />
+        </Reveal>
+        <Reveal delay={0.4} className={styles.heroFooter}>
           <p className={styles.heroSub}>
             We help startups and growing businesses ship websites, mobile apps, and
             AI-powered products — from brand identity to production RAG pipelines.
@@ -119,7 +125,7 @@ export default function CenterpointPage() {
               </Fragment>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ── TICKER ── */}
@@ -136,7 +142,7 @@ export default function CenterpointPage() {
       {/* ── SERVICES ── */}
       <section className={styles.section} id="services">
         <div className={styles.max}>
-          <div className={styles.servicesHead}>
+          <Reveal className={styles.servicesHead}>
             <div>
               <div className={styles.tag}>What we do</div>
               <h2 className={`${styles.h2} ${styles.h2Sans}`}>Six ways we<br />grow your business.</h2>
@@ -144,10 +150,10 @@ export default function CenterpointPage() {
             <p className={styles.sub}>
               Every service is built around one goal: shipping work that drives real growth.
             </p>
-          </div>
-          <div className={styles.svcList}>
+          </Reveal>
+          <Stagger className={styles.svcList}>
             {SERVICES.map((s) => (
-              <Link key={s.num} href={`/services/${s.slug}`} className={styles.svcRow}>
+              <StaggerItem as="link" key={s.num} href={`/services/${s.slug}`} className={styles.svcRow}>
                 <div className={styles.svcNum}>{s.num}</div>
                 <div className={styles.svcName}>
                   {s.name}
@@ -159,9 +165,9 @@ export default function CenterpointPage() {
                     <path d="M2 7h10M8 3l4 4-4 4"/>
                   </svg>
                 </div>
-              </Link>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -170,7 +176,7 @@ export default function CenterpointPage() {
         <div className={styles.max}>
           <div className={styles.aboutGrid}>
             {/* Left */}
-            <div className={styles.aboutLeft}>
+            <Reveal className={styles.aboutLeft}>
               <div className={styles.tag}>Our mission</div>
               <h2 className={`${styles.h2} ${styles.h2Sans}`}>Built for<br />builders.</h2>
               <p className={styles.sub} style={{ marginTop: 20 }}>
@@ -189,9 +195,9 @@ export default function CenterpointPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Reveal>
             {/* Right */}
-            <div className={styles.aboutRight}>
+            <Reveal delay={0.25} className={styles.aboutRight}>
               <div className={styles.tag}>How we work</div>
               <h2 className={`${styles.h2} ${styles.h2Sans}`} style={{ fontSize: 'clamp(34px,3.6vw,54px)' }}>
                 Three things<br />we never<br />compromise on.
@@ -207,7 +213,7 @@ export default function CenterpointPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -216,11 +222,13 @@ export default function CenterpointPage() {
       {TESTIMONIALS.length > 0 && (
         <section className={styles.sectionTestimonials} id="testimonials">
           <div className={styles.max}>
-            <div className={styles.tag}>Testimonials</div>
-            <h2 className={styles.h2}>What our<br />clients say.</h2>
-            <div className={styles.tGrid}>
+            <Reveal>
+              <div className={styles.tag}>Testimonials</div>
+              <h2 className={styles.h2}>What our<br />clients say.</h2>
+            </Reveal>
+            <Stagger className={styles.tGrid}>
               {TESTIMONIALS.map((t) => (
-                <figure key={t.slug} className={styles.tCard}>
+                <StaggerItem as="figure" key={t.slug} className={styles.tCard}>
                   <div className={styles.tStars} aria-label="5 out of 5 stars">★★★★★</div>
                   <blockquote className={styles.tQuote}>{t.quote}</blockquote>
                   <figcaption className={styles.tFoot}>
@@ -232,9 +240,9 @@ export default function CenterpointPage() {
                       {t.project} <ArrowRight />
                     </Link>
                   </figcaption>
-                </figure>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </section>
       )}
@@ -242,7 +250,7 @@ export default function CenterpointPage() {
       {/* ── WORK ── */}
       <section className={styles.sectionWork} id="work">
         <div className={styles.max}>
-          <div className={styles.workHead}>
+          <Reveal className={styles.workHead}>
             <div>
               <div className={styles.tag}>Selected work</div>
               <h2 className={styles.h2}>Projects we're<br />proud of.</h2>
@@ -250,10 +258,10 @@ export default function CenterpointPage() {
             <Link href="/work" className={styles.btnOutline}>
               View all work <ArrowRight />
             </Link>
-          </div>
-          <div className={styles.workGrid}>
+          </Reveal>
+          <Stagger className={styles.workGrid}>
             {/* Featured card */}
-            <Link href={`/work/${WORK[0].slug}`}
+            <StaggerItem as="link" href={`/work/${WORK[0].slug}`}
               className={`${styles.workCard} ${styles.workCardTall}`}
               style={{ background: WORK[0].imgBg }}>
               {WORK[0].imgSrc
@@ -265,9 +273,9 @@ export default function CenterpointPage() {
                 <div className={styles.workTitle}>{WORK[0].name}</div>
                 <div className={styles.workDesc}>{WORK[0].desc}</div>
               </div>
-            </Link>
+            </StaggerItem>
             {/* Stacked cards */}
-            <div className={styles.workGridRight}>
+            <StaggerItem className={styles.workGridRight}>
               {WORK.slice(1).map((w) => (
                 <Link key={w.slug} href={`/work/${w.slug}`}
                   className={`${styles.workCard} ${styles.workCardShort}`}
@@ -283,15 +291,15 @@ export default function CenterpointPage() {
                   </div>
                 </Link>
               ))}
-            </div>
-          </div>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
 
       {/* ── CONSULTATION FORM ── */}
       <section className={styles.sectionConsult} id="consult">
         <div className={styles.max}>
-          <div className={styles.captureOuter}>
+          <Reveal className={styles.captureOuter}>
             {/* Top amber band */}
             <div className={styles.captureTop}>
               <div>
@@ -389,7 +397,7 @@ export default function CenterpointPage() {
                 </form>
               )}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 

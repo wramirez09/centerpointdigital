@@ -4,6 +4,7 @@ import Link from 'next/link';
 import SiteNav from '@/components/SiteNav/SiteNav';
 import CtaBand from '@/components/CtaBand/CtaBand';
 import SiteFooter from '@/components/SiteFooter/SiteFooter';
+import { Reveal } from '@/components/Reveal/Reveal';
 import Image from 'next/image';
 import styles from './centerpointWork.module.css';
 import { FEATURED_PROJECT, GRID_PROJECTS } from './projects';
@@ -30,7 +31,7 @@ export default function CenterpointWorkPage() {
       <header className={styles.pageHeader}>
         <div className={styles.pageHeaderBg}>WK</div>
         <div className={styles.pageHeaderInner}>
-          <div>
+          <Reveal>
             <div className={styles.eyebrow}>Selected projects</div>
             <h1 className={styles.pageH1}>
               Work we're<br /><em>proud of.</em>
@@ -39,12 +40,12 @@ export default function CenterpointWorkPage() {
               Every project starts with a real problem and ends with measurable
               results. Here's a selection of what we've shipped.
             </p>
-          </div>
+          </Reveal>
         </div>
       </header>
 
       {/* ── FEATURED ── */}
-      <div className={styles.featured}>
+      <Reveal delay={0.25} className={styles.featured}>
         <div className={styles.featuredLabel}>Featured project</div>
         <Link href={`/work/${F.slug}`} className={styles.featuredCard}>
           <div className={styles.featuredImg} style={{ background: F.imgBg }}>
@@ -81,13 +82,13 @@ export default function CenterpointWorkPage() {
             </div>
           </div>
         </Link>
-      </div>
+      </Reveal>
 
       {/* ── PROJECT GRID ── */}
       <div className={styles.gridSection}>
-        <h2 className={styles.gridHeading}>
+        <Reveal as="h2" className={styles.gridHeading}>
           All projects
-        </h2>
+        </Reveal>
 
         {GRID_PROJECTS.length === 0 ? (
           <p style={{ color: 'var(--muted)', fontWeight: 300, fontSize: 15 }}>
@@ -97,8 +98,8 @@ export default function CenterpointWorkPage() {
           <div
             className={styles.projectGrid}
           >
-            {GRID_PROJECTS.map(p => (
-              <Link key={p.slug} href={`/work/${p.slug}`} className={`${styles.projectCard} ${p.comingSoon ? styles.projectCardWide : ''}`}>
+            {GRID_PROJECTS.map((p, i) => (
+              <Reveal as="link" key={p.slug} delay={(i % 2) * 0.2} href={`/work/${p.slug}`} className={`${styles.projectCard} ${p.comingSoon ? styles.projectCardWide : ''}`}>
                 <div
                   className={`${styles.cardImg} ${p.tall ? styles.cardImgTall : ''}`}
                   style={{ background: p.imgBg }}
@@ -142,7 +143,7 @@ export default function CenterpointWorkPage() {
                     <div className={styles.cardArrow}><ArrowSmall /></div>
                   </div>
                 </div>
-              </Link>
+              </Reveal>
             ))}
           </div>
         )}
