@@ -29,21 +29,6 @@ const VALUES = [
   { num: '03', title: 'Long-term partnership',   body: "We grow with our clients. The relationship doesn't end at launch — it starts there. We stay close, iterate, and invest in the long-term success of what we ship." },
 ];
 
-const TEAM = [
-  { name: 'Alex Rivera', role: 'Founder & Creative Director', bg: '#131009',
-    bio: '10 years designing for startups and Fortune 500s. Cares deeply about craft and believes design is problem-solving.',
-    socials: ['linkedin', 'twitter'] },
-  { name: 'Jordan Lee', role: 'Co-founder & Tech Lead', bg: '#0d0e13',
-    bio: "Full-stack engineer who's shipped products used by millions. Obsessed with performance, accessibility, and clean code.",
-    socials: ['linkedin', 'github'] },
-  { name: 'Sam Chen', role: 'Head of Strategy & Growth', bg: '#11100d',
-    bio: 'Former growth lead at two acquired startups. Bridges the gap between business goals and digital execution with a data-first mindset.',
-    socials: ['linkedin', 'twitter'] },
-  { name: 'Maya Patel', role: 'Senior UX Designer', bg: '#0e0d0a',
-    bio: 'UX specialist with a background in cognitive psychology. Runs user research and turns complex flows into intuitive, delightful experiences.',
-    socials: ['linkedin', 'dribbble'] },
-];
-
 const CLIENTS = [
   'Flowbase','Pulse Labs','Nordvik','Stackr','Vaultly',
   'Acme Co.','Fenwick','Trailr','Cellar & Grain','Meridian',
@@ -55,14 +40,6 @@ const PROCESS = [
   { num: '03', title: 'Build',          sub: 'Week 2–5',   body: 'Clean, performant code on modern frameworks. CMS integration, SEO implementation, accessibility compliance. You review on staging before anything goes live.' },
   { num: '04', title: 'Launch & grow',  sub: 'Week 5–6+',  body: "QA, launch, and monitoring. We don't disappear at go-live — we stay close, track what matters, and iterate. Most of our clients stay with us long after the first project ships." },
 ];
-
-/* ─── SVG ICONS ────────────────────────────────────────── */
-const SOCIAL_SVGS = {
-  linkedin: <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>,
-  twitter:  <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>,
-  github:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>,
-  dribbble: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>,
-};
 
 /* ─── COMPONENT ────────────────────────────────────────── */
 export default function CenterpointAboutPage() {
@@ -153,39 +130,6 @@ export default function CenterpointAboutPage() {
                 <div className={styles.valueNum}>{v.num}</div>
                 <div className={styles.valueTitle}>{v.title}</div>
                 <div className={styles.valueBody}>{v.body}</div>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </div>
-      </section>
-
-      {/* ── TEAM ── */}
-      <section className={styles.team}>
-        <div className={styles.max}>
-          <Reveal className={styles.teamHead}>
-            <div className={styles.tag}>The team</div>
-            <h2 className={styles.h2}>Small by design.<br />Senior by default.</h2>
-          </Reveal>
-          <Stagger className={styles.teamGrid}>
-            {TEAM.map(m => (
-              <StaggerItem key={m.name} className={styles.teamCard}>
-                {/* Swap this div for <Image> when you have real photos */}
-                <div className={styles.teamPhoto} style={{ background: m.bg }}>
-                  <div className={styles.teamStripe} />
-                  <div className={styles.teamPhotoLabel}>Headshot</div>
-                </div>
-                <div className={styles.teamInfo}>
-                  <div className={styles.teamName}>{m.name}</div>
-                  <div className={styles.teamRole}>{m.role}</div>
-                  <div className={styles.teamBio}>{m.bio}</div>
-                  <div className={styles.teamSocial}>
-                    {m.socials.map(s => (
-                      <a key={s} href="#" aria-label={s} className={styles.teamSoc}>
-                        {SOCIAL_SVGS[s]}
-                      </a>
-                    ))}
-                  </div>
-                </div>
               </StaggerItem>
             ))}
           </Stagger>

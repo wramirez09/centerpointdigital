@@ -110,41 +110,6 @@
 }
 .valueBody { font-size: 16px; color: var(--muted); line-height: 1.7; font-weight: 400; }
 
-/* ─── TEAM ────────────────────────────────────────────── */
-.team { background: var(--bg2); border-top: 1px solid var(--border); padding: 120px 0; }
-.teamHead { margin-bottom: 64px; }
-.teamGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); }
-.teamCard { background: var(--bg3); overflow: hidden; }
-.teamPhoto { height: 280px; position: relative; overflow: hidden; background: var(--bg2); }
-.teamStripe {
-  position: absolute; inset: 0;
-  background-image: repeating-linear-gradient(
-    -45deg, transparent, transparent 12px,
-    rgba(237,230,214,0.02) 12px, rgba(237,230,214,0.02) 13px
-  );
-}
-.teamPhotoLabel {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  font-family: var(--font-outfit, 'Outfit', sans-serif);
-  font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--faint); padding: 6px 12px; border: 1px solid var(--border); border-radius: 2px;
-}
-.teamInfo { padding: 28px 28px 32px; }
-.teamName {
-  font-family: var(--font-outfit, 'Outfit', sans-serif);
-  font-size: 18px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 4px; color: var(--text);
-}
-.teamRole { font-size: 12px; font-weight: 500; color: var(--amber); letter-spacing: .04em; margin-bottom: 12px; }
-.teamBio { font-size: 15px; color: var(--muted); line-height: 1.6; font-weight: 400; }
-.teamSocial { display: flex; gap: 10px; margin-top: 16px; }
-.teamSoc {
-  width: 28px; height: 28px; border-radius: 4px; border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--faint); text-decoration: none; transition: border-color .2s, color .2s;
-}
-.teamSoc:hover { border-color: var(--amber); color: var(--amber); }
-.teamSoc svg { width: 12px; height: 12px; fill: currentColor; }
-
 /* ─── CLIENTS ─────────────────────────────────────────── */
 .clients { padding: 96px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .clientsHead { margin-bottom: 56px; }
@@ -211,15 +176,11 @@
   .valuesGrid { grid-template-columns: 1fr; }
   .valueCard { padding: 36px 28px; }
 
-  /* Team: 2 cols with reduced photo + card padding */
-  .teamGrid { grid-template-columns: 1fr 1fr; }
-  .teamPhoto { height: 200px; }
-  .teamInfo { padding: 20px 16px 24px; }
 
   .clientsLogos { grid-template-columns: 1fr 1fr 1fr; }
   .processRow { grid-template-columns: 48px 1fr; padding: 32px 24px; gap: 24px; }
   .processRow > .prBody { grid-column: 2; }
-  .story, .values, .team, .process { padding: 64px 0; }
+  .story, .values, .process { padding: 64px 0; }
 }
 
 /* ─── SMALL PHONES (≤ 480px) ──────────────────────────── */
@@ -236,11 +197,7 @@
   /* Values: single column already, tighten padding */
   .valueCard { padding: 28px 20px; }
 
-  /* Team: stack to 1 col */
-  .teamGrid { grid-template-columns: 1fr; }
-  .teamPhoto { height: 240px; }
-  .teamInfo { padding: 24px 20px 28px; }
 
   .clientsLogos { grid-template-columns: 1fr 1fr; }
-  .story, .values, .team, .process { padding: 48px 0; }
+  .story, .values, .process { padding: 48px 0; }
 }
