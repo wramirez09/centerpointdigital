@@ -8,6 +8,7 @@ const LINKS: { label: string; href: string; hash?: boolean; activeFor: Current[]
   { label: 'Home', href: '/', activeFor: ['home'] },
   { label: 'Services', href: '/#services', hash: true, activeFor: ['service'] },
   { label: 'Work', href: '/work', activeFor: ['work', 'project'] },
+  { label: 'For agencies', href: '/for-agencies', activeFor: ['agencies'] },
   { label: 'About', href: '/about', activeFor: ['about'] },
 ];
 

@@ -7,7 +7,6 @@ import LogoIcon from '@/components/SiteNav/LogoIcon';
 import Image from 'next/image';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
-import { IconRocket } from '@tabler/icons-react';
 import styles from './centerpoint.module.css';
 import { Reveal } from '@/components/Reveal/Reveal';
 import ChromaType from '@/components/ChromaType/ChromaType';
@@ -67,6 +66,34 @@ const lineGlow = {
   hidden: { opacity: 1 },
   visible: (offset) => ({ opacity: 0, transition: { delay: offset + FRAME_DONE + 0.2, duration: 1.2 } }),
 };
+// Tabler's rocket, traced stroke by stroke once the about frame has drawn.
+const ROCKET_PATHS = [
+  'M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3',
+  'M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3',
+  'M15 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0',
+];
+const traceRocket = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: (i) => ({
+    pathLength: 1, opacity: 1,
+    transition: {
+      pathLength: { delay: FRAME_DONE + 0.4 + i * 0.6, duration: i ? 0.8 : 1.6, ease: [0.45, 0, 0.25, 1] },
+      opacity: { delay: FRAME_DONE + 0.4 + i * 0.6, duration: 0.01 },
+    },
+  }),
+};
+// Once traced, the rocket rumbles once like it's about to lift off.
+const ROCKET_DRAWN = FRAME_DONE + 0.4 + 2 * 0.6 + 0.8;
+const rumbleRocket = {
+  hidden: { x: 0, y: 0, rotate: 0 },
+  visible: {
+    x: [0, -1.5, 1.5, -2, 2, -2.5, 2.5, -1.5, 1.5, 0],
+    y: [0, 1, -1, 1, -1.5, 1, -2, 1, -1, 0],
+    rotate: [0, -3, 3, -4, 4, -5, 5, -3, 3, 0],
+    transition: { delay: ROCKET_DRAWN, duration: 0.9, ease: 'linear' },
+  },
+};
+
 const fadeIn = {
   hidden: { opacity: 0, y: 16 },
   visible: (delay) => ({ opacity: 1, y: 0, transition: { delay, duration: 1, ease: [0.45, 0, 0.25, 1] } }),
@@ -245,6 +272,13 @@ export default function CenterpointPage() {
               </Reveal>
             ))}
           </div>
+          <Reveal className={styles.agencyTeaser}>
+            <p>
+              <strong>Agencies: we&apos;re your white-label dev team.</strong>{' '}
+              AI features, extra front-end capacity, and project rescue, delivered under your brand.
+            </p>
+            <Link href="/for-agencies" className={styles.agencyLink}>For agencies →</Link>
+          </Reveal>
         </div>
       </section>
 
@@ -265,7 +299,7 @@ export default function CenterpointPage() {
                 actually moves the needle.
               </motion.p>
               <motion.div variants={fadeIn} custom={FRAME_DONE + 0.8} className={styles.aboutNumRow}>
-                {[['2wk', 'avg time to launch']].map(([big, lbl]) => (
+                {[['4wk', 'avg time to launch']].map(([big, lbl]) => (
                   <div key={lbl} className={styles.aboutNumCell}>
                     <div className={styles.aboutNumBig}>
                       {big.replace(/[+%yr wk]/g, '')}
@@ -275,7 +309,12 @@ export default function CenterpointPage() {
                   </div>
                 ))}
                 <div className={`${styles.aboutNumCell} ${styles.aboutNumIcon}`} aria-hidden="true">
-                  <IconRocket size={56} stroke={1.4} />
+                  <motion.svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" variants={rumbleRocket}>
+                    {ROCKET_PATHS.map((d, i) => (
+                      <motion.path key={d} d={d} variants={traceRocket} custom={i} />
+                    ))}
+                  </motion.svg>
                 </div>
               </motion.div>
               <motion.div variants={fadeIn} custom={FRAME_DONE + 1} className={styles.aboutCta}>
@@ -530,6 +569,7 @@ export default function CenterpointPage() {
             <h4>Company</h4>
             <ul>
               <li><a href="#about">About us</a></li>
+              <li><Link href="/for-agencies">For agencies</Link></li>
               <li><a href="#work">Our work</a></li>
               <li><a href="#consult">Contact</a></li>
             </ul>

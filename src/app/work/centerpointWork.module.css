@@ -121,10 +121,12 @@
 .gridHeading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 .projectGrid {
   display: grid; grid-template-columns: repeat(2, 1fr);
-  gap: 2px; background: var(--border);
+  gap: 2px; background: var(--bg);
 }
+/* Each card draws its own divider in the gap, so an empty last cell matches the cards. */
 .projectCard {
-  background: var(--bg3); position: relative; overflow: hidden;
+  box-shadow: 0 0 0 1px var(--border);
+  background: var(--bg); position: relative; overflow: hidden;
   cursor: pointer; display: flex; flex-direction: column;
   text-decoration: none; color: inherit;
 }

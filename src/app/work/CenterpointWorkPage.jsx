@@ -18,6 +18,16 @@ const ArrowSmall = () => (
 );
 
 /* ─── COMPONENT ─────────────────────────────────────────── */
+// Left-column cards slide in from the left, right-column cards from the right, a beat later.
+// Full-width "coming soon" cards (col 'fade') just fade in.
+const slideIn = {
+  hidden: (col) => ({ opacity: 0, x: col === 'fade' ? 0 : col ? 120 : -120 }),
+  visible: (col) => ({
+    opacity: 1, x: 0,
+    transition: { duration: 1.2, ease: [0.45, 0, 0.25, 1], delay: col === 1 ? 0.4 : 0 },
+  }),
+};
+
 export default function CenterpointWorkPage() {
   const F = FEATURED_PROJECT;
 
@@ -95,11 +105,10 @@ export default function CenterpointWorkPage() {
             No projects yet — check back soon.
           </p>
         ) : (
-          <div
-            className={styles.projectGrid}
-          >
+          <div className={styles.projectGrid}>
+            {/* Each card slides in when it scrolls into view; the right column follows its row partner. */}
             {GRID_PROJECTS.map((p, i) => (
-              <Reveal as="link" key={p.slug} delay={(i % 2) * 0.2} href={`/work/${p.slug}`} className={`${styles.projectCard} ${p.comingSoon ? styles.projectCardWide : ''}`}>
+              <Reveal as="link" key={p.slug} variants={slideIn} custom={p.comingSoon ? 'fade' : i % 2} href={`/work/${p.slug}`} className={`${styles.projectCard} ${p.comingSoon ? styles.projectCardWide : ''}`}>
                 <div
                   className={`${styles.cardImg} ${p.tall ? styles.cardImgTall : ''}`}
                   style={{ background: p.imgBg }}

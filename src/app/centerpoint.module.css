@@ -420,6 +420,17 @@
   stroke: var(--bg);
 }
 
+/* Secondary agencies teaser under the service list. */
+.agencyTeaser {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px;
+  margin-top: 48px; padding: 24px 28px;
+  border: 1px solid var(--border); background: var(--bg2);
+}
+.agencyTeaser p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--muted); max-width: 760px; }
+.agencyTeaser strong { color: var(--text); font-weight: 700; }
+.agencyLink { font-size: 15px; font-weight: 700; color: var(--amber); text-decoration: none; white-space: nowrap; }
+.agencyLink:hover { text-decoration: underline; }
+
 /* ─── ABOUT ───────────────────────────────────────────── */
 .aboutGrid {
   display: grid;

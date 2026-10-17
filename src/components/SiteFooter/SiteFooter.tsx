@@ -9,6 +9,7 @@ export default function SiteFooter() {
       <div className={styles.links}>
         <Link href="/">Home</Link>
         <Link href="/work">Work</Link>
+        <Link href="/for-agencies">For agencies</Link>
         <Link href="/about">About</Link>
         <a href="/#consult">Contact</a>
         <a href="tel:+17737800098">(773) 780-0098</a>
