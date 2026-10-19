@@ -16,7 +16,7 @@ import { motion, type Variants } from 'framer-motion';
  */
 
 // Ease-in-out so elements drift into place instead of snapping.
-const EASE = [0.45, 0, 0.25, 1];
+const EASE = [0.45, 0, 0.25, 1] as const;
 const VIEWPORT = { once: true, margin: '0px 0px -8% 0px' } as const;
 
 const TAGS = {

@@ -15,8 +15,9 @@ export async function generateStaticParams() {
   return SERVICES.map(s => ({ slug: s.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const service = SERVICES.find(s => s.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const service = SERVICES.find(s => s.slug === slug);
   if (!service) return {};
   return {
     title: `${service.name} — CenterPoint Digital`,
@@ -33,8 +34,9 @@ function ArrowRight() {
   );
 }
 
-export default function ServicePage({ params }: { params: { slug: string } }) {
-  const service = SERVICES.find(s => s.slug === params.slug);
+export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const service = SERVICES.find(s => s.slug === slug);
   if (!service) notFound();
 
   const { num, name, title, intro, bestFor, overview, offerings, process, stack, workSlugs, faqs } = service;
@@ -47,7 +49,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
     <div className={s.root}>
 
       {/* ── NAV ── */}
-      <SiteNav current="service" slug={params.slug} />
+      <SiteNav current="service" slug={slug} />
 
       {/* ── BREADCRUMB ── */}
       <div className={s.breadcrumb}>

@@ -3,7 +3,6 @@
 import ScrollToTop from '@/components/ScrollToTop';
 import { Syne, Outfit } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import 'node_modules/react-modal-video/css/modal-video.css';
 import '../styles/index.css';
 
 const syne = Syne({
