@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import styles from './centerpoint.module.css';
 import { Reveal } from '@/components/Reveal/Reveal';
 import ChromaType from '@/components/ChromaType/ChromaType';
+import CenterMap from '@/components/CenterMap/CenterMap';
 import PROJECTS from './work/projects';
 import SERVICES from './services/services';
 
@@ -429,6 +430,9 @@ export default function CenterpointPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* ── CENTER POINT MAP ── */}
+      <CenterMap />
 
       {/* ── CONSULTATION FORM ── */}
       <section className={styles.sectionConsult} id="consult">
