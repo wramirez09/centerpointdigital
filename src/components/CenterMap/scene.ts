@@ -477,13 +477,15 @@ const STOCKYARDS: GridPoint = { w: 850, s: 4100 }; // Union Stock Yard Gate, Exc
 const CMD_TOWER: GridPoint = { w: 2050, s: 3960 }; // Central Manufacturing District, Pershing Rd
 const STATION: GridPoint = { w: 2200, s: archerS(2200) - 45 }; // 35th/Archer, Orange Line
 
-const SKYLINE = onHorizon(WILLIS, 12.5);
+export const SKYLINE = onHorizon(WILLIS, 12.5);
 /** Skyline towers keep their real layout relative to Willis, shrunk to a quarter. */
 const inSkyline = (p: GridPoint): World => ({
   x: SKYLINE.x + (X(p.w) - X(WILLIS.w)) * 0.25,
   z: SKYLINE.z + (Z(p.s) - Z(WILLIS.s)) * 0.25,
 });
-const SOX_AT = onHorizon(SOX, 11.8);
+export const SOX_AT = onHorizon(SOX, 11.8);
+/** Home plate to center field, as a unit vector. The outfield opens to the northeast. */
+export const SOX_FACING = { x: Math.SQRT1_2, z: -Math.SQRT1_2 };
 const MIDWAY_AT = onHorizon(MIDWAY, 13.8);
 const STOCKYARDS_AT = onHorizon(STOCKYARDS, 11.6);
 
@@ -570,34 +572,7 @@ function buildLandmarks(c: Cloud, rand: () => number) {
     facadeLights(c, rand, x - half, x + half, z - half, h, 0.14);
   }
 
-  // Guaranteed Rate Field: stacked seating bowl, the diamond, light towers.
-  const sx = SOX_AT.x;
-  const sz = SOX_AT.z;
-  for (let tier = 0; tier < 4; tier++) {
-    const rx = 0.75 + tier * 0.12;
-    const rz = 0.62 + tier * 0.1;
-    for (let k = 0; k < 80; k++) {
-      const a = (k / 80) * Math.PI * 2;
-      c.add(sx + Math.cos(a) * rx, 0.05 + tier * 0.11, sz + Math.sin(a) * rz, COLORS.text, 1, 0.55);
-    }
-  }
-  for (let k = 0; k < 340; k++) {
-    const a = rand() * Math.PI * 2;
-    const r = Math.sqrt(rand());
-    c.add(sx + Math.cos(a) * r * 0.68, 0.02, sz + Math.sin(a) * r * 0.55, COLORS.park, 1.1, 0.55);
-  }
-  const home: [number, number, number] = [sx - 0.35, 0.03, sz + 0.25];
-  for (const [dx, dz] of [[0.25, 0], [0, -0.25]]) {
-    line(c, home, [home[0] + dx, 0.03, home[2] + dz], 0.025, COLORS.amber, 1, 0.7);
-    line(c, [home[0] + dx, 0.03, home[2] + dz], [home[0] + 0.25, 0.03, home[2] - 0.25], 0.025, COLORS.amber, 1, 0.7);
-  }
-  for (let k = 0; k < 6; k++) {
-    const a = (k / 6) * Math.PI * 2 + 0.3;
-    const lx = sx + Math.cos(a) * 1.15;
-    const lz = sz + Math.sin(a) * 0.95;
-    line(c, [lx, 0, lz], [lx, 0.85, lz], 0.05, COLORS.dim, 0.8, 0.6);
-    for (let q = 0; q < 5; q++) c.add(lx + (q - 2) * 0.03, 0.88, lz, COLORS.amber, 2, 1);
-  }
+  ballpark(c, rand, SOX_AT);
 
   // Midway Airport: a square mile of field with criss-crossing runways.
   const mx = MIDWAY_AT.x;
@@ -660,6 +635,117 @@ function buildLandmarks(c: Cloud, rand: () => number) {
   }
 }
 
+/**
+ * Guaranteed Rate Field. Built in field coordinates (u from home plate toward
+ * center field, v toward the third-base side) and turned to face northeast.
+ */
+function ballpark(c: Cloud, rand: () => number, at: World) {
+  const K = 1.25; // field units to world units; the wall sits at 1 field unit
+  const { x: fx, z: fz } = SOX_FACING;
+  const hx = at.x - fx * 0.55 * K;
+  const hz = at.z - fz * 0.55 * K;
+  const P = (u: number, v: number, y: number): [number, number, number] => [
+    hx + (fx * u - fz * v) * K, y, hz + (fz * u + fx * v) * K,
+  ];
+  const polar = (r: number, a: number, y: number) => P(r * Math.cos(a), r * Math.sin(a), y);
+  const Q = Math.PI / 4; // the foul lines
+  const WHITE = COLORS.text;
+
+  // Grass, with the infield dirt arc cut out of it.
+  for (let i = 0; i < 1100; i++) {
+    const a = (rand() * 2 - 1) * (Q + 0.1);
+    const r = Math.sqrt(rand()) * 0.99;
+    if (Math.abs(a) < Q && r > 0.29 && r < 0.42) continue;
+    c.add(...polar(r, a, 0.02), COLORS.park, 1.1, 0.4 + rand() * 0.2);
+  }
+  for (let i = 0; i < 260; i++) {
+    c.add(...polar(0.29 + rand() * 0.13, (rand() * 2 - 1) * Q, 0.02), COLORS.amber, 1, 0.3);
+  }
+
+  // The diamond: base paths, bases and the mound.
+  const d = 0.19;
+  const bases: [number, number][] = [[0, 0], [d, -d], [2 * d, 0], [d, d]];
+  for (let i = 0; i < 4; i++) {
+    const [u0, v0] = bases[i];
+    const [u1, v1] = bases[(i + 1) % 4];
+    line(c, P(u0, v0, 0.025), P(u1, v1, 0.025), 0.02, COLORS.amber, 1, 0.45);
+    c.add(...P(u0, v0, 0.04), WHITE, 2.4, 1);
+  }
+  for (let k = 0; k < 10; k++) {
+    const a = (k / 10) * Math.PI * 2;
+    c.add(...P(d + Math.cos(a) * 0.035, Math.sin(a) * 0.035, 0.035), COLORS.amber, 1, 0.6);
+  }
+
+  // Foul lines out to the yellow foul poles, and the outfield wall.
+  for (const side of [-1, 1]) {
+    line(c, P(0, 0, 0.03), polar(1, side * Q, 0.03), 0.02, WHITE, 1, 0.8);
+    line(c, polar(1, side * Q, 0.02), polar(1, side * Q, 0.4), 0.02, COLORS.amber, 1.2, 0.9);
+  }
+  for (let a = -Q; a <= Q; a += 0.015) {
+    for (const y of [0.03, 0.06]) c.add(...polar(1, a, y), WHITE, 0.9, 0.5);
+    c.add(...polar(1, a, 0.09), COLORS.amber, 1, 0.6);
+  }
+
+  // Outfield bleachers, split by the batter's eye in dead center.
+  for (let row = 0; row < 5; row++) {
+    for (let a = -Q - 0.08; a <= Q + 0.08; a += 0.02) {
+      if (Math.abs(a) < 0.16) continue;
+      c.add(...polar(1.05 + row * 0.045, a, 0.08 + row * 0.04), WHITE, 0.9, 0.22 + rand() * 0.2);
+    }
+  }
+
+  // The center-field scoreboard and the pinwheels that spin after a home run.
+  const sb = 1.3;
+  for (let v = -0.28; v <= 0.28; v += 0.022) {
+    for (let y = 0.32; y <= 0.68; y += 0.022) {
+      const roll = rand();
+      const color = roll < 0.3 ? COLORS.amber : roll < 0.45 ? COLORS.water : WHITE;
+      c.add(...P(sb, v, y), color, 1, 0.3 + rand() * 0.5);
+    }
+  }
+  line(c, P(sb, -0.3, 0.3), P(sb, 0.3, 0.3), 0.02, WHITE, 1, 0.8);
+  line(c, P(sb, -0.3, 0.7), P(sb, 0.3, 0.7), 0.02, WHITE, 1, 0.8);
+  for (const v of [-0.3, 0.3]) line(c, P(sb, v, 0), P(sb, v, 0.7), 0.03, WHITE, 1, 0.6);
+  for (const v of [-0.2, 0, 0.2]) {
+    const cy = 0.82;
+    for (let k = 0; k < 14; k++) {
+      const a = (k / 14) * Math.PI * 2;
+      c.add(...P(sb, v + Math.cos(a) * 0.07, cy + Math.sin(a) * 0.07), COLORS.amber, 1.4, 1);
+    }
+    for (let k = 0; k < 4; k++) {
+      const a = (k / 4) * Math.PI * 2 + 0.4;
+      line(c, P(sb, v, cy), P(sb, v + Math.cos(a) * 0.07, cy + Math.sin(a) * 0.07), 0.02, WHITE, 1, 0.8);
+    }
+  }
+
+  // The grandstand: rows that follow both foul lines and wrap behind home plate.
+  const row = (dist: number, y: number, len: number, color: RGB, size: number, brightness: () => number) => {
+    const pts: [number, number][] = [];
+    for (let t = len; t > 0; t -= 0.025) pts.push([t * Math.cos(Q) - dist * Math.sin(Q), t * Math.sin(Q) + dist * Math.cos(Q)]);
+    for (let a = Q + Math.PI / 2; a <= 2 * Math.PI - Q - Math.PI / 2; a += 0.025 / dist) pts.push([dist * Math.cos(a), dist * Math.sin(a)]);
+    for (let t = 0; t < len; t += 0.025) pts.push([t * Math.cos(Q) - dist * Math.sin(Q), -(t * Math.sin(Q) + dist * Math.cos(Q))]);
+    for (const [u, v] of pts) c.add(...P(u, v, y), color, size, brightness());
+  };
+  for (let dist = 0.12; dist <= 0.42; dist += 0.05) {
+    row(dist, 0.03 + (dist - 0.12) * 0.6, 0.95, WHITE, 0.9, () => 0.2 + rand() * 0.2);
+  }
+  row(0.47, 0.3, 0.8, COLORS.amber, 1, () => (rand() < 0.5 ? 0.7 : 0.15)); // lit suites
+  for (let dist = 0.52; dist <= 0.8; dist += 0.05) {
+    row(dist, 0.38 + (dist - 0.52) * 0.75, 0.75, WHITE, 0.9, () => 0.2 + rand() * 0.2);
+  }
+  row(0.86, 0.72, 0.72, WHITE, 1, () => 0.65); // roof canopy edge
+
+  // Light towers along the roof.
+  for (const [t, side] of [[0.15, 1], [0.5, 1], [0.15, -1], [0.5, -1]] as const) {
+    const u = t * Math.cos(Q) - 0.86 * Math.sin(Q);
+    const v = side * (t * Math.sin(Q) + 0.86 * Math.cos(Q));
+    line(c, P(u, v, 0.72), P(u, v, 1.02), 0.03, WHITE, 0.9, 0.6);
+    for (let i = -2; i <= 2; i++) {
+      for (let j = 0; j < 3; j++) c.add(...P(u + i * 0.02, v, 1.03 + j * 0.025), COLORS.amber, 2, 1);
+    }
+  }
+}
+
 /** Scattered lit office windows on one face of a tower. */
 function facadeLights(c: Cloud, rand: () => number, x0: number, x1: number, z: number, h: number, step: number) {
   for (let y = 0.1; y < h; y += step) {
@@ -677,7 +763,9 @@ export const LABELS: { text: string; sub?: string; at: World; y: number; accent?
   { text: 'Geographic center of Chicago', at: atGrid(CENTER), y: 3.3, accent: true },
   { text: 'Willis Tower', sub: `Loop skyline · ${mi(WILLIS)}`, at: inSkyline(WILLIS), y: H.willis + 0.85, far: true },
   { text: 'John Hancock Center', sub: mi(HANCOCK), at: inSkyline(HANCOCK), y: H.hancock + 0.5, far: true },
-  { text: 'Guaranteed Rate Field', sub: `White Sox · ${mi(SOX)}`, at: SOX_AT, y: 1, far: true },
+  { text: 'Trump Tower', at: inSkyline(TRUMP), y: H.trump + 0.1, far: true },
+  { text: 'Aon Center', at: inSkyline(AON), y: H.aon + 0.1, far: true },
+  { text: 'Guaranteed Rate Field', sub: `White Sox · ${mi(SOX)}`, at: SOX_AT, y: 1.35, far: true },
   { text: 'Midway Airport', sub: mi(MIDWAY), at: MIDWAY_AT, y: 0.7, far: true },
   { text: 'Union Stock Yard Gate', sub: `1879 · ${mi(STOCKYARDS)}`, at: STOCKYARDS_AT, y: 0.65, far: true },
   { text: 'McKinley Park', at: atGrid({ w: 2200, s: 3880 }), y: 0.4 },
