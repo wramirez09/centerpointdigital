@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './CenterMap.module.css';
 import { Reveal } from '@/components/Reveal/Reveal';
-import { CENTER, COLORS, LABELS, SKYLINE, SOX_AT, SOX_FACING, X, Z, buildCity, buildMovers, type Mover } from './scene';
+import { CENTER, COLORS, LABELS, SOX_AT, SOX_FACING, X, Z, buildCity, buildMovers, type Mover } from './scene';
+import { D, DOWNTOWN_LABELS, buildDowntown, neighborhoodRiverEnd } from './downtown';
 
 const VERTEX = /* glsl */ `
   attribute vec3 aStart;
@@ -37,12 +38,15 @@ const FRAGMENT = /* glsl */ `
   }
 `;
 
-type ViewName = 'overview' | 'skyline' | 'ballpark';
+type ViewName = 'overview' | 'skyline' | 'downtown' | 'ballpark';
 
-const VIEW_NAMES: Record<ViewName, string> = { overview: 'Overview', skyline: 'Skyline', ballpark: 'Sox Park' };
+const VIEW_NAMES: Record<ViewName, string> = { overview: 'Overview', skyline: 'Skyline', downtown: 'Downtown', ballpark: 'Sox Park' };
+
+// The center's label first, then downtown's famous towers, then the rest.
+const ALL_LABELS: (typeof LABELS)[number][] = [LABELS[0], ...DOWNTOWN_LABELS, ...LABELS.slice(1)];
 
 const MIN_ZOOM = 0.7;
-const MAX_ZOOM = 5;
+const MAX_ZOOM = 8;
 
 /**
  * Interactive particle model of McKinley Park, home of Chicago's geographic center.
@@ -109,6 +113,7 @@ export default function CenterMap() {
 
       // Static city: each particle flies in from a scattered start position.
       const { cloud: city, stacks } = buildCity();
+      buildDowntown(city, neighborhoodRiverEnd());
       const cityGeo = new THREE.BufferGeometry();
       const starts = new Float32Array(city.count * 3);
       for (let i = 0; i < city.count; i++) {
@@ -207,7 +212,7 @@ export default function CenterMap() {
       updateMovers(0, 0);
 
       // HTML labels follow their anchor points.
-      const labelEls = LABELS.map((l) => {
+      const labelEls = ALL_LABELS.map((l) => {
         const el = document.createElement('span');
         el.className = [styles.label, l.accent && styles.labelAccent, l.far && styles.labelFar].filter(Boolean).join(' ');
         el.textContent = l.text;
@@ -266,13 +271,21 @@ export default function CenterMap() {
 
       // Camera presets. The skyline view stands just southwest of the center and
       // looks low across the neighborhood toward the Loop.
-      const toSkyline = new THREE.Vector2(SKYLINE.x - X(CENTER.w), SKYLINE.z - Z(CENTER.s)).normalize();
+      const loop = D(0, -150);
+      const toSkyline = new THREE.Vector2(loop.x - X(CENTER.w), loop.z - Z(CENTER.s)).normalize();
       const views: Record<ViewName, { pos: InstanceType<typeof THREE.Vector3>; target: InstanceType<typeof THREE.Vector3>; zoom: number; rotate: boolean }> = {
         overview: { pos: new THREE.Vector3(9, 10.5, 12.5), target: new THREE.Vector3(0, 0.9, 0.5), zoom: 1, rotate: true },
         skyline: {
           pos: new THREE.Vector3(X(CENTER.w) - toSkyline.x * 5, 4.2, Z(CENTER.s) - toSkyline.y * 5),
-          target: new THREE.Vector3(SKYLINE.x, 2.1, SKYLINE.z),
-          zoom: 2.5,
+          target: new THREE.Vector3(loop.x, 1.7, loop.z),
+          zoom: 3.3,
+          rotate: false,
+        },
+        // Over the lake, southeast of the Loop, looking back at the towers.
+        downtown: {
+          pos: new THREE.Vector3(loop.x + 6, 5.2, loop.z + 6.5),
+          target: new THREE.Vector3(loop.x - 0.3, 1.3, loop.z - 0.2),
+          zoom: 1.05,
           rotate: false,
         },
         // From high behind home plate, looking out to center field.

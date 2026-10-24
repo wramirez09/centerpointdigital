@@ -30,10 +30,10 @@ export const COLORS = {
   water: [0.33, 0.58, 0.78],
 } as const;
 
-type RGB = readonly [number, number, number];
+export type RGB = readonly [number, number, number];
 
 /** Seeded so the skyline is the same on every visit. */
-function rng(seed: number) {
+export function rng(seed: number) {
   return () => {
     seed = (seed * 1664525 + 1013904223) >>> 0;
     return seed / 4294967296;
@@ -187,7 +187,7 @@ type HouseKind = 'cottage' | 'bungalow' | 'twoflat' | 'threeflat' | 'store';
 const FLOOR = 0.11;
 
 /** Points along a straight segment, `step` apart. */
-function line(
+export function line(
   c: Cloud, a: [number, number, number], b: [number, number, number],
   step: number, color: RGB, size: number, brightness: number,
 ) {
@@ -200,7 +200,7 @@ function line(
 }
 
 /** Wireframe box: four corner posts and the roofline. */
-function box(c: Cloud, x0: number, x1: number, z0: number, z1: number, h: number, b: number, step = 0.05) {
+export function box(c: Cloud, x0: number, x1: number, z0: number, z1: number, h: number, b: number, step = 0.05) {
   for (const [x, z] of [[x0, z0], [x1, z0], [x0, z1], [x1, z1]]) {
     line(c, [x, 0.02, z], [x, h, z], step, COLORS.text, 0.9, b * 0.8);
   }
@@ -451,15 +451,15 @@ export function buildMovers(stacks: [number, number, number][]): {
  * close enough to share the frame; their labels give the real distance.
  */
 
-type World = { x: number; z: number };
+export type World = { x: number; z: number };
 
-const toWorld = (p: GridPoint): World => ({ x: X(p.w), z: Z(p.s) });
+export const toWorld = (p: GridPoint): World => ({ x: X(p.w), z: Z(p.s) });
 
 /** Real distance from the geographic center in miles (800 address numbers = 1 mile). */
-const milesFromCenter = (p: GridPoint) => Math.hypot(p.w - CENTER.w, p.s - CENTER.s) / 800;
+export const milesFromCenter = (p: GridPoint) => Math.hypot(p.w - CENTER.w, p.s - CENTER.s) / 800;
 
 /** Same compass bearing from the center, placed `radius` world units out. */
-function onHorizon(p: GridPoint, radius: number): World {
+export function onHorizon(p: GridPoint, radius: number): World {
   const c = toWorld(CENTER);
   const t = toWorld(p);
   const d = Math.hypot(t.x - c.x, t.z - c.z);
@@ -467,22 +467,12 @@ function onHorizon(p: GridPoint, radius: number): World {
 }
 
 // Real addresses. North and East of the grid origin are negative here.
-const WILLIS: GridPoint = { w: 300, s: -200 }; // 233 S Wacker Dr
-const AON: GridPoint = { w: -150, s: -150 }; // 200 E Randolph St
-const TRUMP: GridPoint = { w: -50, s: -400 }; // 401 N Wabash Ave
-const HANCOCK: GridPoint = { w: -100, s: -875 }; // 875 N Michigan Ave
 const SOX: GridPoint = { w: 333, s: 3500 }; // Guaranteed Rate Field, 333 W 35th St
 const MIDWAY: GridPoint = { w: 5100, s: 5900 }; // Midway Airport, Cicero Ave and 55th-63rd
 const STOCKYARDS: GridPoint = { w: 850, s: 4100 }; // Union Stock Yard Gate, Exchange Ave
 const CMD_TOWER: GridPoint = { w: 2050, s: 3960 }; // Central Manufacturing District, Pershing Rd
 const STATION: GridPoint = { w: 2200, s: archerS(2200) - 45 }; // 35th/Archer, Orange Line
 
-export const SKYLINE = onHorizon(WILLIS, 12.5);
-/** Skyline towers keep their real layout relative to Willis, shrunk to a quarter. */
-const inSkyline = (p: GridPoint): World => ({
-  x: SKYLINE.x + (X(p.w) - X(WILLIS.w)) * 0.25,
-  z: SKYLINE.z + (Z(p.s) - Z(WILLIS.s)) * 0.25,
-});
 export const SOX_AT = onHorizon(SOX, 11.8);
 /** Home plate to center field, as a unit vector. The outfield opens to the northeast. */
 export const SOX_FACING = { x: Math.SQRT1_2, z: -Math.SQRT1_2 };
@@ -492,86 +482,7 @@ const STOCKYARDS_AT = onHorizon(STOCKYARDS, 11.6);
 /** Lots the local landmarks stand on, so houses aren't drawn through them. */
 export const RESERVED: { at: GridPoint; radius: number }[] = [{ at: CMD_TOWER, radius: 45 }];
 
-// Heights: one world unit is about 120 m.
-const H = { willis: 3.7, trump: 3.5, aon: 2.9, hancock: 2.85 };
-
 function buildLandmarks(c: Cloud, rand: () => number) {
-  // Willis Tower: nine bundled tubes that stop at different heights, two antennas.
-  const wt = inSkyline(WILLIS);
-  const tube = 0.13;
-  const tubeHeights = [
-    [0.46, 0.61, 0.83],
-    [0.83, 1, 1],
-    [0.61, 0.83, 0.46],
-  ];
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      const x0 = wt.x + (i - 1.5) * tube;
-      const z0 = wt.z + (j - 1.5) * tube;
-      const h = tubeHeights[i][j] * H.willis;
-      box(c, x0, x0 + tube, z0, z0 + tube, h, 0.75, 0.06);
-      facadeLights(c, rand, x0, x0 + tube, z0, h, 0.09);
-    }
-  }
-  for (const dx of [-0.05, 0.08]) {
-    line(c, [wt.x + dx, H.willis, wt.z], [wt.x + dx, H.willis + 0.75, wt.z], 0.04, COLORS.text, 0.9, 0.8);
-    c.add(wt.x + dx, H.willis + 0.78, wt.z, COLORS.amber, 2.4, 1);
-  }
-
-  // Aon Center: a plain square shaft.
-  const aon = inSkyline(AON);
-  box(c, aon.x - 0.14, aon.x + 0.14, aon.z - 0.14, aon.z + 0.14, H.aon, 0.6, 0.06);
-  facadeLights(c, rand, aon.x - 0.14, aon.x + 0.14, aon.z - 0.14, H.aon, 0.1);
-
-  // Trump Tower: three setbacks and a spire.
-  const tr = inSkyline(TRUMP);
-  [[0.16, 0.38], [0.12, 0.65], [0.08, 0.86]].forEach(([half, frac], k, all) => {
-    const base = k === 0 ? 0 : all[k - 1][1] * H.trump;
-    box(c, tr.x - half, tr.x + half, tr.z - half * 0.6, tr.z + half * 0.6, frac * H.trump, 0.6, 0.06);
-    line(c, [tr.x - half, base, tr.z - half * 0.6], [tr.x - half, frac * H.trump, tr.z - half * 0.6], 0.06, COLORS.text, 0.9, 0.5);
-  });
-  line(c, [tr.x, 0.86 * H.trump, tr.z], [tr.x, H.trump, tr.z], 0.03, COLORS.text, 0.9, 0.9);
-
-  // John Hancock Center: tapered shaft with the X-bracing down every face.
-  const jh = inSkyline(HANCOCK);
-  const base = 0.2;
-  const top = 0.12;
-  const corners = (half: number, y: number) =>
-    [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([sx, sz]) => [jh.x + sx * half, y, jh.z + sz * half * 0.7] as [number, number, number]);
-  const bottom = corners(base, 0);
-  const upper = corners(top, H.hancock);
-  for (let k = 0; k < 4; k++) {
-    line(c, bottom[k], upper[k], 0.05, COLORS.text, 0.9, 0.75);
-    line(c, upper[k], upper[(k + 1) % 4], 0.04, COLORS.text, 0.9, 0.75);
-  }
-  const bays = 5;
-  for (let b = 0; b < bays; b++) {
-    const y0 = (b / bays) * H.hancock;
-    const y1 = ((b + 1) / bays) * H.hancock;
-    const lo = corners(base + (top - base) * (b / bays), y0);
-    const hi = corners(base + (top - base) * ((b + 1) / bays), y1);
-    for (let k = 0; k < 4; k++) {
-      const n = (k + 1) % 4;
-      line(c, lo[k], hi[n], 0.05, COLORS.amber, 0.9, 0.55);
-      line(c, lo[n], hi[k], 0.05, COLORS.amber, 0.9, 0.55);
-    }
-  }
-  for (const dx of [-0.05, 0.05]) {
-    line(c, [jh.x + dx, H.hancock, jh.z], [jh.x + dx, H.hancock + 0.45, jh.z], 0.04, COLORS.text, 0.9, 0.8);
-  }
-
-  // Filler towers so the four read as a skyline rather than a lineup.
-  for (let i = 0; i < 26; i++) {
-    const a = rand() * Math.PI * 2;
-    const r = 0.4 + rand() * 1.4;
-    const x = SKYLINE.x + 0.8 + Math.cos(a) * r;
-    const z = SKYLINE.z - 0.6 + Math.sin(a) * r * 0.8;
-    const half = 0.06 + rand() * 0.08;
-    const h = 0.6 + rand() * 1.7;
-    box(c, x - half, x + half, z - half, z + half, h, 0.3 + rand() * 0.2, 0.07);
-    facadeLights(c, rand, x - half, x + half, z - half, h, 0.14);
-  }
-
   ballpark(c, rand, SOX_AT);
 
   // Midway Airport: a square mile of field with criss-crossing runways.
@@ -761,10 +672,6 @@ const atGrid = (p: GridPoint): World => toWorld(p);
 /** Labels pinned to points in the scene. `sub` is a second, smaller line. */
 export const LABELS: { text: string; sub?: string; at: World; y: number; accent?: boolean; far?: boolean }[] = [
   { text: 'Geographic center of Chicago', at: atGrid(CENTER), y: 3.3, accent: true },
-  { text: 'Willis Tower', sub: `Loop skyline · ${mi(WILLIS)}`, at: inSkyline(WILLIS), y: H.willis + 0.85, far: true },
-  { text: 'John Hancock Center', sub: mi(HANCOCK), at: inSkyline(HANCOCK), y: H.hancock + 0.5, far: true },
-  { text: 'Trump Tower', at: inSkyline(TRUMP), y: H.trump + 0.1, far: true },
-  { text: 'Aon Center', at: inSkyline(AON), y: H.aon + 0.1, far: true },
   { text: 'Guaranteed Rate Field', sub: `White Sox · ${mi(SOX)}`, at: SOX_AT, y: 1.35, far: true },
   { text: 'Midway Airport', sub: mi(MIDWAY), at: MIDWAY_AT, y: 0.7, far: true },
   { text: 'Union Stock Yard Gate', sub: `1879 · ${mi(STOCKYARDS)}`, at: STOCKYARDS_AT, y: 0.65, far: true },
