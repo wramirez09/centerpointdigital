@@ -3,78 +3,34 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './CenterMap.module.css';
 import { Reveal } from '@/components/Reveal/Reveal';
-import { CENTER, COLORS, LABELS, SOX_AT, SOX_FACING, X, Z, buildCity, buildMovers, type Mover } from './scene';
-import { D, DOWNTOWN_LABELS, buildDowntown, neighborhoodRiverEnd } from './downtown';
-import { buildSolidGeometry } from './solid';
+import { CENTER, LABELS, SOX_AT, SOX_FACING, STATION, X, Z, buildCity, buildMovers, orangeS } from './scene';
+import { D, DOWNTOWN_LABELS, buildDowntown } from './downtown';
+import { buildTransit } from './transit';
+import { buildSolidGeometry, type Solid } from './solid';
 
-const VERTEX = /* glsl */ `
-  attribute vec3 aStart;
-  attribute vec3 aColor;
-  attribute float aSize;
-  attribute float aSeed;
-  attribute float aLayer;
-  uniform float uTime;
-  uniform float uProgress;
-  uniform float uPixelRatio;
-  uniform float uSolid;
-  varying vec3 vColor;
-  varying float vAlpha;
-  void main() {
-    // In the solid view, outline points give way to the mesh: park them outside the clip volume.
-    if (uSolid > 0.5 && aLayer > 0.5) {
-      gl_Position = vec4(0.0, 0.0, -2.0, 1.0);
-      gl_PointSize = 0.0;
-      vColor = vec3(0.0);
-      vAlpha = 0.0;
-      return;
-    }
-    float p = clamp(uProgress * 1.6 - aSeed * 0.6, 0.0, 1.0);
-    p = 1.0 - pow(1.0 - p, 3.0);
-    vec3 pos = mix(aStart, position, p);
-    vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-    gl_Position = projectionMatrix * mv;
-    gl_PointSize = aSize * uPixelRatio * (22.0 / -mv.z);
-    vColor = aColor;
-    vAlpha = (0.8 + 0.2 * sin(uTime * 1.3 + aSeed * 60.0)) * p;
-  }
-`;
+type ViewName = 'overview' | 'skyline' | 'downtown' | 'orange' | 'ballpark';
 
-const FRAGMENT = /* glsl */ `
-  varying vec3 vColor;
-  varying float vAlpha;
-  void main() {
-    float d = length(gl_PointCoord - 0.5);
-    float a = smoothstep(0.5, 0.05, d);
-    gl_FragColor = vec4(vColor, a * vAlpha);
-  }
-`;
-
-type ViewName = 'overview' | 'skyline' | 'downtown' | 'ballpark';
-
-const VIEW_NAMES: Record<ViewName, string> = { overview: 'Overview', skyline: 'Skyline', downtown: 'Downtown', ballpark: 'Sox Park' };
-
-export type RenderMode = 'particles' | 'solid';
+const VIEW_NAMES: Record<ViewName, string> = { overview: 'Overview', skyline: 'Skyline', downtown: 'Downtown', orange: 'Orange Line', ballpark: 'Sox Park' };
 
 // The center's label first, then downtown's famous towers, then the rest.
 const ALL_LABELS: (typeof LABELS)[number][] = [LABELS[0], ...DOWNTOWN_LABELS, ...LABELS.slice(1)];
 
 const MIN_ZOOM = 0.7;
 const MAX_ZOOM = 8;
+const BG = 0x0a0906;
 
 /**
- * Interactive particle model of McKinley Park, home of Chicago's geographic center.
- * three.js loads only when the section is about to scroll into view.
+ * Interactive 3D model of McKinley Park, home of Chicago's geographic center,
+ * with downtown on the horizon. three.js loads only when the section is about
+ * to scroll into view.
  */
-export default function CenterMap({ initialMode = 'particles' }: { initialMode?: RenderMode }) {
+export default function CenterMap() {
   const stageRef = useRef<HTMLDivElement>(null);
   const labelsRef = useRef<HTMLDivElement>(null);
   const [view, setView] = useState<ViewName>('overview');
-  const [mode, setMode] = useState<RenderMode>(initialMode);
   // Filled in once the scene has loaded; the buttons call through these.
   const goToRef = useRef<(name: ViewName) => void>(() => {});
   const zoomByRef = useRef<(factor: number) => void>(() => {});
-  const setModeRef = useRef<(mode: RenderMode) => void>(() => {});
-  const initialModeRef = useRef(initialMode);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -91,13 +47,13 @@ export default function CenterMap({ initialMode = 'particles' }: { initialMode?:
 
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const coarse = window.matchMedia('(pointer: coarse)').matches;
-      const pixelRatio = Math.min(window.devicePixelRatio, 2);
 
-      const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
-      renderer.setPixelRatio(pixelRatio);
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       stage.prepend(renderer.domElement);
 
       const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(BG, 28, 75);
       const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 200);
       camera.position.set(9, 10.5, 12.5);
 
@@ -114,157 +70,102 @@ export default function CenterMap({ initialMode = 'particles' }: { initialMode?:
       controls.enabled = !coarse;
       if (coarse) renderer.domElement.style.touchAction = 'pan-y';
 
-      const material = new THREE.ShaderMaterial({
-        vertexShader: VERTEX,
-        fragmentShader: FRAGMENT,
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        uniforms: {
-          uTime: { value: 0 },
-          uProgress: { value: reduceMotion ? 1 : 0 },
-          uPixelRatio: { value: pixelRatio },
-          uSolid: { value: 0 },
-        },
-      });
+      // The city: every shape is recorded first, then built into two meshes.
+      const solids: Solid[] = [];
+      const { stacks } = buildCity(solids);
+      buildDowntown(solids);
+      const routes = buildTransit(solids);
+      const geo = buildSolidGeometry(THREE, solids);
+      const litMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.82, metalness: 0.08, flatShading: true, side: THREE.DoubleSide });
+      // Lit windows, lamps and signs: drawn at full brightness, unaffected by the lights.
+      const glowMat = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide, toneMapped: false });
+      const city = new THREE.Group();
+      city.add(new THREE.Mesh(geo.lit, litMat), new THREE.Mesh(geo.glow, glowMat));
+      scene.add(city);
 
-      // Static city: each particle flies in from a scattered start position.
-      const { cloud: city, stacks } = buildCity();
-      buildDowntown(city, neighborhoodRiverEnd());
-      const cityGeo = new THREE.BufferGeometry();
-      const starts = new Float32Array(city.count * 3);
-      for (let i = 0; i < city.count; i++) {
-        const a = Math.random() * Math.PI * 2;
-        const r = 8 + Math.random() * 14;
-        starts[i * 3] = Math.cos(a) * r;
-        starts[i * 3 + 1] = 4 + Math.random() * 10;
-        starts[i * 3 + 2] = Math.sin(a) * r;
-      }
-      cityGeo.setAttribute('position', new THREE.Float32BufferAttribute(city.positions, 3));
-      cityGeo.setAttribute('aStart', new THREE.BufferAttribute(starts, 3));
-      cityGeo.setAttribute('aColor', new THREE.Float32BufferAttribute(city.colors, 3));
-      cityGeo.setAttribute('aSize', new THREE.Float32BufferAttribute(city.sizes, 1));
-      cityGeo.setAttribute('aSeed', new THREE.Float32BufferAttribute(city.seeds, 1));
-      cityGeo.setAttribute('aLayer', new THREE.Float32BufferAttribute(city.layers, 1));
-      scene.add(new THREE.Points(cityGeo, material));
-
-      // Solid view: the recorded shapes as one lit mesh on a dark ground, with
-      // windows, streets, water and trees still drawn as points on top.
-      const solidGeo = buildSolidGeometry(THREE, city.solids);
-      const solidMat = new THREE.MeshStandardMaterial({
-        vertexColors: true,
-        roughness: 0.82,
-        metalness: 0.08,
-        flatShading: true,
-        side: THREE.DoubleSide,
-        // Nudged back so window points on a facade aren't hidden by it.
-        polygonOffset: true,
-        polygonOffsetFactor: 1,
-        polygonOffsetUnits: 2,
-      });
       const groundGeo = new THREE.PlaneGeometry(400, 400);
       const groundMat = new THREE.MeshStandardMaterial({ color: 0x0c0b09, roughness: 1 });
       const ground = new THREE.Mesh(groundGeo, groundMat);
       ground.rotation.x = -Math.PI / 2;
       ground.position.y = -0.01;
-      const buildings = new THREE.Mesh(solidGeo, solidMat);
-      const solid = new THREE.Group();
-      solid.add(ground, buildings);
-      solid.add(new THREE.HemisphereLight(0xc4d0de, 0x1a140e, 1.1));
+      scene.add(ground);
+      scene.add(new THREE.HemisphereLight(0xc4d0de, 0x1a140e, 1.1));
       // Low evening sun from the southwest.
       const sun = new THREE.DirectionalLight(0xffd9a8, 2.4);
       sun.position.set(-10, 9, 8);
-      solid.add(sun);
-      scene.add(solid);
-      const fog = new THREE.Fog(0x0a0906, 28, 75);
-      const applyMode = (m: RenderMode) => {
-        const on = m === 'solid';
-        material.uniforms.uSolid.value = on ? 1 : 0;
-        solid.visible = on;
-        scene.fog = on ? fog : null;
-      };
-      setModeRef.current = applyMode;
-      applyMode(initialModeRef.current);
+      scene.add(sun);
 
-      // Moving particles: water, traffic, train and the beacon. Positions are
-      // rewritten every frame, so the start position simply tracks the current one.
+      // Moving things, each an instanced mesh repositioned every frame.
       const movers = buildMovers(stacks);
-      const groups: { list: Mover[]; color: readonly number[]; size: number; fade?: boolean }[] = [
-        { list: movers.water, color: COLORS.water, size: 1.6 },
-        { list: movers.traffic, color: COLORS.text, size: 2 },
-        { list: movers.train, color: COLORS.amber, size: 2.4 },
-        { list: movers.smoke, color: COLORS.dim, size: 3, fade: true },
+      const dummy = new THREE.Object3D();
+      const carGeo = new THREE.BoxGeometry(0.035, 0.025, 0.06);
+      const carMat = new THREE.MeshBasicMaterial({ toneMapped: false });
+      const cars = new THREE.InstancedMesh(carGeo, carMat, movers.traffic.length);
+      movers.traffic.forEach((_, i) => cars.setColorAt(i, new THREE.Color(i % 2 === 0 ? 0xfff1d6 : 0xff3b24)));
+      const trainGeo = new THREE.BoxGeometry(0.05, 0.05, 0.13);
+      const trainMat = new THREE.MeshStandardMaterial({ color: 0xc9ccd2, metalness: 0.4, roughness: 0.4, emissive: 0x3a2a10 });
+      const TRAINS = [
+        { route: routes.orange, t: 0, speed: 0.012, cars: 6, gap: 0.0028 },
+        { route: routes.loop, t: 0, speed: 0.05, cars: 6, gap: 0.012 },
+        { route: routes.loop, t: 0.5, speed: 0.05, cars: 6, gap: 0.012 },
       ];
-      const BEACON_COLUMN = 90;
-      const BEACON_RING = 140;
-      const moverCount = groups.reduce((n, g) => n + g.list.length, 0);
-      const dynamicCount = moverCount + BEACON_COLUMN + BEACON_RING;
-      const dynPos = new Float32Array(dynamicCount * 3);
-      const dynColor = new Float32Array(dynamicCount * 3);
-      const dynSize = new Float32Array(dynamicCount);
-      const dynSeed = new Float32Array(dynamicCount);
-      let k = 0;
-      for (const g of groups) {
-        for (let i = 0; i < g.list.length; i++, k++) {
-          dynColor.set(g.color, k * 3);
-          dynSize[k] = g.size;
-          dynSeed[k] = Math.random() * 0.4;
-        }
-      }
-      for (; k < dynamicCount; k++) {
-        dynColor.set(COLORS.amber, k * 3);
-        dynSize[k] = k < moverCount + BEACON_COLUMN ? 2.6 : 2;
-        dynSeed[k] = Math.random() * 0.4;
-      }
-      const dynGeo = new THREE.BufferGeometry();
-      const dynAttr = new THREE.BufferAttribute(dynPos, 3);
-      dynGeo.setAttribute('position', dynAttr);
-      dynGeo.setAttribute('aStart', dynAttr);
-      const colorAttr = new THREE.BufferAttribute(dynColor, 3);
-      dynGeo.setAttribute('aColor', colorAttr);
-      dynGeo.setAttribute('aSize', new THREE.BufferAttribute(dynSize, 1));
-      dynGeo.setAttribute('aSeed', new THREE.BufferAttribute(dynSeed, 1));
-      dynGeo.setAttribute('aLayer', new THREE.BufferAttribute(new Float32Array(dynamicCount), 1));
-      scene.add(new THREE.Points(dynGeo, material));
+      const trains = new THREE.InstancedMesh(trainGeo, trainMat, TRAINS.reduce((n, t) => n + t.cars, 0));
+      const puffGeo = new THREE.IcosahedronGeometry(0.06, 0);
+      const puffMat = new THREE.MeshBasicMaterial({ color: 0x8a847a, transparent: true, opacity: 0.35, depthWrite: false });
+      const puffs = new THREE.InstancedMesh(puffGeo, puffMat, Math.max(1, movers.smoke.length));
+      puffs.count = movers.smoke.length;
 
+      // The beacon over the center marker: a light column and rings rippling out.
       const cx = X(CENTER.w);
       const cz = Z(CENTER.s);
+      const beaconMat = new THREE.MeshBasicMaterial({ color: 0xffa438, transparent: true, opacity: 0.9, toneMapped: false });
+      const beaconGeo = new THREE.CylinderGeometry(0.025, 0.04, 3, 10, 1, true);
+      const beacon = new THREE.Mesh(beaconGeo, beaconMat);
+      beacon.position.set(cx, 1.5, cz);
+      const ringGeo = new THREE.RingGeometry(0.92, 1, 48);
+      const ringMats = [0, 1].map(() => new THREE.MeshBasicMaterial({ color: 0xffa438, transparent: true, side: THREE.DoubleSide, depthWrite: false }));
+      const rings = ringMats.map((mat) => {
+        const r = new THREE.Mesh(ringGeo, mat);
+        r.rotation.x = -Math.PI / 2;
+        r.position.set(cx, 0.03, cz);
+        return r;
+      });
+      scene.add(cars, trains, puffs, beacon, ...rings);
+
+      const place = (mesh: InstanceType<typeof THREE.InstancedMesh>, i: number, p: readonly number[], next: readonly number[], scale = 1) => {
+        dummy.position.set(p[0], p[1], p[2]);
+        dummy.lookAt(next[0], next[1], next[2]);
+        dummy.scale.setScalar(scale);
+        dummy.updateMatrix();
+        mesh.setMatrixAt(i, dummy.matrix);
+      };
       const updateMovers = (time: number, dt: number) => {
-        let i = 0;
-        for (const g of groups) {
-          for (const m of g.list) {
-            m.t = (m.t + m.speed * dt) % 1;
-            const [x, y, z] = m.path(m.t);
-            dynPos[i * 3] = x;
-            dynPos[i * 3 + 1] = y;
-            dynPos[i * 3 + 2] = z;
-            if (g.fade) {
-              // Smoke thins out as it rises.
-              const f = 1 - m.t;
-              dynColor[i * 3] = g.color[0] * f;
-              dynColor[i * 3 + 1] = g.color[1] * f;
-              dynColor[i * 3 + 2] = g.color[2] * f;
-            }
-            i++;
+        movers.traffic.forEach((m, i) => {
+          m.t = (m.t + m.speed * dt) % 1;
+          place(cars, i, m.path(m.t), m.path(m.t + 0.001));
+        });
+        cars.instanceMatrix.needsUpdate = true;
+        let k = 0;
+        for (const tr of TRAINS) {
+          tr.t = (tr.t + tr.speed * dt) % 1;
+          for (let c = 0; c < tr.cars; c++, k++) {
+            const t = tr.t - c * tr.gap;
+            place(trains, k, tr.route(t), tr.route(t + 0.0005));
           }
         }
-        for (let b = 0; b < BEACON_COLUMN; b++, i++) {
-          const h = ((b / BEACON_COLUMN + time * 0.15) % 1) * 3;
-          dynPos[i * 3] = cx;
-          dynPos[i * 3 + 1] = h;
-          dynPos[i * 3 + 2] = cz;
-        }
-        const pulse = (time * 0.35) % 1;
-        for (let b = 0; b < BEACON_RING; b++, i++) {
-          const ring = b % 2 === 0 ? pulse : (pulse + 0.5) % 1;
-          const a = (b / BEACON_RING) * Math.PI * 4;
-          const r = 0.15 + ring * 1.6;
-          dynPos[i * 3] = cx + Math.cos(a) * r;
-          dynPos[i * 3 + 1] = 0.05;
-          dynPos[i * 3 + 2] = cz + Math.sin(a) * r;
-        }
-        dynAttr.needsUpdate = true;
-        colorAttr.needsUpdate = true;
+        trains.instanceMatrix.needsUpdate = true;
+        movers.smoke.forEach((m, i) => {
+          m.t = (m.t + m.speed * dt) % 1;
+          // Puffs swell as they rise and drift.
+          place(puffs, i, m.path(m.t), m.path(m.t + 0.01), 0.4 + m.t * 2.2);
+        });
+        puffs.instanceMatrix.needsUpdate = true;
+        beaconMat.opacity = 0.65 + 0.3 * Math.sin(time * 2.4);
+        rings.forEach((r, i) => {
+          const p = (time * 0.35 + i * 0.5) % 1;
+          r.scale.setScalar(0.15 + p * 1.6);
+          ringMats[i].opacity = 0.8 * (1 - p);
+        });
       };
       updateMovers(0, 0);
 
@@ -284,7 +185,7 @@ export default function CenterMap({ initialMode = 'particles' }: { initialMode?:
       const projected = new THREE.Vector3();
       let width = 1;
       let height = 1;
-      // LABELS is in priority order: a label that would overlap one already
+      // Labels are in priority order: a label that would overlap one already
       // placed this frame is hidden until the view turns and frees its spot.
       const placed: { x: number; y: number; w: number; h: number }[] = [];
       const placeLabels = () => {
@@ -345,6 +246,13 @@ export default function CenterMap({ initialMode = 'particles' }: { initialMode?:
           zoom: 1.05,
           rotate: false,
         },
+        // Low beside the 35th/Archer platform, looking up the line toward downtown.
+        orange: {
+          pos: new THREE.Vector3(X(STATION.w + 260), 0.9, Z(orangeS(STATION.w + 260)) + 1.1),
+          target: new THREE.Vector3(X(STATION.w - 250), 0.2, Z(orangeS(STATION.w - 250))),
+          zoom: 1.6,
+          rotate: false,
+        },
         // From high behind home plate, looking out to center field.
         ballpark: {
           pos: new THREE.Vector3(SOX_AT.x - SOX_FACING.x * 3.6, 2.4, SOX_AT.z - SOX_FACING.z * 3.6),
@@ -388,12 +296,10 @@ export default function CenterMap({ initialMode = 'particles' }: { initialMode?:
         last = now;
         const time = now / 1000;
         if (!reduceMotion) {
+          // The city rises out of the ground the first time it is seen.
           if (introStart < 0) introStart = time;
-          const progress = Math.min((time - introStart) / 3.2, 1);
-          material.uniforms.uProgress.value = progress;
-          // In the solid view the buildings rise out of the ground.
-          buildings.scale.y = Math.max(0.001, 1 - (1 - progress) ** 3);
-          material.uniforms.uTime.value = time;
+          const progress = Math.min((time - introStart) / 2.6, 1);
+          city.scale.y = Math.max(0.001, 1 - (1 - progress) ** 3);
           updateMovers(time, dt);
         }
         if (flight) {
@@ -430,13 +336,8 @@ export default function CenterMap({ initialMode = 'particles' }: { initialMode?:
         resizeObserver.disconnect();
         renderer.domElement.removeEventListener('wheel', onWheel);
         controls.dispose();
-        cityGeo.dispose();
-        solidGeo.dispose();
-        solidMat.dispose();
-        groundGeo.dispose();
-        groundMat.dispose();
-        dynGeo.dispose();
-        material.dispose();
+        [geo.lit, geo.glow, groundGeo, carGeo, trainGeo, puffGeo, beaconGeo, ringGeo].forEach((g) => g.dispose());
+        [litMat, glowMat, groundMat, carMat, trainMat, puffMat, beaconMat, ...ringMats].forEach((m) => m.dispose());
         renderer.dispose();
         renderer.domElement.remove();
         labelEls.forEach(({ el }) => el.remove());
@@ -470,8 +371,8 @@ export default function CenterMap({ initialMode = 'particles' }: { initialMode?:
             Chicago&rsquo;s center is in <em>McKinley Park.</em>
           </h2>
           <p className={styles.p}>
-            The geographic middle of the city sits on the Southwest Side, between the
-            Stevenson and Pershing Road.
+            The city marks its geographic center at 37th Street and Honore Street, on the
+            Southwest Side between the Stevenson and Pershing Road.
             <span className={styles.hint}> Drag to turn the model, right-drag to pan, and pinch or Ctrl + scroll to zoom.</span>
           </p>
           <dl className={styles.facts}>
@@ -481,21 +382,24 @@ export default function CenterMap({ initialMode = 'particles' }: { initialMode?:
             </div>
             <div>
               <dt>On the grid</dt>
-              <dd>≈ 2200 W · 3650 S</dd>
+              <dd>1832 W · 3700 S</dd>
             </div>
           </dl>
           <ul className={styles.legend}>
-            <li><span className={styles.swatchAmber} />Center, Archer Ave and Orange Line</li>
+            <li><span className={styles.swatchAmber} />Center marker, Archer Ave and the Orange Line</li>
             <li><span className={styles.swatchPark} />McKinley Park</li>
-            <li><span className={styles.swatchWater} />River and Bubbly Creek</li>
+            <li><span className={styles.swatchWater} />River, canal and Bubbly Creek</li>
           </ul>
-          <p className={styles.note}>Stylized model, not a survey map. Locations are approximate.</p>
+          <p className={styles.note}>
+            Stylized model, not a survey map. The marker dates from 1979; measured against today&rsquo;s city
+            limits, which grew to take in O&rsquo;Hare, the center falls near 31st Street and Western Avenue.
+          </p>
         </Reveal>
         <div
           ref={stageRef}
           className={styles.stage}
           role="img"
-          aria-label="3D particle model of the McKinley Park neighborhood in Chicago, with a beacon marking the city's geographic center"
+          aria-label="3D model of the McKinley Park neighborhood in Chicago with downtown on the horizon, and a beacon at the city's geographic-center marker"
         >
           <div ref={labelsRef} className={styles.labels} aria-hidden="true" />
           <div className={styles.toolbar}>
@@ -512,22 +416,6 @@ export default function CenterMap({ initialMode = 'particles' }: { initialMode?:
                   }}
                 >
                   {VIEW_NAMES[name]}
-                </button>
-              ))}
-            </div>
-            <div className={styles.segment} role="group" aria-label="Rendering">
-              {(['particles', 'solid'] as const).map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  className={styles.btn}
-                  aria-pressed={mode === m}
-                  onClick={() => {
-                    setMode(m);
-                    setModeRef.current(m);
-                  }}
-                >
-                  {m === 'particles' ? 'Particles' : 'Solid'}
                 </button>
               ))}
             </div>
