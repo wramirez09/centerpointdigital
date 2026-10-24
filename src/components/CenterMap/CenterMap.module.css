@@ -53,6 +53,8 @@
   background: rgba(10, 9, 6, .6); border-left: 1px solid var(--faint);
   transition: opacity .3s;
 }
+.label small { display: block; font-size: 9px; letter-spacing: .1em; color: var(--faint); margin-top: 1px; }
+.labelFar { color: var(--text, #ede6d6); }
 .labelAccent { color: var(--amber, #f2a43a); border-left-color: var(--amber, #f2a43a); font-weight: 600; }
 
 @media (max-width: 960px) {

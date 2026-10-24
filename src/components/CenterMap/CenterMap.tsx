@@ -71,7 +71,7 @@ export default function CenterMap() {
       camera.position.set(9, 10.5, 12.5);
 
       const controls = new OrbitControls(camera, renderer.domElement);
-      controls.target.set(0, 0.4, 0.5);
+      controls.target.set(0, 0.9, 0.5);
       controls.enableDamping = true;
       controls.enableZoom = false;
       controls.enablePan = false;
@@ -97,7 +97,7 @@ export default function CenterMap() {
       });
 
       // Static city: each particle flies in from a scattered start position.
-      const city = buildCity();
+      const { cloud: city, stacks } = buildCity();
       const cityGeo = new THREE.BufferGeometry();
       const starts = new Float32Array(city.count * 3);
       for (let i = 0; i < city.count; i++) {
@@ -116,11 +116,12 @@ export default function CenterMap() {
 
       // Moving particles: water, traffic, train and the beacon. Positions are
       // rewritten every frame, so the start position simply tracks the current one.
-      const movers = buildMovers();
-      const groups: { list: Mover[]; color: readonly number[]; size: number }[] = [
+      const movers = buildMovers(stacks);
+      const groups: { list: Mover[]; color: readonly number[]; size: number; fade?: boolean }[] = [
         { list: movers.water, color: COLORS.water, size: 1.6 },
         { list: movers.traffic, color: COLORS.text, size: 2 },
         { list: movers.train, color: COLORS.amber, size: 2.4 },
+        { list: movers.smoke, color: COLORS.dim, size: 3, fade: true },
       ];
       const BEACON_COLUMN = 90;
       const BEACON_RING = 140;
@@ -147,7 +148,8 @@ export default function CenterMap() {
       const dynAttr = new THREE.BufferAttribute(dynPos, 3);
       dynGeo.setAttribute('position', dynAttr);
       dynGeo.setAttribute('aStart', dynAttr);
-      dynGeo.setAttribute('aColor', new THREE.BufferAttribute(dynColor, 3));
+      const colorAttr = new THREE.BufferAttribute(dynColor, 3);
+      dynGeo.setAttribute('aColor', colorAttr);
       dynGeo.setAttribute('aSize', new THREE.BufferAttribute(dynSize, 1));
       dynGeo.setAttribute('aSeed', new THREE.BufferAttribute(dynSeed, 1));
       scene.add(new THREE.Points(dynGeo, material));
@@ -163,6 +165,13 @@ export default function CenterMap() {
             dynPos[i * 3] = x;
             dynPos[i * 3 + 1] = y;
             dynPos[i * 3 + 2] = z;
+            if (g.fade) {
+              // Smoke thins out as it rises.
+              const f = 1 - m.t;
+              dynColor[i * 3] = g.color[0] * f;
+              dynColor[i * 3 + 1] = g.color[1] * f;
+              dynColor[i * 3 + 2] = g.color[2] * f;
+            }
             i++;
           }
         }
@@ -182,28 +191,44 @@ export default function CenterMap() {
           dynPos[i * 3 + 2] = cz + Math.sin(a) * r;
         }
         dynAttr.needsUpdate = true;
+        colorAttr.needsUpdate = true;
       };
       updateMovers(0, 0);
 
       // HTML labels follow their anchor points.
       const labelEls = LABELS.map((l) => {
         const el = document.createElement('span');
-        el.className = l.accent ? `${styles.label} ${styles.labelAccent}` : styles.label;
+        el.className = [styles.label, l.accent && styles.labelAccent, l.far && styles.labelFar].filter(Boolean).join(' ');
         el.textContent = l.text;
+        if (l.sub) {
+          const sub = document.createElement('small');
+          sub.textContent = l.sub;
+          el.appendChild(sub);
+        }
         labelLayer.appendChild(el);
-        return { el, pos: new THREE.Vector3(X(l.at.w), l.y, Z(l.at.s)) };
+        return { el, pos: new THREE.Vector3(l.at.x, l.y, l.at.z) };
       });
       const projected = new THREE.Vector3();
       let width = 1;
       let height = 1;
+      // LABELS is in priority order: a label that would overlap one already
+      // placed this frame is hidden until the view turns and frees its spot.
+      const placed: { x: number; y: number; w: number; h: number }[] = [];
       const placeLabels = () => {
+        placed.length = 0;
         for (const { el, pos } of labelEls) {
           projected.copy(pos).project(camera);
-          const visible = projected.z < 1 && Math.abs(projected.x) < 1.05 && Math.abs(projected.y) < 1.05;
-          el.style.opacity = visible ? '' : '0';
           // Keep labels inside the stage instead of running off its right edge.
-          const x = Math.min(((projected.x + 1) / 2) * width, width - el.offsetWidth - 12);
-          el.style.transform = `translate(${x}px, ${((1 - projected.y) / 2) * height}px)`;
+          const w = el.offsetWidth;
+          const h = el.offsetHeight;
+          const x = Math.min(((projected.x + 1) / 2) * width, width - w - 12);
+          const y = ((1 - projected.y) / 2) * height;
+          const onScreen = projected.z < 1 && Math.abs(projected.x) < 1.05 && Math.abs(projected.y) < 1.05;
+          const clear = !placed.some((r) => x < r.x + r.w + 6 && r.x < x + w + 6 && y < r.y + r.h + 4 && r.y < y + h + 4);
+          const show = onScreen && clear;
+          if (show) placed.push({ x, y, w, h });
+          el.style.opacity = show ? '' : '0';
+          el.style.transform = `translate(${x}px, ${y}px)`;
         }
       };
 
@@ -213,7 +238,7 @@ export default function CenterMap() {
         renderer.setSize(width, height, false);
         camera.aspect = width / height;
         // Pull back on narrow screens so the whole area stays in frame.
-        camera.zoom = width < 560 ? 0.75 : 1;
+        camera.zoom = width < 560 ? 0.42 : 0.55;
         camera.updateProjectionMatrix();
       };
       resize();
