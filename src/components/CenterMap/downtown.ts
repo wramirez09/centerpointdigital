@@ -9,9 +9,24 @@
  * proportions to each other.
  */
 import {
-  COLORS, Cloud, X, Z, box, line, milesFromCenter, onHorizon, riverS, rng,
+  COLORS, Cloud, TONES, X, Z, box, line, milesFromCenter, onHorizon, riverS, rng,
   type GridPoint, type RGB, type World,
 } from './scene';
+
+/** Facade colors for the solid view, as sRGB. */
+const FACADE = {
+  black: [0.13, 0.13, 0.15],
+  white: [0.82, 0.8, 0.76],
+  terraCotta: [0.9, 0.88, 0.82],
+  limestone: [0.7, 0.66, 0.56],
+  silverGlass: [0.55, 0.62, 0.7],
+  blueGlass: [0.33, 0.48, 0.6],
+  granite: [0.46, 0.36, 0.31],
+  bronze: [0.2, 0.17, 0.13],
+} as const satisfies Record<string, RGB>;
+
+// Ordinary towers: glass, steel and stone in muted greys.
+const GLASS: RGB[] = [[0.3, 0.34, 0.4], [0.4, 0.44, 0.5], [0.5, 0.5, 0.52], [0.36, 0.4, 0.38], [0.55, 0.52, 0.48], [0.26, 0.3, 0.36]];
 
 /** Address-grid point; north and east of State and Madison are negative. */
 const WILLIS: GridPoint = { w: 350, s: 233 }; // 233 S Wacker Dr
@@ -92,8 +107,9 @@ function lights(c: Cloud, rand: () => number, x0: number, x1: number, z0: number
   }
 }
 
-/** A plain rectangular tower centred on (cx, cz). */
-function tower(c: Cloud, rand: () => number, cx: number, cz: number, hw: number, hd: number, h: number, b = 0.5) {
+/** A plain rectangular tower centred on (cx, cz), in `tone` or a random glass. */
+function tower(c: Cloud, rand: () => number, cx: number, cz: number, hw: number, hd: number, h: number, b = 0.5, tone?: RGB) {
+  c.tone = tone ?? GLASS[Math.floor(rand() * GLASS.length)];
   box(c, cx - hw, cx + hw, cz - hd, cz + hd, h, b, 0.06);
   lights(c, rand, cx - hw, cx + hw, cz - hd, cz + hd, h);
 }
@@ -115,6 +131,7 @@ const LANDMARKS: Landmark[] = [
     name: 'Willis Tower', w: 350, s: 233, top: m(442) + 0.75,
     // Nine bundled tubes that stop at different heights, and two antennas.
     draw: (c, rand, p) => {
+      c.tone = FACADE.black;
       const tube = 0.07;
       const heights = [[0.46, 0.61, 0.83], [0.83, 1, 1], [0.61, 0.83, 0.46]];
       for (let i = 0; i < 3; i++) {
@@ -143,10 +160,13 @@ const LANDMARKS: Landmark[] = [
       const top = 0.06;
       const bottom = corners(base, 0);
       const upper = corners(top, h);
-      for (let k = 0; k < 4; k++) {
-        line(c, bottom[k], upper[k], 0.05, COLORS.text, 0.9, 0.75);
-        line(c, upper[k], upper[(k + 1) % 4], 0.03, COLORS.text, 0.9, 0.75);
-      }
+      c.solids.push({ kind: 'frustum', cx: p.x, cz: p.z, bx: base, bz: base * 0.65, tx: top, tz: top * 0.65, y0: 0, y1: h, color: FACADE.black });
+      c.outline(() => {
+        for (let k = 0; k < 4; k++) {
+          line(c, bottom[k], upper[k], 0.05, COLORS.text, 0.9, 0.75);
+          line(c, upper[k], upper[(k + 1) % 4], 0.03, COLORS.text, 0.9, 0.75);
+        }
+      });
       const bays = 5;
       for (let b = 0; b < bays; b++) {
         const lo = corners(base + (top - base) * (b / bays), (b / bays) * h);
@@ -164,6 +184,7 @@ const LANDMARKS: Landmark[] = [
     name: 'Trump Tower', w: -60, s: -400, top: m(423),
     // Three setbacks that line up with the cornices of its neighbours, then a spire.
     draw: (c, rand, p) => {
+      c.tone = FACADE.silverGlass;
       const tiers: [number, number][] = [[0.08, 0.38], [0.06, 0.65], [0.04, 0.86]];
       tiers.forEach(([half, frac]) => {
         const h = frac * m(423);
@@ -177,6 +198,7 @@ const LANDMARKS: Landmark[] = [
     name: 'St. Regis Chicago', w: -363, s: -300, top: m(363),
     // Three linked frustums of different heights.
     draw: (c, rand, p) => {
+      c.tone = FACADE.blueGlass;
       const parts: [number, number, number][] = [[-0.06, 0.02, 0.62], [0, -0.01, 1], [0.06, 0.015, 0.8]];
       for (const [dx, dz, frac] of parts) {
         const h = frac * m(363);
@@ -189,6 +211,7 @@ const LANDMARKS: Landmark[] = [
     name: 'Aon Center', w: -260, s: -160, top: m(346),
     // A plain white-clad square shaft.
     draw: (c, rand, p) => {
+      c.tone = FACADE.white;
       box(c, p.x - 0.065, p.x + 0.065, p.z - 0.065, p.z + 0.065, m(346), 0.8, 0.04);
       lights(c, rand, p.x - 0.065, p.x + 0.065, p.z - 0.065, p.z + 0.065, m(346), 0.2);
     },
@@ -198,7 +221,7 @@ const LANDMARKS: Landmark[] = [
     // A stepped pyramid crown topped with a spire.
     draw: (c, rand, p) => {
       const h = m(250);
-      tower(c, rand, p.x, p.z, 0.045, 0.045, h, 0.55);
+      tower(c, rand, p.x, p.z, 0.045, 0.045, h, 0.55, TONES.greystone);
       for (let k = 0; k < 4; k++) {
         const half = 0.045 - k * 0.011;
         box(c, p.x - half, p.x + half, p.z - half, p.z + half, h + (k + 1) * 0.07, 0.6, 0.03);
@@ -210,7 +233,7 @@ const LANDMARKS: Landmark[] = [
     name: 'Franklin Center', w: 227, s: 100, top: m(307),
     // Setbacks and twin rooftop spires.
     draw: (c, rand, p) => {
-      tower(c, rand, p.x, p.z, 0.06, 0.06, m(220), 0.55);
+      tower(c, rand, p.x, p.z, 0.06, 0.06, m(220), 0.55, FACADE.granite);
       box(c, p.x - 0.04, p.x + 0.04, p.z - 0.04, p.z + 0.04, m(270), 0.6, 0.05);
       for (const dx of [-0.025, 0.025]) line(c, [p.x + dx, m(270), p.z], [p.x + dx, m(307), p.z], 0.03, COLORS.text, 0.9, 0.85);
     },
@@ -219,19 +242,22 @@ const LANDMARKS: Landmark[] = [
     name: '311 S Wacker', w: 410, s: 311, top: m(293),
     // Tall shaft under a glowing cylindrical crown.
     draw: (c, rand, p) => {
-      tower(c, rand, p.x, p.z, 0.05, 0.05, m(255), 0.55);
+      tower(c, rand, p.x, p.z, 0.05, 0.05, m(255), 0.55, FACADE.granite);
+      c.solids.push({ kind: 'cyl', cx: p.x, cz: p.z, r0: 0.04, r1: 0.04, y0: m(255), y1: m(293), seg: 16, color: FACADE.white });
       for (let y = m(255); y <= m(293); y += 0.04) ring(c, p.x, y, p.z, 0.04, 16, COLORS.text, 1.1, 0.95);
     },
   },
   {
     name: 'Chase Tower', w: 40, s: 10, top: m(259),
-    draw: (c, rand, p) => tower(c, rand, p.x, p.z, 0.06, 0.035, m(259), 0.55),
+    draw: (c, rand, p) => tower(c, rand, p.x, p.z, 0.06, 0.035, m(259), 0.55, TONES.greystone),
   },
   {
     name: 'Marina City', w: 10, s: -320, top: m(179),
     // The twin "corncobs": scalloped balconies ringing every floor.
     draw: (c, _rand, p) => {
       for (const dx of [-0.045, 0.045]) {
+        c.solids.push({ kind: 'cyl', cx: p.x + dx, cz: p.z, r0: 0.024, r1: 0.024, y0: 0, y1: 0.5, seg: 14, color: TONES.concrete });
+        c.solids.push({ kind: 'cyl', cx: p.x + dx, cz: p.z, r0: 0.034, r1: 0.034, y0: 0.5, y1: m(179), seg: 14, color: FACADE.white });
         for (let y = 0.04; y <= m(179); y += 0.045) {
           ring(c, p.x + dx, y, p.z, y < 0.5 ? 0.025 : 0.035, 14, y < 0.5 ? COLORS.dim : COLORS.text, 0.9, y < 0.5 ? 0.4 : 0.7);
         }
@@ -242,6 +268,7 @@ const LANDMARKS: Landmark[] = [
     name: 'Wrigley Building', w: -95, s: -410, top: m(134),
     // White terra cotta block with the clock tower.
     draw: (c, _rand, p) => {
+      c.tone = FACADE.terraCotta;
       box(c, p.x - 0.06, p.x + 0.06, p.z - 0.03, p.z + 0.03, m(90), 0.95, 0.03);
       box(c, p.x + 0.02, p.x + 0.05, p.z - 0.015, p.z + 0.015, m(125), 0.95, 0.025);
       ring(c, p.x + 0.035, m(110), p.z - 0.016, 0.012, 10, COLORS.amber, 1.3, 1);
@@ -252,7 +279,7 @@ const LANDMARKS: Landmark[] = [
     name: 'Tribune Tower', w: -135, s: -445, top: m(141),
     // Gothic shaft with its ring of flying buttresses at the top.
     draw: (c, rand, p) => {
-      tower(c, rand, p.x, p.z, 0.035, 0.035, m(115), 0.55);
+      tower(c, rand, p.x, p.z, 0.035, 0.035, m(115), 0.55, FACADE.limestone);
       for (let k = 0; k < 8; k++) {
         const a = (k / 8) * Math.PI * 2;
         line(c, [p.x + Math.cos(a) * 0.035, m(115), p.z + Math.sin(a) * 0.035], [p.x + Math.cos(a) * 0.02, m(141), p.z + Math.sin(a) * 0.02], 0.02, COLORS.text, 0.9, 0.8);
@@ -267,6 +294,7 @@ const LANDMARKS: Landmark[] = [
         const a = (k / 3) * Math.PI * 2 + 0.3;
         const cx = p.x + Math.cos(a) * 0.03;
         const cz = p.z + Math.sin(a) * 0.03;
+        c.solids.push({ kind: 'cyl', cx, cz, r0: 0.028, r1: 0.028, y0: 0, y1: m(197), seg: 14, color: FACADE.bronze });
         for (let y = 0.04; y <= m(197); y += 0.05) ring(c, cx, y, cz, 0.028, 12, COLORS.text, 0.9, 0.35);
       }
     },
@@ -274,16 +302,17 @@ const LANDMARKS: Landmark[] = [
   {
     name: 'Merchandise Mart', w: 300, s: -380, top: m(105),
     // Once the largest building in the world: a long, squat block on the river.
-    draw: (c, rand, p) => tower(c, rand, p.x, p.z, 0.15, 0.07, m(105), 0.55),
+    draw: (c, rand, p) => tower(c, rand, p.x, p.z, 0.15, 0.07, m(105), 0.55, TONES.tanBrick),
   },
   {
     name: 'Water Tower Place', w: -40, s: -840, top: m(262),
-    draw: (c, rand, p) => tower(c, rand, p.x, p.z, 0.05, 0.05, m(262), 0.5),
+    draw: (c, rand, p) => tower(c, rand, p.x, p.z, 0.05, 0.05, m(262), 0.5, FACADE.white),
   },
   {
     name: 'Old Water Tower', w: -80, s: -800, top: m(47),
     // The 1869 limestone tower that survived the Great Fire.
     draw: (c, _rand, p) => {
+      c.tone = FACADE.limestone;
       box(c, p.x - 0.02, p.x + 0.02, p.z - 0.02, p.z + 0.02, m(25), 0.95, 0.02);
       line(c, [p.x, m(25), p.z], [p.x, m(47), p.z], 0.015, COLORS.amber, 1.2, 0.95);
     },
@@ -293,6 +322,8 @@ const LANDMARKS: Landmark[] = [
     // The pier, its headhouse and the Centennial Wheel.
     draw: (c, _rand, p) => {
       const end = D(-1150, -560);
+      c.solids.push({ kind: 'box', x0: p.x, x1: end.x, z0: p.z - 0.05, z1: p.z + 0.05, y0: 0, y1: 0.035, color: TONES.concrete });
+      c.tone = TONES.greystone;
       for (const dz of [-0.05, 0.05]) line(c, [p.x, 0.04, p.z + dz], [end.x, 0.04, end.z + dz], 0.025, COLORS.text, 1, 0.7);
       for (let x = p.x; x < end.x; x += 0.06) line(c, [x, 0.04, p.z - 0.05], [x, 0.04, p.z + 0.05], 0.025, COLORS.dim, 0.8, 0.35);
       box(c, end.x - 0.15, end.x, p.z - 0.06, p.z + 0.06, 0.18, 0.7, 0.03);
@@ -341,12 +372,19 @@ const LANDMARKS: Landmark[] = [
     name: 'Soldier Field', w: -430, s: 1550, top: 0.35,
     // The colonnades with the modern bowl rising above them.
     draw: (c, rand, p) => {
+      const tiers: [number, number, number][][] = [];
       for (let tier = 0; tier < 5; tier++) {
-        for (let k = 0; k < 56; k++) {
+        const pts: [number, number, number][] = [];
+        for (let k = 0; k <= 56; k++) {
           const a = (k / 56) * Math.PI * 2;
-          c.add(p.x + Math.cos(a) * (0.1 + tier * 0.02), 0.04 + tier * 0.05, p.z + Math.sin(a) * (0.16 + tier * 0.02), COLORS.text, 0.9, 0.5);
+          pts.push([p.x + Math.cos(a) * (0.1 + tier * 0.02), 0.04 + tier * 0.05, p.z + Math.sin(a) * (0.16 + tier * 0.02)]);
         }
+        c.outline(() => pts.slice(1).forEach((q) => c.add(...q, COLORS.text, 0.9, 0.5)));
+        tiers.push(pts);
       }
+      const outer = tiers[tiers.length - 1];
+      c.solids.push({ kind: 'loft', rows: tiers, color: TONES.seats });
+      c.solids.push({ kind: 'loft', rows: [outer, outer.map(([x, , z]) => [x, 0, z] as [number, number, number])], color: TONES.greystone });
       for (const dx of [-0.16, 0.16]) {
         for (let dz = -0.12; dz <= 0.12; dz += 0.03) line(c, [p.x + dx, 0, p.z + dz], [p.x + dx, 0.12, p.z + dz], 0.03, COLORS.text, 0.9, 0.75);
       }
@@ -359,11 +397,15 @@ const LANDMARKS: Landmark[] = [
   },
   {
     name: 'Field Museum', w: -380, s: 1400, top: 0.25,
-    draw: (c, _rand, p) => box(c, p.x - 0.1, p.x + 0.1, p.z - 0.05, p.z + 0.05, 0.2, 0.75, 0.03),
+    draw: (c, _rand, p) => {
+      c.tone = FACADE.white;
+      box(c, p.x - 0.1, p.x + 0.1, p.z - 0.05, p.z + 0.05, 0.2, 0.75, 0.03);
+    },
   },
   {
     name: 'Shedd Aquarium', w: -640, s: 1225, top: 0.2,
     draw: (c, _rand, p) => {
+      c.tone = FACADE.white;
       box(c, p.x - 0.07, p.x + 0.07, p.z - 0.05, p.z + 0.05, 0.12, 0.7, 0.03);
       ring(c, p.x, 0.16, p.z, 0.025, 10, COLORS.water, 1.1, 0.9);
     },
@@ -371,6 +413,7 @@ const LANDMARKS: Landmark[] = [
   {
     name: 'Adler Planetarium', w: -870, s: 1255, top: 0.18,
     draw: (c, _rand, p) => {
+      c.solids.push({ kind: 'cyl', cx: p.x, cz: p.z, r0: 0.05, r1: 0.012, y0: 0, y1: 0.12, seg: 14, color: FACADE.white });
       for (let y = 0.02; y < 0.12; y += 0.025) ring(c, p.x, y, p.z, 0.05 * Math.cos(((y - 0.02) / 0.1) * 1.3), 14, COLORS.text, 1, 0.75);
     },
   },

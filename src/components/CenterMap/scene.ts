@@ -4,6 +4,7 @@
  * (800 numbers = 1 mile) and converted to world units here, so the layout reads
  * like the city's own grid. Street and river lines are stylized, not surveyed.
  */
+import type { Solid } from './solid';
 
 /** West address (e.g. 2400 = Western Ave) and South address (e.g. 3900 = Pershing Rd). */
 export type GridPoint = { w: number; s: number };
@@ -32,6 +33,20 @@ export const COLORS = {
 
 export type RGB = readonly [number, number, number];
 
+/** Surface colors for the solid view, as sRGB. */
+export const TONES = {
+  redBrick: [0.4, 0.24, 0.18],
+  tanBrick: [0.5, 0.42, 0.31],
+  greystone: [0.47, 0.46, 0.42],
+  frame: [0.36, 0.34, 0.32],
+  roof: [0.2, 0.18, 0.17],
+  factory: [0.45, 0.29, 0.21],
+  tank: [0.45, 0.3, 0.18],
+  seats: [0.17, 0.21, 0.26],
+  concrete: [0.42, 0.42, 0.44],
+  wall: [0.12, 0.24, 0.16],
+} as const satisfies Record<string, RGB>;
+
 /** Seeded so the skyline is the same on every visit. */
 export function rng(seed: number) {
   return () => {
@@ -45,6 +60,12 @@ export class Cloud {
   colors: number[] = [];
   sizes: number[] = [];
   seeds: number[] = [];
+  /** 1 for points that outline a structure; the solid view hides them and shows its mesh instead. */
+  layers: number[] = [];
+  layer = 0;
+  /** Surface color for the next solids, as sRGB. */
+  tone: RGB = TONES.frame;
+  solids: Solid[] = [];
   constructor(private rand: () => number) {}
 
   add(x: number, y: number, z: number, color: RGB, size: number, brightness = 1) {
@@ -52,6 +73,15 @@ export class Cloud {
     this.colors.push(color[0] * brightness, color[1] * brightness, color[2] * brightness);
     this.sizes.push(size);
     this.seeds.push(this.rand());
+    this.layers.push(this.layer);
+  }
+
+  /** Draw with `layer` set, then restore it. */
+  outline(fn: () => void, layer = 1) {
+    const prev = this.layer;
+    this.layer = layer;
+    fn();
+    this.layer = prev;
   }
 
   get count() {
@@ -199,15 +229,18 @@ export function line(
   }
 }
 
-/** Wireframe box: four corner posts and the roofline. */
+/** Wireframe box: four corner posts and the roofline. Also records it as a solid in `c.tone`. */
 export function box(c: Cloud, x0: number, x1: number, z0: number, z1: number, h: number, b: number, step = 0.05) {
-  for (const [x, z] of [[x0, z0], [x1, z0], [x0, z1], [x1, z1]]) {
-    line(c, [x, 0.02, z], [x, h, z], step, COLORS.text, 0.9, b * 0.8);
-  }
-  line(c, [x0, h, z0], [x1, h, z0], step, COLORS.text, 0.9, b);
-  line(c, [x0, h, z1], [x1, h, z1], step, COLORS.text, 0.9, b);
-  line(c, [x0, h, z0], [x0, h, z1], step, COLORS.text, 0.9, b);
-  line(c, [x1, h, z0], [x1, h, z1], step, COLORS.text, 0.9, b);
+  c.solids.push({ kind: 'box', x0, x1, z0, z1, y0: 0, y1: h, color: c.tone });
+  c.outline(() => {
+    for (const [x, z] of [[x0, z0], [x1, z0], [x0, z1], [x1, z1]]) {
+      line(c, [x, 0.02, z], [x, h, z], step, COLORS.text, 0.9, b * 0.8);
+    }
+    line(c, [x0, h, z0], [x1, h, z0], step, COLORS.text, 0.9, b);
+    line(c, [x0, h, z1], [x1, h, z1], step, COLORS.text, 0.9, b);
+    line(c, [x0, h, z0], [x0, h, z1], step, COLORS.text, 0.9, b);
+    line(c, [x1, h, z0], [x1, h, z1], step, COLORS.text, 0.9, b);
+  });
 }
 
 /** A row of windows on the face at depth `z`; a share of them are lit. */
@@ -236,16 +269,21 @@ function house(c: Cloud, rand: () => number, kind: HouseKind, x: number, zFront:
   const floors = { cottage: 1, bungalow: 1, twoflat: 2, threeflat: 3, store: 2 }[kind];
   const h = floors * FLOOR + 0.02 + (kind === 'bungalow' ? 0.02 : 0);
   const [za, zz] = facing < 0 ? [zf, zb] : [zb, zf];
+  const walls: RGB[] = kind === 'cottage' ? [TONES.frame, TONES.redBrick] : kind === 'bungalow' ? [TONES.redBrick, TONES.tanBrick] : [TONES.greystone, TONES.redBrick, TONES.tanBrick];
+  c.tone = walls[Math.floor(rand() * walls.length)];
   box(c, x0, x1, za, zz, h, b, 0.065);
 
   if (kind === 'cottage' || kind === 'bungalow') {
     // Front-gabled roof: ridge runs front to back, gable triangle faces the street.
     const ridge = h + (kind === 'cottage' ? 0.07 : 0.05);
-    line(c, [x, ridge, za], [x, ridge, zz], 0.04, COLORS.text, 0.9, b);
-    for (const zEnd of [za, zz]) {
-      line(c, [x0, h, zEnd], [x, ridge, zEnd], 0.03, COLORS.text, 0.9, b * 0.9);
-      line(c, [x1, h, zEnd], [x, ridge, zEnd], 0.03, COLORS.text, 0.9, b * 0.9);
-    }
+    c.solids.push({ kind: 'gable', x0, x1, z0: za, z1: zz, y0: h, y1: ridge, rx: x, color: TONES.roof });
+    c.outline(() => {
+      line(c, [x, ridge, za], [x, ridge, zz], 0.04, COLORS.text, 0.9, b);
+      for (const zEnd of [za, zz]) {
+        line(c, [x0, h, zEnd], [x, ridge, zEnd], 0.03, COLORS.text, 0.9, b * 0.9);
+        line(c, [x1, h, zEnd], [x, ridge, zEnd], 0.03, COLORS.text, 0.9, b * 0.9);
+      }
+    });
     // Brick chimney on the ridge.
     line(c, [x, ridge, (za + zz) / 2], [x, ridge + 0.04, (za + zz) / 2], 0.02, COLORS.amber, 0.9, 0.35);
   } else {
@@ -297,6 +335,7 @@ function warehouse(
   c: Cloud, rand: () => number, x0: number, x1: number, z0: number, z1: number, h: number,
 ): [number, number, number] | null {
   const b = 0.3 + rand() * 0.15;
+  c.tone = TONES.factory;
   box(c, x0, x1, z0, z1, h, b, 0.045);
 
   // Sawtooth roof: steep glazed faces and long slopes, repeated across the roof.
@@ -304,9 +343,12 @@ function warehouse(
   for (let t = 0; t < teeth; t++) {
     const xa = x0 + (t / teeth) * (x1 - x0);
     const xb = x0 + ((t + 1) / teeth) * (x1 - x0);
-    line(c, [xa, h + 0.06, z0], [xa, h + 0.06, z1], 0.04, COLORS.text, 0.9, b * 0.8);
-    line(c, [xa, h + 0.06, z0], [xb, h, z0], 0.03, COLORS.text, 0.8, b * 0.6);
-    line(c, [xa, h + 0.06, z1], [xb, h, z1], 0.03, COLORS.text, 0.8, b * 0.6);
+    c.solids.push({ kind: 'gable', x0: xa, x1: xb, z0, z1, y0: h, y1: h + 0.06, rx: xa, color: TONES.roof });
+    c.outline(() => {
+      line(c, [xa, h + 0.06, z0], [xa, h + 0.06, z1], 0.04, COLORS.text, 0.9, b * 0.8);
+      line(c, [xa, h + 0.06, z0], [xb, h, z0], 0.03, COLORS.text, 0.8, b * 0.6);
+      line(c, [xa, h + 0.06, z1], [xb, h, z1], 0.03, COLORS.text, 0.8, b * 0.6);
+    });
   }
 
   // Ribbon windows on every floor of both long faces, and a loading dock.
@@ -333,6 +375,8 @@ function warehouse(
     const tz = z0 + (z1 - z0) * (0.25 + rand() * 0.5);
     const r = 0.035;
     const base = h + 0.06;
+    c.solids.push({ kind: 'cyl', cx: tx, cz: tz, r0: r, r1: r, y0: base, y1: base + 0.075, seg: 12, color: TONES.tank });
+    c.solids.push({ kind: 'cyl', cx: tx, cz: tz, r0: r * 1.1, r1: 0, y0: base + 0.075, y1: base + 0.12, seg: 12, color: TONES.roof });
     for (let l = 0; l < 4; l++) {
       const a = Math.PI / 4 + (l * Math.PI) / 2;
       line(c, [tx + Math.cos(a) * r, h, tz + Math.sin(a) * r], [tx + Math.cos(a) * r, base, tz + Math.sin(a) * r], 0.02, COLORS.dim, 0.8, 0.6);
@@ -354,6 +398,7 @@ function warehouse(
     const sx = x0 + 0.05;
     const sz = z0 + 0.05;
     const top = h + 0.5 + rand() * 0.4;
+    c.solids.push({ kind: 'cyl', cx: sx, cz: sz, r0: 0.026, r1: 0.02, y0: 0, y1: top, seg: 10, color: TONES.redBrick });
     for (let y = 0.02; y < top; y += 0.025) {
       for (let k = 0; k < 4; k++) {
         const a = (k / 4) * Math.PI * 2 + y * 3;
@@ -499,7 +544,9 @@ function buildLandmarks(c: Cloud, rand: () => number) {
     line(c, [mx + ax, 0.02, mz + az], [mx + bx, 0.02, mz + bz], 0.035, COLORS.text, 1, 0.6);
     line(c, [mx + ax, 0.03, mz + az], [mx + bx, 0.03, mz + bz], 0.16, COLORS.amber, 1.6, 0.9);
   }
+  c.tone = TONES.concrete;
   box(c, mx + 0.45, mx + 0.95, mz + 0.55, mz + 0.8, 0.12, 0.6, 0.05);
+  c.solids.push({ kind: 'cyl', cx: mx + 0.7, cz: mz + 0.45, r0: 0.02, r1: 0.02, y0: 0, y1: 0.55, seg: 8, color: TONES.concrete });
   line(c, [mx + 0.7, 0, mz + 0.45], [mx + 0.7, 0.55, mz + 0.45], 0.04, COLORS.text, 0.9, 0.7);
   for (let k = 0; k < 8; k++) {
     const a = (k / 8) * Math.PI * 2;
@@ -510,6 +557,7 @@ function buildLandmarks(c: Cloud, rand: () => number) {
   const gx = STOCKYARDS_AT.x;
   const gz = STOCKYARDS_AT.z;
   for (const dz of [-0.22, 0.22]) {
+    c.tone = TONES.greystone;
     box(c, gx - 0.06, gx + 0.06, gz + dz - 0.06, gz + dz + 0.06, 0.38, 0.75, 0.035);
   }
   for (let k = 0; k <= 16; k++) {
@@ -522,6 +570,7 @@ function buildLandmarks(c: Cloud, rand: () => number) {
   // Central Manufacturing District: brick water and clock tower over Pershing Road.
   const cmd = toWorld(CMD_TOWER);
   const half = 0.07;
+  c.tone = TONES.redBrick;
   box(c, cmd.x - half, cmd.x + half, cmd.z - half, cmd.z + half, 1.15, 0.8, 0.04);
   box(c, cmd.x - 0.3, cmd.x + 0.3, cmd.z - 0.12, cmd.z + 0.3, 0.32, 0.5, 0.05);
   facadeLights(c, rand, cmd.x - 0.3, cmd.x + 0.3, cmd.z - 0.12, 0.32, 0.1);
@@ -592,21 +641,33 @@ function ballpark(c: Cloud, rand: () => number, at: World) {
     line(c, P(0, 0, 0.03), polar(1, side * Q, 0.03), 0.02, WHITE, 1, 0.8);
     line(c, polar(1, side * Q, 0.02), polar(1, side * Q, 0.4), 0.02, COLORS.amber, 1.2, 0.9);
   }
+  const wall: [number, number, number][][] = [[], []];
   for (let a = -Q; a <= Q; a += 0.015) {
     for (const y of [0.03, 0.06]) c.add(...polar(1, a, y), WHITE, 0.9, 0.5);
     c.add(...polar(1, a, 0.09), COLORS.amber, 1, 0.6);
+    wall[0].push(polar(1, a, 0));
+    wall[1].push(polar(1, a, 0.09));
   }
+  c.solids.push({ kind: 'loft', rows: wall, color: TONES.wall });
 
-  // Outfield bleachers, split by the batter's eye in dead center.
-  for (let row = 0; row < 5; row++) {
-    for (let a = -Q - 0.08; a <= Q + 0.08; a += 0.02) {
-      if (Math.abs(a) < 0.16) continue;
-      c.add(...polar(1.05 + row * 0.045, a, 0.08 + row * 0.04), WHITE, 0.9, 0.22 + rand() * 0.2);
+  // Outfield bleachers on both sides of the batter's eye in dead center.
+  for (const side of [-1, 1]) {
+    const rows: [number, number, number][][] = [];
+    for (let row = 0; row < 5; row++) {
+      const r = 1.05 + row * 0.045;
+      const y = 0.08 + row * 0.04;
+      const pts: [number, number, number][] = [];
+      for (let k = 0; k <= 30; k++) pts.push(polar(r, side * (0.16 + (k / 30) * (Q - 0.08)), y));
+      c.outline(() => pts.forEach((p) => c.add(...p, WHITE, 0.9, 0.22 + rand() * 0.2)));
+      rows.push(pts);
     }
+    const ground = (pts: [number, number, number][]) => pts.map(([x, , z]) => [x, 0, z] as [number, number, number]);
+    c.solids.push({ kind: 'loft', rows: [ground(rows[0]), ...rows, ground(rows[rows.length - 1])], color: TONES.seats });
   }
 
   // The center-field scoreboard and the pinwheels that spin after a home run.
   const sb = 1.3;
+  c.solids.push({ kind: 'loft', rows: [[P(sb + 0.02, -0.3, 0.3), P(sb + 0.02, 0.3, 0.3)], [P(sb + 0.02, -0.3, 0.7), P(sb + 0.02, 0.3, 0.7)]], color: TONES.roof });
   for (let v = -0.28; v <= 0.28; v += 0.022) {
     for (let y = 0.32; y <= 0.68; y += 0.022) {
       const roll = rand();
@@ -630,21 +691,50 @@ function ballpark(c: Cloud, rand: () => number, at: World) {
   }
 
   // The grandstand: rows that follow both foul lines and wrap behind home plate.
-  const row = (dist: number, y: number, len: number, color: RGB, size: number, brightness: () => number) => {
-    const pts: [number, number][] = [];
-    for (let t = len; t > 0; t -= 0.025) pts.push([t * Math.cos(Q) - dist * Math.sin(Q), t * Math.sin(Q) + dist * Math.cos(Q)]);
-    for (let a = Q + Math.PI / 2; a <= 2 * Math.PI - Q - Math.PI / 2; a += 0.025 / dist) pts.push([dist * Math.cos(a), dist * Math.sin(a)]);
-    for (let t = 0; t < len; t += 0.025) pts.push([t * Math.cos(Q) - dist * Math.sin(Q), -(t * Math.sin(Q) + dist * Math.cos(Q))]);
-    for (const [u, v] of pts) c.add(...P(u, v, y), color, size, brightness());
+  // Every row has the same number of points so neighbouring rows can be lofted.
+  const N = 140;
+  const rowPath = (dist: number, len: number, y: number) => {
+    const arc = (Math.PI / 2) * dist;
+    const total = 2 * len + arc;
+    const pts: [number, number, number][] = [];
+    for (let i = 0; i < N; i++) {
+      const d = (i / (N - 1)) * total;
+      let u: number;
+      let v: number;
+      if (d < len) {
+        const t = len - d;
+        [u, v] = [t * Math.cos(Q) - dist * Math.sin(Q), t * Math.sin(Q) + dist * Math.cos(Q)];
+      } else if (d < len + arc) {
+        const a = Q + Math.PI / 2 + (d - len) / dist;
+        [u, v] = [dist * Math.cos(a), dist * Math.sin(a)];
+      } else {
+        const t = d - len - arc;
+        [u, v] = [t * Math.cos(Q) - dist * Math.sin(Q), -(t * Math.sin(Q) + dist * Math.cos(Q))];
+      }
+      pts.push(P(u, v, y));
+    }
+    return pts;
   };
+  const row = (dist: number, y: number, len: number, color: RGB, size: number, brightness: () => number, layer = 1) => {
+    const pts = rowPath(dist, len, y);
+    c.outline(() => pts.forEach((p) => c.add(...p, color, size, brightness())), layer);
+    return pts;
+  };
+  const ground = (pts: [number, number, number][]) => pts.map(([x, , z]) => [x, 0, z] as [number, number, number]);
+  const lower: [number, number, number][][] = [];
   for (let dist = 0.12; dist <= 0.42; dist += 0.05) {
-    row(dist, 0.03 + (dist - 0.12) * 0.6, 0.95, WHITE, 0.9, () => 0.2 + rand() * 0.2);
+    lower.push(row(dist, 0.03 + (dist - 0.12) * 0.6, 0.95, WHITE, 0.9, () => 0.2 + rand() * 0.2));
   }
-  row(0.47, 0.3, 0.8, COLORS.amber, 1, () => (rand() < 0.5 ? 0.7 : 0.15)); // lit suites
+  const suites = row(0.47, 0.3, 0.8, COLORS.amber, 1, () => (rand() < 0.5 ? 0.7 : 0.15), 0);
+  const upper: [number, number, number][][] = [];
   for (let dist = 0.52; dist <= 0.8; dist += 0.05) {
-    row(dist, 0.38 + (dist - 0.52) * 0.75, 0.75, WHITE, 0.9, () => 0.2 + rand() * 0.2);
+    upper.push(row(dist, 0.38 + (dist - 0.52) * 0.75, 0.75, WHITE, 0.9, () => 0.2 + rand() * 0.2));
   }
-  row(0.86, 0.72, 0.72, WHITE, 1, () => 0.65); // roof canopy edge
+  const back = upper[upper.length - 1];
+  c.solids.push({ kind: 'loft', rows: [ground(lower[0]), ...lower, suites, ...upper], color: TONES.seats });
+  c.solids.push({ kind: 'loft', rows: [back, ground(back)], color: TONES.concrete });
+  // Roof canopy over the upper deck.
+  c.solids.push({ kind: 'loft', rows: [rowPath(0.72, 0.72, 0.72), row(0.86, 0.72, 0.72, WHITE, 1, () => 0.65)], color: TONES.roof });
 
   // Light towers along the roof.
   for (const [t, side] of [[0.15, 1], [0.5, 1], [0.15, -1], [0.5, -1]] as const) {

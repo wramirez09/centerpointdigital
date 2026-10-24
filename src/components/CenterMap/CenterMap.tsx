@@ -5,18 +5,29 @@ import styles from './CenterMap.module.css';
 import { Reveal } from '@/components/Reveal/Reveal';
 import { CENTER, COLORS, LABELS, SOX_AT, SOX_FACING, X, Z, buildCity, buildMovers, type Mover } from './scene';
 import { D, DOWNTOWN_LABELS, buildDowntown, neighborhoodRiverEnd } from './downtown';
+import { buildSolidGeometry } from './solid';
 
 const VERTEX = /* glsl */ `
   attribute vec3 aStart;
   attribute vec3 aColor;
   attribute float aSize;
   attribute float aSeed;
+  attribute float aLayer;
   uniform float uTime;
   uniform float uProgress;
   uniform float uPixelRatio;
+  uniform float uSolid;
   varying vec3 vColor;
   varying float vAlpha;
   void main() {
+    // In the solid view, outline points give way to the mesh: park them outside the clip volume.
+    if (uSolid > 0.5 && aLayer > 0.5) {
+      gl_Position = vec4(0.0, 0.0, -2.0, 1.0);
+      gl_PointSize = 0.0;
+      vColor = vec3(0.0);
+      vAlpha = 0.0;
+      return;
+    }
     float p = clamp(uProgress * 1.6 - aSeed * 0.6, 0.0, 1.0);
     p = 1.0 - pow(1.0 - p, 3.0);
     vec3 pos = mix(aStart, position, p);
@@ -42,6 +53,8 @@ type ViewName = 'overview' | 'skyline' | 'downtown' | 'ballpark';
 
 const VIEW_NAMES: Record<ViewName, string> = { overview: 'Overview', skyline: 'Skyline', downtown: 'Downtown', ballpark: 'Sox Park' };
 
+export type RenderMode = 'particles' | 'solid';
+
 // The center's label first, then downtown's famous towers, then the rest.
 const ALL_LABELS: (typeof LABELS)[number][] = [LABELS[0], ...DOWNTOWN_LABELS, ...LABELS.slice(1)];
 
@@ -52,13 +65,16 @@ const MAX_ZOOM = 8;
  * Interactive particle model of McKinley Park, home of Chicago's geographic center.
  * three.js loads only when the section is about to scroll into view.
  */
-export default function CenterMap() {
+export default function CenterMap({ initialMode = 'particles' }: { initialMode?: RenderMode }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const labelsRef = useRef<HTMLDivElement>(null);
   const [view, setView] = useState<ViewName>('overview');
+  const [mode, setMode] = useState<RenderMode>(initialMode);
   // Filled in once the scene has loaded; the buttons call through these.
   const goToRef = useRef<(name: ViewName) => void>(() => {});
   const zoomByRef = useRef<(factor: number) => void>(() => {});
+  const setModeRef = useRef<(mode: RenderMode) => void>(() => {});
+  const initialModeRef = useRef(initialMode);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -108,6 +124,7 @@ export default function CenterMap() {
           uTime: { value: 0 },
           uProgress: { value: reduceMotion ? 1 : 0 },
           uPixelRatio: { value: pixelRatio },
+          uSolid: { value: 0 },
         },
       });
 
@@ -128,7 +145,46 @@ export default function CenterMap() {
       cityGeo.setAttribute('aColor', new THREE.Float32BufferAttribute(city.colors, 3));
       cityGeo.setAttribute('aSize', new THREE.Float32BufferAttribute(city.sizes, 1));
       cityGeo.setAttribute('aSeed', new THREE.Float32BufferAttribute(city.seeds, 1));
+      cityGeo.setAttribute('aLayer', new THREE.Float32BufferAttribute(city.layers, 1));
       scene.add(new THREE.Points(cityGeo, material));
+
+      // Solid view: the recorded shapes as one lit mesh on a dark ground, with
+      // windows, streets, water and trees still drawn as points on top.
+      const solidGeo = buildSolidGeometry(THREE, city.solids);
+      const solidMat = new THREE.MeshStandardMaterial({
+        vertexColors: true,
+        roughness: 0.82,
+        metalness: 0.08,
+        flatShading: true,
+        side: THREE.DoubleSide,
+        // Nudged back so window points on a facade aren't hidden by it.
+        polygonOffset: true,
+        polygonOffsetFactor: 1,
+        polygonOffsetUnits: 2,
+      });
+      const groundGeo = new THREE.PlaneGeometry(400, 400);
+      const groundMat = new THREE.MeshStandardMaterial({ color: 0x0c0b09, roughness: 1 });
+      const ground = new THREE.Mesh(groundGeo, groundMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.y = -0.01;
+      const buildings = new THREE.Mesh(solidGeo, solidMat);
+      const solid = new THREE.Group();
+      solid.add(ground, buildings);
+      solid.add(new THREE.HemisphereLight(0xc4d0de, 0x1a140e, 1.1));
+      // Low evening sun from the southwest.
+      const sun = new THREE.DirectionalLight(0xffd9a8, 2.4);
+      sun.position.set(-10, 9, 8);
+      solid.add(sun);
+      scene.add(solid);
+      const fog = new THREE.Fog(0x0a0906, 28, 75);
+      const applyMode = (m: RenderMode) => {
+        const on = m === 'solid';
+        material.uniforms.uSolid.value = on ? 1 : 0;
+        solid.visible = on;
+        scene.fog = on ? fog : null;
+      };
+      setModeRef.current = applyMode;
+      applyMode(initialModeRef.current);
 
       // Moving particles: water, traffic, train and the beacon. Positions are
       // rewritten every frame, so the start position simply tracks the current one.
@@ -168,6 +224,7 @@ export default function CenterMap() {
       dynGeo.setAttribute('aColor', colorAttr);
       dynGeo.setAttribute('aSize', new THREE.BufferAttribute(dynSize, 1));
       dynGeo.setAttribute('aSeed', new THREE.BufferAttribute(dynSeed, 1));
+      dynGeo.setAttribute('aLayer', new THREE.BufferAttribute(new Float32Array(dynamicCount), 1));
       scene.add(new THREE.Points(dynGeo, material));
 
       const cx = X(CENTER.w);
@@ -239,7 +296,7 @@ export default function CenterMap() {
           const h = el.offsetHeight;
           const x = Math.min(((projected.x + 1) / 2) * width, width - w - 12);
           const y = ((1 - projected.y) / 2) * height;
-          const onScreen = projected.z < 1 && Math.abs(projected.x) < 1.05 && Math.abs(projected.y) < 1.05;
+          const onScreen = projected.z < 1 && Math.abs(projected.x) < 1.02 && y > 0 && y < height - h;
           const clear = !placed.some((r) => x < r.x + r.w + 6 && r.x < x + w + 6 && y < r.y + r.h + 4 && r.y < y + h + 4);
           const show = onScreen && clear;
           if (show) placed.push({ x, y, w, h });
@@ -332,7 +389,10 @@ export default function CenterMap() {
         const time = now / 1000;
         if (!reduceMotion) {
           if (introStart < 0) introStart = time;
-          material.uniforms.uProgress.value = Math.min((time - introStart) / 3.2, 1);
+          const progress = Math.min((time - introStart) / 3.2, 1);
+          material.uniforms.uProgress.value = progress;
+          // In the solid view the buildings rise out of the ground.
+          buildings.scale.y = Math.max(0.001, 1 - (1 - progress) ** 3);
           material.uniforms.uTime.value = time;
           updateMovers(time, dt);
         }
@@ -371,6 +431,10 @@ export default function CenterMap() {
         renderer.domElement.removeEventListener('wheel', onWheel);
         controls.dispose();
         cityGeo.dispose();
+        solidGeo.dispose();
+        solidMat.dispose();
+        groundGeo.dispose();
+        groundMat.dispose();
         dynGeo.dispose();
         material.dispose();
         renderer.dispose();
@@ -448,6 +512,22 @@ export default function CenterMap() {
                   }}
                 >
                   {VIEW_NAMES[name]}
+                </button>
+              ))}
+            </div>
+            <div className={styles.segment} role="group" aria-label="Rendering">
+              {(['particles', 'solid'] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  className={styles.btn}
+                  aria-pressed={mode === m}
+                  onClick={() => {
+                    setMode(m);
+                    setModeRef.current(m);
+                  }}
+                >
+                  {m === 'particles' ? 'Particles' : 'Solid'}
                 </button>
               ))}
             </div>
