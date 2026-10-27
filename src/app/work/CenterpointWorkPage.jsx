@@ -6,6 +6,7 @@ import CtaBand from '@/components/CtaBand/CtaBand';
 import SiteFooter from '@/components/SiteFooter/SiteFooter';
 import { Reveal } from '@/components/Reveal/Reveal';
 import Image from 'next/image';
+import AgencyWork from './AgencyWork';
 import styles from './centerpointWork.module.css';
 import { FEATURED_PROJECT, GRID_PROJECTS } from './projects';
 
@@ -157,6 +158,9 @@ export default function CenterpointWorkPage() {
           </div>
         )}
       </div>
+
+      {/* ── PREVIOUS AGENCY WORK ── */}
+      <AgencyWork />
 
       {/* ── CTA ── */}
       <CtaBand

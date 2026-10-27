@@ -182,6 +182,34 @@
 .hoverTag { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 4px; }
 .hoverName { font-family: var(--font-outfit, 'Outfit', sans-serif); font-size: 20px; font-weight: 800; letter-spacing: -.03em; color: var(--text); }
 
+/* ─── PREVIOUS AGENCY WORK ────────────────────────────── */
+.agencySection { max-width: 1400px; margin: 0 auto; padding: 0 48px 120px; }
+.agencyMasonry { columns: 3; column-gap: 12px; }
+.agencyTile {
+  display: block; width: 100%; margin: 0 0 12px; padding: 0;
+  break-inside: avoid; position: relative; overflow: hidden;
+  border: 1px solid var(--border); border-radius: 4px; background: var(--bg3);
+  cursor: zoom-in; transition: border-color .3s;
+}
+.agencyTile img { transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+.agencyTile:hover { border-color: rgba(237,230,214,0.18); }
+.agencyTile:hover img { transform: scale(1.03); }
+.agencyTile:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.agencyOverlay {
+  position: absolute; inset: 0; text-align: left;
+  background: linear-gradient(to top, rgba(10,9,6,0.95) 0%, rgba(10,9,6,0.4) 55%, transparent 100%);
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; padding: 20px;
+  opacity: 0; transition: opacity .3s;
+}
+.agencyTile:hover .agencyOverlay, .agencyTile:focus-visible .agencyOverlay { opacity: 1; }
+.agencyYear { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.agencyMore {
+  display: inline-block; margin-top: 24px;
+  font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--amber); text-decoration: none;
+}
+.agencyMore:hover { text-decoration: underline; }
+
 /* ─── CTA ─────────────────────────────────────────────── */
 
 /* ─── RESPONSIVE ──────────────────────────────────────── */
@@ -196,6 +224,11 @@
   .fResults { flex-wrap: wrap; }
   .gridSection { padding: 48px 24px 80px; }
   .projectGrid { grid-template-columns: 1fr; }
+  .agencySection { padding: 0 24px 80px; }
+  .agencyMasonry { columns: 2; }
   .wideOnly { display: none; }
   .narrowOnly { display: block; }
+}
+@media (max-width: 640px) {
+  .agencyMasonry { columns: 1; }
 }

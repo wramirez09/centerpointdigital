@@ -5,7 +5,6 @@ import { Container, Box, Text, Stack } from '@mantine/core';
 import { IconAt, IconMapPin, IconPhone, IconSun } from '@tabler/icons-react';
 import emailjs from '@emailjs/browser';
 import { useEffect, useState } from 'react';
-import { RotatingLines } from 'react-loader-spinner';
 
 function printHref(title: string, description: string): string {
   const prefixMap: Record<string, string> = {
@@ -251,7 +250,7 @@ const Contact: React.FC<ContactProps> = ({
                     </form>
                   ) : (
                     <div className="flex justify-center items-center">
-                      <RotatingLines strokeColor="white" width="50px" />
+                      <span role="status" aria-label="Sending" className="block h-[50px] w-[50px] animate-spin rounded-full border-4 border-white/30 border-t-white" />
                     </div>
                   )}
                 </div>
