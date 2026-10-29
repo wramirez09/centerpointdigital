@@ -11,6 +11,8 @@ export interface AgencyWork {
   width:      number
   height:     number
   behanceUrl: string
+  /** Project images after the cover, shown in this project's lightbox. */
+  gallery?:   { src: string; width: number; height: number }[]
 }
 
 export const AGENCY_WORK: AgencyWork[] = [
