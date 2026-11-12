@@ -853,6 +853,34 @@
   color: var(--faint);
 }
 
+/* Amber chevron in place of the native arrow; dark native menu to match the form. */
+.fg select {
+  color-scheme: dark;
+  cursor: pointer;
+  padding-right: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23f59a00' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+
+.fg select:hover {
+  border-color: rgba(237, 230, 214, 0.18);
+}
+
+/* The "Select a service" prompt reads like the other fields' placeholders. */
+.fg select:has(option[value=""]:checked) {
+  color: var(--faint);
+}
+
+.fg select option {
+  background: var(--bg3);
+  color: var(--text);
+}
+
+.fg select option[value=""] {
+  color: var(--faint);
+}
+
 .fg input:focus,
 .fg select:focus,
 .fg textarea:focus {
