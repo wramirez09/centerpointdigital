@@ -2,6 +2,7 @@ import projectStyles from '../work/[slug]/centerpointProject.module.css';
 import serviceStyles from '../services/[slug]/centerpointService.module.css';
 import styles from './forAgencies.module.css';
 import Link from 'next/link';
+import Image from 'next/image';
 import SiteNav from '@/components/SiteNav/SiteNav';
 import CtaBand from '@/components/CtaBand/CtaBand';
 import SiteFooter from '@/components/SiteFooter/SiteFooter';
@@ -30,6 +31,16 @@ const OFFERS = [
     body: 'Slow, broken, or stalled front end? We start with a paid one-day assessment, then fix it on a fixed fee.',
     detail: 'Built for deadlines that can’t move.',
   },
+];
+
+// Agencies we've worked with; shown as light monochrome logos. `mono: false` keeps a logo's own colours.
+const AGENCIES = [
+  { name: 'Ogilvy',           src: '/images/brands/agencies/ogilvy.svg' },
+  { name: 'Publicis Sapient', src: '/images/brands/agencies/ps-logo-correct-color.svg' },
+  { name: 'Razorfish',        src: '/images/brands/agencies/rf.svg' },
+  { name: 'Designory',        src: '/images/brands/agencies/designory-logo-trim.png' },
+  { name: 'AbelsonTaylor',    src: '/images/brands/agencies/at.svg' },
+  { name: 'Trisect',          src: '/images/brands/agencies/trisect.jpeg', mono: false },
 ];
 
 const TERMS = [
@@ -71,6 +82,21 @@ export default function ForAgenciesPage() {
             <a href="/#consult" className={s.btnAmber}>Book a 20-minute partner call →</a>
           </div>
         </Reveal>
+      </div>
+
+      {/* ── AGENCY LOGOS ── */}
+      <div className={s.logosSection}>
+        <Reveal className={s.heroTag}>Agencies we've worked with</Reveal>
+        <Stagger className={s.logosGrid}>
+          {AGENCIES.map(a => (
+            <StaggerItem key={a.name} className={s.logoCell}>
+              <div className={s.logoBox}>
+                <Image src={a.src} alt={a.name} fill sizes="200px"
+                  className={a.mono === false ? s.logoColor : s.logoMono} style={{ objectFit: 'contain' }} />
+              </div>
+            </StaggerItem>
+          ))}
+        </Stagger>
       </div>
 
       {/* ── THREE WAYS ── */}
