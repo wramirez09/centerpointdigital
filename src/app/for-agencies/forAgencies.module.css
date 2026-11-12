@@ -8,21 +8,6 @@
 
 /* Agency logo strip */
 .logosSection { max-width: 1400px; margin: 0 auto; padding: 72px 48px; }
-.logosGrid {
-  display: grid; grid-template-columns: repeat(6, 1fr);
-  gap: 1px; background: var(--border); border: 1px solid var(--border);
-}
-.logoCell { background: var(--bg); display: flex; align-items: center; justify-content: center; height: 120px; padding: 0 28px; }
-.logoBox { position: relative; width: 100%; height: 40px; }
-.logoMono { filter: brightness(0) invert(1); opacity: .6; transition: opacity .3s; }
-.logoColor { filter: grayscale(1); opacity: .7; transition: opacity .3s; }
-.logoCell:hover .logoMono, .logoCell:hover .logoColor { opacity: 1; }
-
 @media (max-width: 960px) {
   .logosSection { padding: 56px 24px; }
-  .logosGrid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 640px) {
-  .logosGrid { grid-template-columns: repeat(2, 1fr); }
-  .logoCell { height: 96px; padding: 0 20px; }
 }

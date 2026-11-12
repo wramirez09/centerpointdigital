@@ -10,6 +10,7 @@ import Link from 'next/link';
 import SiteNav from '@/components/SiteNav/SiteNav';
 import CtaBand from '@/components/CtaBand/CtaBand';
 import SiteFooter from '@/components/SiteFooter/SiteFooter';
+import AgencyLogos from '@/components/AgencyLogos/AgencyLogos';
 import { Reveal, Stagger, StaggerItem } from '@/components/Reveal/Reveal';
 
 export const metadata = {
@@ -152,6 +153,9 @@ export default function CenterpointAboutPage() {
               </StaggerItem>
             ))}
           </Stagger>
+
+          <Reveal className={`${styles.tag} ${styles.agenciesTag}`}>Agencies we've worked with</Reveal>
+          <AgencyLogos />
         </div>
       </section>
 

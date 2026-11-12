@@ -120,6 +120,7 @@
   transition: background .2s;
 }
 .clientCell:hover { background: var(--bg2); }
+.agenciesTag { margin-top: 56px; }
 .clientName {
   font-family: var(--font-outfit, 'Outfit', sans-serif);
   font-size: 16px; font-weight: 700; letter-spacing: -.02em;
