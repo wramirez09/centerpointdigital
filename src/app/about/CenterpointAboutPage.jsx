@@ -14,7 +14,7 @@ import { Reveal, Stagger, StaggerItem } from '@/components/Reveal/Reveal';
 
 export const metadata = {
   title: 'About — CenterPoint Digital',
-  description: 'A small digital agency for startups and small businesses. Founded 2018, based in New York, remote-first.',
+  description: 'A small digital agency for startups and small businesses. Founded 2018, based in Chicago, remote-first.',
 };
 
 /* ─── DATA ─────────────────────────────────────────────── */
@@ -68,7 +68,7 @@ export default function CenterpointAboutPage() {
             <div className={styles.heroFounded}>
               <span className={styles.heroFoundedDot} />
               Founded <strong>2018</strong> &nbsp;·&nbsp;
-              Based in <strong>New York</strong> &nbsp;·&nbsp;
+              Based in <strong>Chicago</strong> &nbsp;·&nbsp;
               Remote-first
             </div>
           </Reveal>
