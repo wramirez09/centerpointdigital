@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Reveal } from '@/components/Reveal/Reveal';
 import Lightbox, { useLightbox, type LightboxItem } from './[slug]/Lightbox';
-import { AGENCY_WORK, BEHANCE_PROFILE, type AgencyWork as Work } from './agencyWork';
+import { AGENCY_WORK, type AgencyWork as Work } from './agencyWork';
 import styles from './centerpointWork.module.css';
 
 /** Cover first, then the project's own images. */
@@ -39,10 +39,6 @@ export default function AgencyWork() {
           </button>
         ))}
       </div>
-
-      <a href={BEHANCE_PROFILE} target="_blank" rel="noopener noreferrer" className={styles.agencyMore}>
-        More on Behance ↗
-      </a>
 
       <Lightbox items={items} index={index} onClose={close} onStep={step} />
     </section>

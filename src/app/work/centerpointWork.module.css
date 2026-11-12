@@ -203,12 +203,6 @@
 }
 .agencyTile:hover .agencyOverlay, .agencyTile:focus-visible .agencyOverlay { opacity: 1; }
 .agencyYear { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.agencyMore {
-  display: inline-block; margin-top: 24px;
-  font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--amber); text-decoration: none;
-}
-.agencyMore:hover { text-decoration: underline; }
 
 /* ─── CTA ─────────────────────────────────────────────── */
 

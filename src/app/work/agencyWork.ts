@@ -2,8 +2,6 @@
 // Covers are the full-size project covers Behance serves (the 2013–2015 ones only exist at 404×316);
 // gallery images are each project's body images at their source size, in Behance's order.
 
-export const BEHANCE_PROFILE = 'https://www.behance.net/wramirez09';
-
 export interface AgencyWork {
   slug:       string
   name:       string
