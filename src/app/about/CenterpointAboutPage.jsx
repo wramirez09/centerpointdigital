@@ -30,11 +30,6 @@ const VALUES = [
   { num: '03', title: 'Long-term partnership',   body: "We grow with our clients. The relationship doesn't end at launch — it starts there. We stay close, iterate, and invest in the long-term success of what we ship." },
 ];
 
-const CLIENTS = [
-  'Flowbase','Pulse Labs','Nordvik','Stackr','Vaultly',
-  'Acme Co.','Fenwick','Trailr','Cellar & Grain','Meridian',
-];
-
 const PROCESS = [
   { num: '01', title: 'Discovery',      sub: 'Week 1',     body: 'We start with a deep-dive into your business, your users, and your goals. Analytics, interviews, competitor audits — we leave nothing to assumption before a single pixel is designed.' },
   { num: '02', title: 'Design',         sub: 'Week 1–2',   body: 'Wireframes, visual design, and an interactive prototype. One structured round of feedback, then sign-off. We move fast here because we did the hard thinking upfront.' },
@@ -143,18 +138,9 @@ export default function CenterpointAboutPage() {
           <Reveal className={styles.clientsHead}>
             <div className={styles.tag}>Who we've worked with</div>
             <h2 className={styles.h2} style={{ fontSize: 'clamp(28px,3vw,44px)' }}>
-              Trusted by builders<br />at every stage.
+              Built alongside<br />leading agencies.
             </h2>
           </Reveal>
-          <Stagger className={styles.clientsLogos}>
-            {CLIENTS.map(c => (
-              <StaggerItem key={c} className={styles.clientCell}>
-                <div className={styles.clientName}>{c}</div>
-              </StaggerItem>
-            ))}
-          </Stagger>
-
-          <Reveal className={`${styles.tag} ${styles.agenciesTag}`}>Agencies we've worked with</Reveal>
           <AgencyLogos />
         </div>
       </section>

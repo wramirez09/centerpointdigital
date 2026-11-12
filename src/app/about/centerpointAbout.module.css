@@ -113,20 +113,6 @@
 /* ─── CLIENTS ─────────────────────────────────────────── */
 .clients { padding: 96px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .clientsHead { margin-bottom: 56px; }
-.clientsLogos { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-.clientCell {
-  background: var(--bg); padding: 40px 32px;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .2s;
-}
-.clientCell:hover { background: var(--bg2); }
-.agenciesTag { margin-top: 56px; }
-.clientName {
-  font-family: var(--font-outfit, 'Outfit', sans-serif);
-  font-size: 16px; font-weight: 700; letter-spacing: -.02em;
-  color: var(--faint); transition: color .2s;
-}
-.clientCell:hover .clientName { color: var(--muted); }
 
 /* ─── PROCESS ─────────────────────────────────────────── */
 .process { padding: 120px 0; background: var(--bg2); border-top: 1px solid var(--border); }
@@ -178,7 +164,6 @@
   .valueCard { padding: 36px 28px; }
 
 
-  .clientsLogos { grid-template-columns: 1fr 1fr 1fr; }
   .processRow { grid-template-columns: 48px 1fr; padding: 32px 24px; gap: 24px; }
   .processRow > .prBody { grid-column: 2; }
   .story, .values, .process { padding: 64px 0; }
@@ -199,6 +184,5 @@
   .valueCard { padding: 28px 20px; }
 
 
-  .clientsLogos { grid-template-columns: 1fr 1fr; }
   .story, .values, .process { padding: 48px 0; }
 }
